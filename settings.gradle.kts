@@ -1,0 +1,11 @@
+include("platform:common-meta")
+include("platform:common-core")
+include("platform:server-core")
+include("platform:server-postgres")
+include("platform:web-core")
+include("gradle-plugins:internal")
+include("gradle-plugins:elsa")
+include("demo:gradle")
+include("demo:server")
+include("demo:site")
+rootProject.name ="elsa"
