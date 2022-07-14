@@ -35,14 +35,7 @@ public class UiMetaRegistry {
 
     private final Map<String, EntityDescription> entities = new LinkedHashMap<>();
 
-    private final Map<String, UiWidgetDescription> widgets = new LinkedHashMap<>();
-
-    private final Map<String, UiViewTemplateDescription> viewTemplates = new LinkedHashMap<>();
-
-    private final Map<String, UiTemplateGroupDescription> groups = new LinkedHashMap<>();
-
     private final Map<String, UiViewDescription> views = new LinkedHashMap<>();
-
 
     @Autowired(required = false)
     public void setConfigurators(List<UiMetaRegistryConfigurator> configurators){
@@ -53,23 +46,11 @@ public class UiMetaRegistry {
         return enums;
     }
 
-    public Map<String, UiWidgetDescription> getWidgets() {
-        return widgets;
-    }
-
-    public Map<String, UiViewTemplateDescription> getViewTemplates() {
-        return viewTemplates;
-    }
-
-    public Map<String, UiTemplateGroupDescription> getGroups() {
-        return groups;
+    public Map<String, UiViewDescription> getViews() {
+        return views;
     }
 
     public Map<String, EntityDescription> getEntities() {
         return entities;
-    }
-
-    public Map<String, UiViewDescription> getViews() {
-        return views;
     }
 }
