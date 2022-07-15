@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain xmlns="http://vga.com/elsa/meta-domain" >
+    <document id="com.vga.platform.elsa.demo.model.domain.DemoUserAccount" cache-resolve="true">
+        <property id="name" type="STRING"/>
+        <caption-expression>name</caption-expression>
+    </document>
+    <searchable-projection id="com.vga.platform.elsa.demo.model.domain.DemoUserAccountProjection" document="com.vga.platform.elsa.demo.model.domain.DemoUserAccount">
+        <property id="name" type="STRING"/>
+    </searchable-projection>
+</domain>

@@ -1,0 +1,9 @@
+server:
+  port: 8086
+elsa:
+  storage:
+    adapter: hsqldb
+    poolSize: 10
+logging:
+  level:
+    root: DEBUG

@@ -49,7 +49,6 @@ public class ElsaCommonCoreTestConfiguration {
     }
 
     @Bean
-    @Order(0)
     public ClassMapper classMapper(){
         return new ClassMapper() {
             @Override
@@ -65,7 +64,6 @@ public class ElsaCommonCoreTestConfiguration {
     }
 
     @Bean
-    @Order(0)
     public EnumMapper standardEnumMapper(){
         return new EnumMapper() {
             @Override
@@ -81,10 +79,9 @@ public class ElsaCommonCoreTestConfiguration {
     }
 
     @Bean
-    @Order(0)
     public ClassMapper fakeClassMapper(){
         return new ClassMapper() {
-            private AtomicInteger ref = new AtomicInteger(0);
+            private final AtomicInteger ref = new AtomicInteger(0);
             private final Map<Integer, String> id2NameMap = new ConcurrentHashMap<>();
             private final Map<String, Integer> name2IdMap = new ConcurrentHashMap<>();
             @Override

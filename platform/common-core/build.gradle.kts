@@ -26,17 +26,17 @@ repositories{
     mavenCentral()
 }
 dependencies{
-    implementation("org.apache.commons:commons-lang3:3+")
-    implementation("com.fasterxml.jackson.core:jackson-core:2+")
-    implementation("ch.qos.logback:logback-classic:1+")
-    implementation("org.springframework:spring-context:5+")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
+    implementation("org.springframework:spring-context:5.3.21")
     implementation(project(":platform:common-meta"))
     testFixturesImplementation(project(":platform:common-meta"))
-    testFixturesImplementation("org.springframework:spring-test:5+")
-    testFixturesImplementation("ch.qos.logback:logback-classic:1+")
+    testFixturesImplementation("org.springframework:spring-test:5.3.21")
+    testFixturesImplementation("ch.qos.logback:logback-classic:1.2.11")
     testFixturesImplementation("org.junit.platform:junit-platform-suite:1+")
     testFixturesImplementation("org.junit.jupiter:junit-jupiter:5+")
-    testFixturesImplementation("org.springframework:spring-context:5+")
+    testFixturesImplementation("org.springframework:spring-context:5.3.21")
 
 }
 

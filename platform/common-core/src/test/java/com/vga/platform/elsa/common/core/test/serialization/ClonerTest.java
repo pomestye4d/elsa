@@ -29,9 +29,7 @@ import com.vga.platform.elsa.common.core.test.model.domain.TestDomainNestedDocum
 import com.vga.platform.elsa.common.core.test.model.domain.TestEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 public class ClonerTest extends TestBase {
 
