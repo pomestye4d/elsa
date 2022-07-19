@@ -24,6 +24,7 @@ package com.vga.platform.elsa.core.remoting;
 import com.vga.platform.elsa.common.core.serialization.meta.ObjectMetadataProvidersFactory;
 import com.vga.platform.elsa.common.core.serialization.meta.SerializablePropertyType;
 import com.vga.platform.elsa.common.rest.core.*;
+import com.vga.platform.elsa.server.core.CoreRemotingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetRemotingEntityDescriptionHandler implements RemotingServerCallHandler<GetRemotingEntityDescriptionRequest, GetRemotingEntityDescriptionResponse> {
@@ -33,7 +34,7 @@ public class GetRemotingEntityDescriptionHandler implements RemotingServerCallHa
 
     @Override
     public String getId() {
-        return "core:meta:get-entity-description";
+        return CoreRemotingConstants.CORE_META_GET_ENTITY_DESCRIPTION;
     }
 
     @Override

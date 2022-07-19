@@ -103,10 +103,6 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 				var enumItemDescription = new EnumItemDescription("SUBSCRIPTION");
 				enumDescription.getItems().put(enumItemDescription.getId(), enumItemDescription);
 			}
-			{
-				var enumItemDescription = new EnumItemDescription("CLIENT_CALL");
-				enumDescription.getItems().put(enumItemDescription.getId(), enumItemDescription);
-			}
 		}
 		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.ClientResponse");
@@ -382,42 +378,6 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 			}
 		}
 		{
-			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionRequest");
-			registry.getEntities().put(entityDescription.getId(), entityDescription);
-			{
-				var propertyDescription = new StandardPropertyDescription("remotingId");
-				propertyDescription.setType(StandardValueType.STRING);
-				propertyDescription.setNonNullable(true);
-				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
-			}
-			{
-				var propertyDescription = new StandardPropertyDescription("groupId");
-				propertyDescription.setType(StandardValueType.STRING);
-				propertyDescription.setNonNullable(true);
-				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
-			}
-			{
-				var propertyDescription = new StandardPropertyDescription("methodId");
-				propertyDescription.setType(StandardValueType.STRING);
-				propertyDescription.setNonNullable(true);
-				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
-			}
-		}
-		{
-			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionResponse");
-			registry.getEntities().put(entityDescription.getId(), entityDescription);
-			{
-				var propertyDescription = new StandardPropertyDescription("requestClassName");
-				propertyDescription.setType(StandardValueType.STRING);
-				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
-			}
-			{
-				var propertyDescription = new StandardPropertyDescription("responseClassName");
-				propertyDescription.setType(StandardValueType.STRING);
-				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
-			}
-		}
-		{
 			var remotingDescription = new RemotingDescription("core");
 			registry.getRemotings().put(remotingDescription.getId(), remotingDescription);
 			{
@@ -443,13 +403,6 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 					serverCallDescription.setRequestClassName("com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionRequest");
 					serverCallDescription.setResponseClassName("com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionResponse");
 					groupDescription.getServerCalls().put("get-entity-description", serverCallDescription);
-				}
-				{
-					var serverCallDescription = new RemotingServerCallDescription("meta");
-					serverCallDescription.setValidatable(false);
-					serverCallDescription.setRequestClassName("com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionRequest");
-					serverCallDescription.setResponseClassName("com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionResponse");
-					groupDescription.getServerCalls().put("get-client-call-description", serverCallDescription);
 				}
 			}
 		}

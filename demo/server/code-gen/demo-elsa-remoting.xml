@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<remoting xmlns="http://vga.com/elsa/meta-remoting" id="demo">
+    <enum id="com.vga.platform.elsa.demo.model.remoting.DemoTestEnum">
+        <enum-item id="ITEM1"/>
+        <enum-item id="ITEM2"/>
+    </enum>
+    <entity id="com.vga.platform.elsa.demo.model.remoting.DemoTestEntity">
+        <property id="stringProperty" type="STRING"/>
+    </entity>
+   <group id="test">
+       <server-call id="server-call">
+           <request id="com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallRequest">
+               <property id="param" type="STRING"/>
+           </request>
+           <response id="com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallResponse">
+               <property id="stringProperty" type="STRING"/>
+               <property id="dateProperty" type="LOCAL_DATE"/>
+               <property id="dateTimeProperty" type="LOCAL_DATE_TIME"/>
+               <property id="enumProperty" type="ENUM" class-name="com.vga.platform.elsa.demo.model.remoting.DemoTestEnum"/>
+               <collection id="stringCollection" element-type="STRING" />
+               <collection id="dateCollection" element-type="LOCAL_DATE" />
+               <collection id="entityCollection" element-type="ENTITY"  element-class-name="com.vga.platform.elsa.demo.model.remoting.DemoTestEntity" />
+               <map id="stringMap" key-type="STRING" value-type="STRING"/>
+               <map id="dateMap" key-type="LOCAL_DATE" value-type="LOCAL_DATE"/>
+               <map id="entityMap" key-type="ENTITY" value-type="ENTITY" key-class-name="com.vga.platform.elsa.demo.model.remoting.DemoTestEntity" value-class-name="com.vga.platform.elsa.demo.model.remoting.DemoTestEntity"/>
+           </response>
+       </server-call>
+   </group>
+</remoting>

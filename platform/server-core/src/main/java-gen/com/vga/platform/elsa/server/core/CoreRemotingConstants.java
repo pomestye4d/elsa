@@ -22,59 +22,13 @@
  * This is generated code, don't modify it manually
  *****************************************************************/
 
-package com.vga.platform.elsa.common.rest.core;
+package com.vga.platform.elsa.server.core;
 
-import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
+public final class CoreRemotingConstants{
 
-public class GetClientCallDescriptionResponse extends BaseIntrospectableObject{
+	public static final String CORE_META_GET_SERVER_CALL_DESCRIPTION = "core:meta:get-server-call-description";
 
-	private String requestClassName;
+	public static final String CORE_META_GET_SUBSCRIPTION_DESCRIPTION = "core:meta:get-subscription-description";
 
-	private String responseClassName;
-
-	public String getRequestClassName(){
-		return requestClassName;
-	}
-
-	public void setRequestClassName(String value){
-		this.requestClassName = value;
-	}
-
-	public String getResponseClassName(){
-		return responseClassName;
-	}
-
-	public void setResponseClassName(String value){
-		this.responseClassName = value;
-	}
-
-	@Override
-	public Object getValue(String propertyName){
-
-		if("requestClassName".equals(propertyName)){
-			return requestClassName;
-		}
-
-		if("responseClassName".equals(propertyName)){
-			return responseClassName;
-		}
-
-		return super.getValue(propertyName);
-	}
-
-	@Override
-	public void setValue(String propertyName, Object value){
-
-		if("requestClassName".equals(propertyName)){
-			this.requestClassName = (String) value;
-			return;
-		}
-
-		if("responseClassName".equals(propertyName)){
-			this.responseClassName = (String) value;
-			return;
-		}
-
-		super.setValue(propertyName, value);
-	}
+	public static final String CORE_META_GET_ENTITY_DESCRIPTION = "core:meta:get-entity-description";
 }

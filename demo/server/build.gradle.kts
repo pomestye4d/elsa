@@ -24,6 +24,12 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension> {
             "com.vga.platform.elsa.demo.DemoElsaDomainMetaRegistryConfigurator",
             arrayListOf("code-gen/demo-elsa-domain.xml")
         )
+        remoting(
+            "src/main/java-gen", "com.vga.platform.elsa.demo.DemoElsaRemotingMetaRegistryConfigurator",
+            "com.vga.platform.elsa.demo.server.DemoElsaRestController",
+            "com.vga.platform.elsa.demo.server.DemoElsaRemotingConstants", false,
+            arrayListOf("code-gen/demo-elsa-remoting.xml")
+        )
     }
 }
 

@@ -22,11 +22,16 @@
  * This is generated code, don't modify it manually
  *****************************************************************/
 
-package com.vga.platform.elsa.common.rest.core;
+package com.vga.platform.elsa.demo.server;
 
-public enum RemotingMessageType{
+import com.vga.platform.elsa.core.remoting.BaseRemotingController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-	PING,
-
-	SUBSCRIPTION
+@RestController
+@RequestMapping("/remoting/demo")
+public class DemoElsaRestController extends BaseRemotingController{
+	public DemoElsaRestController(){
+		super("demo");
+	}
 }

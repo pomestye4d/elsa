@@ -23,7 +23,10 @@ package com.vga.platform.elsa.demo.config;
 
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDataSourceProvider;
 import com.vga.platform.elsa.demo.DemoElsaDomainMetaRegistryConfigurator;
+import com.vga.platform.elsa.demo.DemoElsaRemotingMetaRegistryConfigurator;
 import com.vga.platform.elsa.demo.activator.ElsaDemoActivator;
+import com.vga.platform.elsa.demo.server.DemoElsaRestController;
+import com.vga.platform.elsa.demo.test.DemoTestServerCallRequestHandler;
 import com.vga.platform.elsa.demo.userAccount.DemoUserAccountProjectionHandler;
 import com.vga.platform.elsa.server.core.common.HsqldbDataSourceProvider;
 import org.springframework.context.annotation.Bean;
@@ -49,5 +52,20 @@ public class ElsaDemoServerConfiguration {
     @Bean
     public JdbcDataSourceProvider hsqldbDataSourceProvider(){
         return new HsqldbDataSourceProvider();
+    }
+
+    @Bean
+    public DemoElsaRestController demoElsaRestController(){
+        return new DemoElsaRestController();
+    }
+
+    @Bean
+    public DemoElsaRemotingMetaRegistryConfigurator demoElsaRemotingMetaRegistryConfigurator(){
+        return new DemoElsaRemotingMetaRegistryConfigurator();
+    }
+
+    @Bean
+    public DemoTestServerCallRequestHandler demoTestServerCallRequestHandler(){
+        return new DemoTestServerCallRequestHandler();
     }
 }

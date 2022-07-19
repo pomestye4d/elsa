@@ -22,6 +22,7 @@
 package com.vga.platform.elsa.config;
 
 import com.vga.platform.elsa.core.remoting.*;
+import com.vga.platform.elsa.server.core.CoreRemotingController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

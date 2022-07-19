@@ -196,59 +196,17 @@ public abstract class BaseRemotingController {
         );
     }
 
-    public <RQ, RP> RP callClient(String clientId, String groupId, String methodId, RQ request) {
-        return ExceptionUtils.wrapException(() -> {
-            var channel = channels.get(clientId);
-            if (channel == null) {
-                throw Xeption.forDeveloper("channel is absent");
-            }
-            var requestId = TextUtils.generateUUID();
-            channel.clientCalls.put(requestId, new ClientCallData(groupId, methodId, LocalDateTime.now()));
-            var remotingMessage = new RemotingMessage();
-            remotingMessage.setType(RemotingMessageType.CLIENT_CALL);
-            remotingMessage.setCallId(requestId);
-            remotingMessage.setGroupId(groupId);
-            remotingMessage.setMethodId(methodId);
-            var baos = new ByteArrayOutputStream();
-            marshaller.marshal(request, baos, false, serializationParameters);
-            remotingMessage.setData(baos.toString(StandardCharsets.UTF_8));
-            baos = new ByteArrayOutputStream();
-            marshaller.marshal(remotingMessage, baos, false, serializationParameters);
-            channel.sink.next(ServerSentEvent.<String>builder().data(baos.toString(StandardCharsets.UTF_8)).build());
-            while (true) {
-                var reqData = channel.clientCalls.get(requestId);
-                if (reqData == null) {
-                    throw Xeption.forDeveloper("no request data");
-                }
-                if (reqData.errorMessage != null) {
-                    channel.clientCalls.remove(requestId);
-                    throw Xeption.forDeveloper("Client error occurred: %s".formatted(reqData.errorMessage));
-                }
-                if (reqData.completed) {
-                    channel.clientCalls.remove(requestId);
-                    //noinspection unchecked
-                    return (RP) reqData.response;
-                }
-                if (Duration.between(reqData.sent, LocalDateTime.now()).toMillis() > 10000L) {
-                    channel.clientCalls.remove(requestId);
-                    throw Xeption.forDeveloper("Client error occurred: %s".formatted(reqData.errorMessage));
-                }
-                synchronized (channel.lock) {
-                    channel.lock.wait();
-                }
-            }
-        });
-    }
-
 
     @PostMapping("request")
     public void request(Principal principal, @RequestHeader String groupId, @RequestHeader String clientId, @RequestHeader String methodId, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
             var channel = channels.get(clientId);
-            synchronized (channel.lock) {
-                channel.lock.notifyAll();
+            if(channel != null) {
+                synchronized (channel.lock) {
+                    channel.lock.notifyAll();
+                }
+                channel.lastUpdated = LocalDateTime.now();
             }
-            channel.lastUpdated = LocalDateTime.now();
             var remoting = registry.getRemotings().get(remotingId);
             var serverCall = remoting.getGroups().get(groupId).getServerCalls().get(methodId);
             var ctx = new RemotingServerCallContext();
@@ -364,7 +322,6 @@ public abstract class BaseRemotingController {
         volatile LocalDateTime lastUpdated = LocalDateTime.now();
         volatile FluxSink<ServerSentEvent<String>> sink;
         final Map<String, SubscriptionData> subscriptions = new ConcurrentHashMap<>();
-        final Map<String, ClientCallData> clientCalls = new ConcurrentHashMap<>();
         final Object lock = new Object();
     }
 }

@@ -19,43 +19,31 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.remoting;
+package com.vga.platform.elsa.demo.test;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vga.platform.elsa.core.remoting.RemotingServerCallContext;
+import com.vga.platform.elsa.core.remoting.RemotingServerCallHandler;
+import com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallRequest;
+import com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallResponse;
+import com.vga.platform.elsa.demo.server.DemoElsaRemotingConstants;
 
-import javax.annotation.PreDestroy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class StalledChannelsCleaner {
+public class DemoTestServerCallRequestHandler implements RemotingServerCallHandler<DemoTestServerCallRequest, DemoTestServerCallResponse> {
 
-    private Timer timer;
-
-    private final List<BaseRemotingController> controllers = new ArrayList<>();
-
-    @Autowired(required = false)
-    private void setControllers(List<BaseRemotingController> ctrs){
-        controllers.addAll(ctrs);
-
-        timer = new Timer("stalled-channels-cleaner", true);
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                controllers.forEach(BaseRemotingController::deleteStalledChannels);
-                controllers.forEach(BaseRemotingController::checkStalledClientCalls);
-
-            }
-        }, 10000L, 10000L);
-
+    @Override
+    public String getId() {
+        return DemoElsaRemotingConstants.DEMO_TEST_SERVER_CALL;
     }
 
-    @PreDestroy
-    public void preDestroy(){
-        if(timer != null) {
-            timer.cancel();
-        }
+    @Override
+    public DemoTestServerCallResponse service(DemoTestServerCallRequest request, RemotingServerCallContext context){
+        var param = request.getParam();
+        var result = new DemoTestServerCallResponse();
+        result.setDateProperty(LocalDate.now());
+        result.setDateTimeProperty(LocalDateTime.now());
+        return result;
     }
 
 }

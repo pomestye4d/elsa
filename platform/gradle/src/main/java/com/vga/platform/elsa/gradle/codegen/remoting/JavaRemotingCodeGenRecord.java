@@ -28,6 +28,12 @@ public class JavaRemotingCodeGenRecord extends BaseCodeGenRecord {
 
     private String registryConfigurator;
 
+    private String restController;
+
+    private String constants;
+
+    private boolean noModelClasses;
+
     @Override
     public GeneratorType getGeneratorType() {
         return GeneratorType.JAVA_REMOTING;
@@ -39,5 +45,29 @@ public class JavaRemotingCodeGenRecord extends BaseCodeGenRecord {
 
     public void setRegistryConfigurator(String registryConfigurator) {
         this.registryConfigurator = registryConfigurator;
+    }
+
+    public String getRestController() {
+        return restController;
+    }
+
+    public void setRestController(String restController) {
+        this.restController = restController;
+    }
+
+    public String getConstants() {
+        return constants;
+    }
+
+    public void setConstants(String constants) {
+        this.constants = constants;
+    }
+
+    public boolean isNoModelClasses() {
+        return noModelClasses;
+    }
+
+    public void setNoModelClasses(boolean noModelClasses) {
+        this.noModelClasses = noModelClasses;
     }
 }

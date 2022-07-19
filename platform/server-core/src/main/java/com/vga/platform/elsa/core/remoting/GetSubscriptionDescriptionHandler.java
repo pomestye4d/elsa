@@ -24,6 +24,7 @@ package com.vga.platform.elsa.core.remoting;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
 import com.vga.platform.elsa.common.rest.core.GetSubscriptionDescriptionRequest;
 import com.vga.platform.elsa.common.rest.core.GetSubscriptionDescriptionResponse;
+import com.vga.platform.elsa.server.core.CoreRemotingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetSubscriptionDescriptionHandler implements RemotingServerCallHandler<GetSubscriptionDescriptionRequest, GetSubscriptionDescriptionResponse> {
@@ -33,7 +34,7 @@ public class GetSubscriptionDescriptionHandler implements RemotingServerCallHand
 
     @Override
     public String getId() {
-        return "core:meta:get-subscription-description";
+        return CoreRemotingConstants.CORE_META_GET_SUBSCRIPTION_DESCRIPTION;
     }
 
     @Override

@@ -77,6 +77,17 @@ public class ElsaJavaCodeGenExtension {
         codegenRecords.add(record);
     }
 
+    public void remoting(String destDir, String configurator, String restController, String constants, boolean noModelClasses, List<String> sourcesFileNames){
+        var record = new JavaRemotingCodeGenRecord();
+        record.setRegistryConfigurator(configurator);
+        record.setRestController(restController);
+        record.setConstants(constants);
+        record.setNoModelClasses(noModelClasses);
+        sourcesFileNames.forEach(it -> record.getSources().add(new File(projectDir, it)));
+        record.setDestinationDir(new File(projectDir, destDir));
+        codegenRecords.add(record);
+    }
+
     public void l10n( String destDir, String configurator, String factory, List<String> sourcesFileNames){
         var record = new JavaL10nCodeGenRecord();
         record.setRegistryConfigurator(configurator);

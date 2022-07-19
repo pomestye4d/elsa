@@ -17,21 +17,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- */
+ *
+ *****************************************************************
+ * This is generated code, don't modify it manually
+ *****************************************************************/
 
-package com.vga.platform.elsa.core.remoting;
+package com.vga.platform.elsa.demo.server;
 
+public final class DemoElsaRemotingConstants{
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/remoting/core")
-public class CoreRemotingController extends BaseRemotingController {
-
-    public CoreRemotingController() {
-        super("core");
-    }
-
-
+	public static final String DEMO_TEST_SERVER_CALL = "demo:test:server-call";
 }

@@ -24,6 +24,7 @@ package com.vga.platform.elsa.core.remoting;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
 import com.vga.platform.elsa.common.rest.core.GetServerCallDescriptionRequest;
 import com.vga.platform.elsa.common.rest.core.GetServerCallDescriptionResponse;
+import com.vga.platform.elsa.server.core.CoreRemotingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetServerCallDescriptionHandler implements RemotingServerCallHandler<GetServerCallDescriptionRequest, GetServerCallDescriptionResponse> {
@@ -33,7 +34,7 @@ public class GetServerCallDescriptionHandler implements RemotingServerCallHandle
 
     @Override
     public String getId() {
-        return "core:meta:get-server-call-description";
+        return CoreRemotingConstants.CORE_META_GET_SERVER_CALL_DESCRIPTION;
     }
 
     @Override

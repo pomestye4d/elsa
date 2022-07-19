@@ -19,6 +19,11 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension>{
     "com.vga.platform.elsa.server.core.CoreL10nMessagesRegistryConfigurator",
         "com.vga.platform.elsa.server.core.CoreL10nMessagesRegistryFactory", arrayListOf("src/main/codegen/core-server-l10n-messages.xml")
     )
+      remoting("src/main/java-gen", null,
+          "com.vga.platform.elsa.server.core.CoreRemotingController",
+          "com.vga.platform.elsa.server.core.CoreRemotingConstants", true,
+          arrayListOf("../common-core/src/main/codegen/elsa-core-remoting.xml")
+      )
   }
 }
 

@@ -56,6 +56,7 @@ public class DemoElsaDomainMetaRegistryConfigurator implements DomainMetaRegistr
 			{
 				var propertyDescription = new DatabasePropertyDescription("name");
 				propertyDescription.setType(DatabasePropertyType.STRING);
+				propertyDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Name");
 				projectionDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
 			}
 		}

@@ -40,8 +40,18 @@ public class JavaRemotingCodeGenerator implements CodeGenerator<JavaRemotingCode
             var parser = new RemotingMetaRegistryParser();
             var metaRegistry = new RemotingMetaRegistry();
             parser.updateMetaRegistry(metaRegistry, it.getSources());
-            BuildExceptionUtils.wrapException(() -> JavaRemotingConfiguratorCodeGenerator.generate(metaRegistry, it.getRegistryConfigurator(), destDir, generatedFiles));
-            BuildExceptionUtils.wrapException(() -> JavaRemotingEntitiesCodeGenerator.generate(metaRegistry, destDir, generatedFiles));
+            if(it.getRegistryConfigurator() != null) {
+                BuildExceptionUtils.wrapException(() -> JavaRemotingConfiguratorCodeGenerator.generate(metaRegistry, it.getRegistryConfigurator(), destDir, generatedFiles));
+            }
+            if(!it.isNoModelClasses()) {
+                BuildExceptionUtils.wrapException(() -> JavaRemotingEntitiesCodeGenerator.generate(metaRegistry, destDir, generatedFiles));
+            }
+            if(it.getRestController() != null) {
+                BuildExceptionUtils.wrapException(() -> JavaRemotingRestControllerCodeGenerator.generate(metaRegistry, destDir, it.getRestController(), generatedFiles));
+            }
+            if(it.getConstants() != null) {
+                BuildExceptionUtils.wrapException(() -> JavaRemotingConstantsCodeGenerator.generate(metaRegistry, destDir, it.getConstants(), generatedFiles));
+            }
         }));
     }
 }

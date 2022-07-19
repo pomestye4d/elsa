@@ -17,7 +17,6 @@
     <enum id="com.vga.platform.elsa.common.rest.core.RemotingMessageType">
         <enum-item id="PING"/>
         <enum-item id="SUBSCRIPTION"/>
-        <enum-item id="CLIENT_CALL"/>
     </enum>
     <entity id="com.vga.platform.elsa.common.rest.core.ClientResponse">
         <property id="errorMessage" type="STRING"/>
@@ -87,17 +86,6 @@
             </request>
             <response id="com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionResponse">
                 <property id="description" type="ENTITY" non-nullable="true" class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityDescription"/>
-            </response>
-        </server-call>
-        <server-call id="get-client-call-description">
-            <request id="com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionRequest">
-                <property id="remotingId" type="STRING" non-nullable="true"/>
-                <property id="groupId" type="STRING" non-nullable="true"/>
-                <property id="methodId" type="STRING" non-nullable="true"/>
-            </request>
-            <response id="com.vga.platform.elsa.common.rest.core.GetClientCallDescriptionResponse">
-                <property id="requestClassName" type="STRING"/>
-                <property id="responseClassName" type="STRING"/>
             </response>
         </server-call>
     </group>
