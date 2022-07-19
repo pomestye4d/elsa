@@ -53,11 +53,6 @@ public class ElsaServerCoreRemotingConfiguration {
     }
 
     @Bean
-    public GetClientCallDescriptionHandler getClientCallDescriptionHandler(){
-        return new GetClientCallDescriptionHandler();
-    }
-
-    @Bean
     StalledChannelsCleaner stalledChannelsCleaner(){
         return new StalledChannelsCleaner();
     }

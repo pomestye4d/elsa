@@ -74,16 +74,6 @@ public class JavaRemotingConfiguratorCodeGenerator {
                                     }));
 
                                 });
-                                gd.getClientCalls().values().forEach(cc -> {
-                                    gen.addImport("com.vga.platform.elsa.common.meta.remoting.RemotingClientCallDescription");
-                                    BuildExceptionUtils.wrapException(() -> gen.wrapWithBlock(null, () -> {
-                                        gen.printLine("var clientCallDescription = new RemotingClientCallDescription(\"%s\");".formatted(cc.getId()));
-                                        gen.printLine("clientCallDescription.setRequestClassName(\"%s\");".formatted(cc.getRequestClassName()));
-                                        gen.printLine("clientCallDescription.setResponseClassName(\"%s\");".formatted(cc.getResponseClassName()));
-                                        gen.printLine("groupDescription.getClientCalls().put(\"%s\", clientCallDescription);".formatted(cc.getId()));
-                                    }));
-
-                                });
                                 gd.getSubscriptions().values().forEach(sub -> {
                                     gen.addImport("com.vga.platform.elsa.common.meta.remoting.RemotingSubscriptionDescription");
                                     BuildExceptionUtils.wrapException(() -> gen.wrapWithBlock(null, () -> {

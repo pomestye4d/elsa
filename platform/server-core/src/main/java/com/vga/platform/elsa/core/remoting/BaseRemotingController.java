@@ -31,7 +31,6 @@ import com.vga.platform.elsa.common.core.serialization.SerializationParameters;
 import com.vga.platform.elsa.common.core.utils.ExceptionUtils;
 import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
-import com.vga.platform.elsa.common.rest.core.ClientResponse;
 import com.vga.platform.elsa.common.rest.core.RemotingMessage;
 import com.vga.platform.elsa.common.rest.core.RemotingMessageType;
 import org.slf4j.Logger;
@@ -49,7 +48,6 @@ import reactor.core.publisher.FluxSink;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -242,43 +240,6 @@ public abstract class BaseRemotingController {
         });
     }
 
-    @PostMapping("registerClientResponse")
-    public void registerClientResponse(@RequestHeader String clientId, @RequestHeader String requestId, HttpServletRequest request) throws Exception {
-        var channel = channels.get(clientId);
-        if (channel == null) {
-            return;
-        }
-        var clientCallData = channel.clientCalls.get(requestId);
-        try {
-            if (clientCallData != null) {
-                ClientResponse response;
-                try (var is = request.getInputStream()) {
-                    response = unmarshaller.unmarshal(ClientResponse.class, is, serializationParameters);
-                }
-                if (response.getErrorMessage() != null) {
-                    clientCallData.errorMessage = response.getErrorMessage();
-                    clientCallData.completed = true;
-                    return;
-                }
-                var remoting = registry.getRemotings().get(remotingId);
-                var responseStr = response.getResponseStr();
-                var clientCall = remoting.getGroups().get(clientCallData.groupId).getClientCalls().get(clientCallData.methodId);
-                Object rp = null;
-                if (clientCall.getResponseClassName() != null) {
-                    try (var is = new ByteArrayInputStream(response.getResponseStr().getBytes(StandardCharsets.UTF_8))) {
-                        rp = unmarshaller.unmarshal(Class.forName(clientCall.getResponseClassName()), is, serializationParameters);
-                    }
-                }
-                clientCallData.response = rp;
-                clientCallData.completed = true;
-            }
-        } finally {
-            synchronized (channel.lock) {
-                channel.lock.notifyAll();
-            }
-        }
-
-    }
 
     @PostMapping("request")
     public void request(Principal principal, @RequestHeader String groupId, @RequestHeader String clientId, @RequestHeader String methodId, HttpServletRequest request, HttpServletResponse response) throws Exception {

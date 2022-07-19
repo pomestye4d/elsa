@@ -29,8 +29,6 @@ import java.util.Map;
 public class RemotingGroupDescription extends BaseElementWithId {
     private final Map<String, RemotingServerCallDescription> serverCalls = new LinkedHashMap<>();
 
-    private final Map<String, RemotingClientCallDescription> clientCalls = new LinkedHashMap<>();
-
     private final Map<String, RemotingSubscriptionDescription> subscriptions = new LinkedHashMap<>();
 
     public RemotingGroupDescription() {
@@ -42,10 +40,6 @@ public class RemotingGroupDescription extends BaseElementWithId {
 
     public Map<String, RemotingServerCallDescription> getServerCalls() {
         return serverCalls;
-    }
-
-    public Map<String, RemotingClientCallDescription> getClientCalls() {
-        return clientCalls;
     }
 
     public Map<String, RemotingSubscriptionDescription> getSubscriptions() {

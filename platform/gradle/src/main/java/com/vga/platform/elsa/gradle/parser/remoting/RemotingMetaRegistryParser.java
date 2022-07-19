@@ -58,12 +58,6 @@ public class RemotingMetaRegistryParser {
                       sc.setResponseClassName(parseEntity(registry, responseChildren.get(0)));
                   }
               });
-                groupChild.getChildren("client-call").forEach(item -> {
-                    var sc = groupDescr.getClientCalls().computeIfAbsent(CommonParserUtils.getIdAttribute(item),
-                            RemotingClientCallDescription::new);
-                    sc.setRequestClassName(parseEntity(registry, item.getChildren("request").get(0)));
-                    sc.setResponseClassName(parseEntity(registry, item.getChildren("response").get(0)));
-                });
                 groupChild.getChildren("subscription").forEach(item -> {
                     var sc = groupDescr.getSubscriptions().computeIfAbsent(CommonParserUtils.getIdAttribute(item),
                             RemotingSubscriptionDescription::new);
