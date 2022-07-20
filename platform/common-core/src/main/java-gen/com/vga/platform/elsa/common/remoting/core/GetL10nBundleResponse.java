@@ -17,19 +17,31 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- */
+ *
+ *****************************************************************
+ * This is generated code, don't modify it manually
+ *****************************************************************/
 
-package com.vga.platform.elsa.gradle.codegen.common;
+package com.vga.platform.elsa.common.remoting.core;
 
-public enum GeneratorType {
-    JAVA_DOMAIN,
-    JAVA_CUSTOM,
-    JAVA_REMOTING,
-    JAVA_UI_TEMPLATE,
-    JAVA_UI,
-    JAVA_L10N,
-    WEB_REMOTING,
-    WEB_UI_TEMPLATE,
-    WEB_UI,
-    WEB_L10N,
+import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
+import java.util.*;
+
+public class GetL10nBundleResponse extends BaseIntrospectableObject{
+
+	private final Map<String,String> messages = new HashMap<>();
+
+	public Map<String,String> getMessages(){
+		return messages;
+	}
+
+	@Override
+	public Map<?,?> getMap(String mapName){
+
+		if("messages".equals(mapName)){
+			return messages;
+		}
+
+		return super.getMap(mapName);
+	}
 }

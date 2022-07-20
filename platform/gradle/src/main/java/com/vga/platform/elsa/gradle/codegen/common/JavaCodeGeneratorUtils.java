@@ -374,4 +374,20 @@ public class JavaCodeGeneratorUtils {
             }
         };
     }
+
+    public static String toCamelCased(String name){
+        var str = name.replace(":","_").replace("-","_");
+        var result = new StringBuilder();
+        boolean underscore = false;
+        for(int n =0; n < str.length(); n++){
+            var letter = str.substring(n, n+1);
+            if(letter.equals("_")){
+                underscore = true;
+                continue;
+            }
+            result.append(underscore? letter.toUpperCase(Locale.ROOT): letter);
+            underscore  = false;
+        }
+        return result.toString();
+    }
 }

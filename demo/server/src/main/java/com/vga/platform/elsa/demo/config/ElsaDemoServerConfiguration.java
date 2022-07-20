@@ -23,6 +23,7 @@ package com.vga.platform.elsa.demo.config;
 
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDataSourceProvider;
 import com.vga.platform.elsa.demo.DemoElsaDomainMetaRegistryConfigurator;
+import com.vga.platform.elsa.demo.DemoElsaL10nMetaRegistryConfigurator;
 import com.vga.platform.elsa.demo.DemoElsaRemotingMetaRegistryConfigurator;
 import com.vga.platform.elsa.demo.activator.ElsaDemoActivator;
 import com.vga.platform.elsa.demo.server.DemoElsaRestController;
@@ -67,5 +68,10 @@ public class ElsaDemoServerConfiguration {
     @Bean
     public DemoTestServerCallRequestHandler demoTestServerCallRequestHandler(){
         return new DemoTestServerCallRequestHandler();
+    }
+
+    @Bean
+    public DemoElsaL10nMetaRegistryConfigurator demoElsaL10nMetaRegistryConfigurator(){
+        return new DemoElsaL10nMetaRegistryConfigurator();
     }
 }

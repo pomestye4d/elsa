@@ -60,7 +60,7 @@ public class WebCodeGeneratorUtils {
         gen.print(";\n");
     }
 
-    private static String getType(StandardValueType vt, String className) {
+    public static String getType(StandardValueType vt, String className) {
         return switch (vt){
             case LONG,INT,BIG_DECIMAL -> "number";
             case STRING,CLASS -> "string";

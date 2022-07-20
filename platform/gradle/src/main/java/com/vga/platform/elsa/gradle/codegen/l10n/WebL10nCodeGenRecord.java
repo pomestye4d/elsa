@@ -19,17 +19,35 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.gradle.codegen.common;
+package com.vga.platform.elsa.gradle.codegen.l10n;
 
-public enum GeneratorType {
-    JAVA_DOMAIN,
-    JAVA_CUSTOM,
-    JAVA_REMOTING,
-    JAVA_UI_TEMPLATE,
-    JAVA_UI,
-    JAVA_L10N,
-    WEB_REMOTING,
-    WEB_UI_TEMPLATE,
-    WEB_UI,
-    WEB_L10N,
+import com.vga.platform.elsa.gradle.codegen.common.BaseCodeGenRecord;
+import com.vga.platform.elsa.gradle.codegen.common.GeneratorType;
+
+public class WebL10nCodeGenRecord extends BaseCodeGenRecord {
+
+    private String l10nFileName;
+
+    private String tsClassName;
+
+    @Override
+    public GeneratorType getGeneratorType() {
+        return GeneratorType.WEB_L10N;
+    }
+
+    public String getL10nFileName() {
+        return l10nFileName;
+    }
+
+    public void setL10nFileName(String l10nFileName) {
+        this.l10nFileName = l10nFileName;
+    }
+
+    public String getTsClassName() {
+        return tsClassName;
+    }
+
+    public void setTsClassName(String tsClassName) {
+        this.tsClassName = tsClassName;
+    }
 }

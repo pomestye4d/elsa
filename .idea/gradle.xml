@@ -13,12 +13,14 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/demo" />
             <option value="$PROJECT_DIR$/demo/server" />
+            <option value="$PROJECT_DIR$/demo/site" />
             <option value="$PROJECT_DIR$/platform" />
             <option value="$PROJECT_DIR$/platform/common-core" />
             <option value="$PROJECT_DIR$/platform/common-meta" />
             <option value="$PROJECT_DIR$/platform/gradle" />
             <option value="$PROJECT_DIR$/platform/server-core" />
             <option value="$PROJECT_DIR$/platform/server-postgres" />
+            <option value="$PROJECT_DIR$/platform/web-core" />
           </set>
         </option>
       </GradleProjectSettings>

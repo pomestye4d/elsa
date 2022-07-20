@@ -236,7 +236,7 @@ export async function restoreObject(
         // eslint-disable-next-line no-await-in-loop,max-len
         await restoreFromSerializable(map.keyType, map.keyClassName || null, value.key, ph, operationId),
         // eslint-disable-next-line max-len,no-await-in-loop
-        await restoreFromSerializable(map.valueType, map.valueClassName || null, value.key, ph, operationId),
+        await restoreFromSerializable(map.valueType, map.valueClassName || null, value.value, ph, operationId),
       );
     }
     obj[map.id] = modified;

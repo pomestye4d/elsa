@@ -22,7 +22,7 @@
  * This is generated code, don't modify it manually
  *****************************************************************/
 
-package com.vga.platform.elsa.server.core;
+package com.vga.platform.elsa.demo;
 
 import com.vga.platform.elsa.common.core.utils.LocaleUtils;
 import com.vga.platform.elsa.common.meta.common.StandardValueType;
@@ -32,46 +32,26 @@ import com.vga.platform.elsa.common.meta.l10n.L10nMessagesBundleDescription;
 import com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistry;
 import com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistryConfigurator;
 
-public class CoreL10nMessagesRegistryConfigurator implements L10nMetaRegistryConfigurator{
+public class DemoElsaL10nMetaRegistryConfigurator implements L10nMetaRegistryConfigurator{
 
 	@Override
 	public void updateMetaRegistry(L10nMetaRegistry registry){
 		{
-			var bundleDescription = new L10nMessagesBundleDescription("core");
+			var bundleDescription = new L10nMessagesBundleDescription("demo-site");
 			registry.getBundles().put(bundleDescription.getId(), bundleDescription);
 			{
-				var messageDescription = new L10nMessageDescription("Found_several_records");
+				var messageDescription = new L10nMessageDescription("Are_you_sure_to_delete");
 				{
-					var paramDescription = new L10nMessageParameterDescription("objectType");
-					paramDescription.setType(StandardValueType.STRING);
+					var paramDescription = new L10nMessageParameterDescription("object");
+					paramDescription.setType(StandardValueType.ENTITY_REFERENCE);
 					messageDescription.getParameters().put(paramDescription.getId(), paramDescription);
 				}
-				{
-					var paramDescription = new L10nMessageParameterDescription("propertyName");
-					paramDescription.setType(StandardValueType.STRING);
-					messageDescription.getParameters().put(paramDescription.getId(), paramDescription);
-				}
-				{
-					var paramDescription = new L10nMessageParameterDescription("propertyValue");
-					paramDescription.setType(StandardValueType.STRING);
-					messageDescription.getParameters().put(paramDescription.getId(), paramDescription);
-				}
-				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "найдено несколько записей {0}, где {1} = {2}");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Вы уверены что хотите удалить {0}?");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 			{
-				var messageDescription = new L10nMessageDescription("Object_not_found");
-				{
-					var paramDescription = new L10nMessageParameterDescription("objectId");
-					paramDescription.setType(StandardValueType.STRING);
-					messageDescription.getParameters().put(paramDescription.getId(), paramDescription);
-				}
-				{
-					var paramDescription = new L10nMessageParameterDescription("objectUid");
-					paramDescription.setType(StandardValueType.STRING);
-					messageDescription.getParameters().put(paramDescription.getId(), paramDescription);
-				}
-				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Объект {0} с идентификатором {1} не найден");
+				var messageDescription = new L10nMessageDescription("Yes");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Да");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 		}

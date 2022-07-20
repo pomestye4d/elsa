@@ -28,6 +28,7 @@ import com.vga.platform.elsa.gradle.codegen.common.GeneratorType;
 import com.vga.platform.elsa.gradle.codegen.custom.JavaCustomCodeGenerator;
 import com.vga.platform.elsa.gradle.codegen.domain.JavaDomainCodeGenerator;
 import com.vga.platform.elsa.gradle.codegen.l10n.JavaL10nCodeGenerator;
+import com.vga.platform.elsa.gradle.codegen.l10n.WebL10nCodeGenerator;
 import com.vga.platform.elsa.gradle.codegen.remoting.JavaRemotingCodeGenerator;
 import com.vga.platform.elsa.gradle.codegen.remoting.WebRemotingCodeGenerator;
 import com.vga.platform.elsa.gradle.codegen.ui.JavaUiCodeGenerator;
@@ -86,7 +87,7 @@ public class ElsaCodeGenTask extends DefaultTask {
                         for (Object record : records2) {
                             var type = (Enum<?>) record.getClass().getMethod("getGeneratorType").invoke(record);
                             if ("JAVA_DOMAIN".equals(type.name())) {
-                                var sources = (List<File>) record.getClass().getMethod("getSources").invoke(record);
+                                @SuppressWarnings("unchecked") var sources = (List<File>) record.getClass().getMethod("getSources").invoke(record);
                                 parser.updateMetaRegistry(domainMetaRegistry, sources);
                             }
                         }
@@ -113,6 +114,7 @@ public class ElsaCodeGenTask extends DefaultTask {
                 case WEB_REMOTING -> new WebRemotingCodeGenerator();
                 case WEB_UI_TEMPLATE -> new WebUiTemplateCodeGenerator();
                 case WEB_UI -> new WebUiCodeGenerator();
+                case WEB_L10N -> new WebL10nCodeGenerator();
             };
             entry.getValue().forEach((key1, value1) -> BuildExceptionUtils.wrapException(() -> codeGen.generate(value1, key1, generatedFiles, context)));
         });

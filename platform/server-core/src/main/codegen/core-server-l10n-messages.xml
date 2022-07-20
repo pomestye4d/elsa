@@ -5,10 +5,6 @@
         <parameter id="propertyName" type="STRING"/>
         <parameter id="propertyValue" type="STRING"/>
     </message>
-    <message id="Yes"/>
-    <message id="No"/>
-    <message id="Choose_variant"/>
-    <message id="Question"/>
     <message id="Object_not_found">
         <parameter id="objectId" type="STRING"/>
         <parameter id="objectUid" type="STRING"/>

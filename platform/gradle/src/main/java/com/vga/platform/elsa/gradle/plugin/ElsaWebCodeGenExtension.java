@@ -22,6 +22,7 @@
 package com.vga.platform.elsa.gradle.plugin;
 
 import com.vga.platform.elsa.gradle.codegen.common.BaseCodeGenRecord;
+import com.vga.platform.elsa.gradle.codegen.l10n.WebL10nCodeGenRecord;
 import com.vga.platform.elsa.gradle.codegen.remoting.WebRemotingCodeGenRecord;
 import com.vga.platform.elsa.gradle.codegen.ui.WebUiCodeGenRecord;
 import com.vga.platform.elsa.gradle.codegen.ui.WebUiTemplateCodeGenRecord;
@@ -73,5 +74,14 @@ public class ElsaWebCodeGenExtension {
         for(String widget: widgets){
             imports.put(widget, new File(projectDir, path));
         }
+    }
+
+    public void l10n(String destDir, String l10nFileName, String tsClassName, List<String> sourcesFileNames){
+        var record = new WebL10nCodeGenRecord();
+        record.setTsClassName(tsClassName);
+        record.setL10nFileName(l10nFileName);
+        sourcesFileNames.forEach(it -> record.getSources().add(new File(projectDir, it)));
+        record.setDestinationDir(new File(projectDir, destDir));
+        codegenRecords.add(record);
     }
 }

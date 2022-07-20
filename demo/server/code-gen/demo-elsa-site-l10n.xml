@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages-bundle xmlns="http://vga.com/elsa/meta-l10n" id ="demo-site" >
+    <message id="Are_you_sure_to_delete">
+        <parameter id="object" type="ENTITY_REFERENCE"/>
+    </message>
+    <message id="Yes" />
+
+</messages-bundle>

@@ -41,38 +41,6 @@ public class CoreL10nMessagesRegistryFactory{
 		return new L10nMessage("core", "Found_several_records", objectType, propertyName, propertyValue);
 	}
 
-	public String Yes(){
-		return localizer.toString("core", "Yes", null);
-	}
-
-	public static L10nMessage YesMessage(){
-		return new L10nMessage("core", "Yes");
-	}
-
-	public String No(){
-		return localizer.toString("core", "No", null);
-	}
-
-	public static L10nMessage NoMessage(){
-		return new L10nMessage("core", "No");
-	}
-
-	public String Choose_variant(){
-		return localizer.toString("core", "Choose_variant", null);
-	}
-
-	public static L10nMessage Choose_variantMessage(){
-		return new L10nMessage("core", "Choose_variant");
-	}
-
-	public String Question(){
-		return localizer.toString("core", "Question", null);
-	}
-
-	public static L10nMessage QuestionMessage(){
-		return new L10nMessage("core", "Question");
-	}
-
 	public String Object_not_found(String objectId, String objectUid){
 		return localizer.toString("core", "Object_not_found", null, objectId, objectUid);
 	}

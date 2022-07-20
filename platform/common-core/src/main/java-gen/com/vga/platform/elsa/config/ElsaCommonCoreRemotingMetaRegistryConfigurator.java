@@ -28,6 +28,7 @@ import com.vga.platform.elsa.common.meta.common.EntityDescription;
 import com.vga.platform.elsa.common.meta.common.EnumDescription;
 import com.vga.platform.elsa.common.meta.common.EnumItemDescription;
 import com.vga.platform.elsa.common.meta.common.StandardCollectionDescription;
+import com.vga.platform.elsa.common.meta.common.StandardMapDescription;
 import com.vga.platform.elsa.common.meta.common.StandardPropertyDescription;
 import com.vga.platform.elsa.common.meta.common.StandardValueType;
 import com.vga.platform.elsa.common.meta.remoting.RemotingDescription;
@@ -285,6 +286,30 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 			}
 		}
 		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.remoting.core.GetL10nBundleRequest");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("language");
+				propertyDescription.setType(StandardValueType.STRING);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var propertyDescription = new StandardPropertyDescription("bundleId");
+				propertyDescription.setType(StandardValueType.STRING);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.remoting.core.GetL10nBundleResponse");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var mapDescription = new StandardMapDescription("messages");
+				mapDescription.setKeyType(StandardValueType.STRING);
+				mapDescription.setValueType(StandardValueType.STRING);
+				entityDescription.getMaps().put(mapDescription.getId(), mapDescription);
+			}
+		}
+		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.GetServerCallDescriptionRequest");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{
@@ -380,6 +405,17 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 		{
 			var remotingDescription = new RemotingDescription("core");
 			registry.getRemotings().put(remotingDescription.getId(), remotingDescription);
+			{
+				var groupDescription = new RemotingGroupDescription("l10n");
+				remotingDescription.getGroups().put(groupDescription.getId(), groupDescription);
+				{
+					var serverCallDescription = new RemotingServerCallDescription("l10n");
+					serverCallDescription.setValidatable(false);
+					serverCallDescription.setRequestClassName("com.vga.platform.elsa.common.remoting.core.GetL10nBundleRequest");
+					serverCallDescription.setResponseClassName("com.vga.platform.elsa.common.remoting.core.GetL10nBundleResponse");
+					groupDescription.getServerCalls().put("get-bundle", serverCallDescription);
+				}
+			}
 			{
 				var groupDescription = new RemotingGroupDescription("meta");
 				remotingDescription.getGroups().put(groupDescription.getId(), groupDescription);

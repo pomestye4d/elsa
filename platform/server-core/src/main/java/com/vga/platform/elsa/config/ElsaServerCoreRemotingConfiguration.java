@@ -57,4 +57,9 @@ public class ElsaServerCoreRemotingConfiguration {
     StalledChannelsCleaner stalledChannelsCleaner(){
         return new StalledChannelsCleaner();
     }
+
+    @Bean
+    GetL10nBundleHandler l10nBundleHandler(){
+        return new GetL10nBundleHandler();
+    }
 }

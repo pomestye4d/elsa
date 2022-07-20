@@ -57,6 +57,17 @@
         <collection id="collections" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityCollectionDescription"/>
         <collection id="maps" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityMapDescription"/>
     </entity>
+    <group id="l10n">
+        <server-call id="get-bundle">
+            <request id="com.vga.platform.elsa.common.remoting.core.GetL10nBundleRequest">
+                <property id="language" type="STRING"/>
+                <property id="bundleId" type="STRING"/>
+            </request>
+            <response id="com.vga.platform.elsa.common.remoting.core.GetL10nBundleResponse">
+                <map id="messages" key-type="STRING" value-type="STRING"/>
+            </response>
+        </server-call>
+    </group>
     <group id="meta">
         <server-call id="get-server-call-description">
             <request id="com.vga.platform.elsa.common.rest.core.GetServerCallDescriptionRequest">

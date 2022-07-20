@@ -47,7 +47,9 @@ public class JavaL10nCodeGenerator  implements CodeGenerator<JavaL10nCodeGenReco
             if(!reg.getBundles().isEmpty()){
                 var bundle = reg.getBundles().values().iterator().next();
                 generateConfigurator(record.getRegistryConfigurator(), bundle, destDir, generatedFiles);
-                generateFactory(record.getFactory(), bundle, destDir, generatedFiles);
+                if(record.getFactory() != null) {
+                    generateFactory(record.getFactory(), bundle, destDir, generatedFiles);
+                }
             }
         }
     }
@@ -56,7 +58,6 @@ public class JavaL10nCodeGenerator  implements CodeGenerator<JavaL10nCodeGenReco
         var gen = new JavaCodeGenerator();
         gen.setPackageName(JavaCodeGeneratorUtils.getPackage(configurator));
         gen.addImport("com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistryConfigurator");
-        gen.addImport("org.springframework.stereotype.Component");
         gen.addImport("com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistry");
         gen.wrapWithBlock("public class %s implements L10nMetaRegistryConfigurator".formatted(JavaCodeGeneratorUtils.getSimpleName(configurator)), () -> {
             gen.blankLine();

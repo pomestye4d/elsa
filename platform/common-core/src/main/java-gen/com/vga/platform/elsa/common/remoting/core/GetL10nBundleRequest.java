@@ -22,15 +22,59 @@
  * This is generated code, don't modify it manually
  *****************************************************************/
 
-package com.vga.platform.elsa.server.core;
+package com.vga.platform.elsa.common.remoting.core;
 
-public final class CoreRemotingConstants{
+import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
 
-	public static final String CORE_L10N_GET_BUNDLE = "core:l10n:get-bundle";
+public class GetL10nBundleRequest extends BaseIntrospectableObject{
 
-	public static final String CORE_META_GET_SERVER_CALL_DESCRIPTION = "core:meta:get-server-call-description";
+	private String language;
 
-	public static final String CORE_META_GET_SUBSCRIPTION_DESCRIPTION = "core:meta:get-subscription-description";
+	private String bundleId;
 
-	public static final String CORE_META_GET_ENTITY_DESCRIPTION = "core:meta:get-entity-description";
+	public String getLanguage(){
+		return language;
+	}
+
+	public void setLanguage(String value){
+		this.language = value;
+	}
+
+	public String getBundleId(){
+		return bundleId;
+	}
+
+	public void setBundleId(String value){
+		this.bundleId = value;
+	}
+
+	@Override
+	public Object getValue(String propertyName){
+
+		if("language".equals(propertyName)){
+			return language;
+		}
+
+		if("bundleId".equals(propertyName)){
+			return bundleId;
+		}
+
+		return super.getValue(propertyName);
+	}
+
+	@Override
+	public void setValue(String propertyName, Object value){
+
+		if("language".equals(propertyName)){
+			this.language = (String) value;
+			return;
+		}
+
+		if("bundleId".equals(propertyName)){
+			this.bundleId = (String) value;
+			return;
+		}
+
+		super.setValue(propertyName, value);
+	}
 }

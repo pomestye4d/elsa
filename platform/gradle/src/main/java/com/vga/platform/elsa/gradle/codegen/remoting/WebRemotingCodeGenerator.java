@@ -43,6 +43,8 @@ public class WebRemotingCodeGenerator implements CodeGenerator<WebRemotingCodeGe
             parser.updateMetaRegistry(metaRegistry, it.getSources());
             BuildExceptionUtils.wrapException(() -> {
                 var gen = new TypeScriptCodeGenerator();
+                gen.printLine("import { serverCall, PreloaderHandler } from 'elsa-web-core';");
+                gen.blankLine();
                 for(var en: metaRegistry.getEnums().values()){
                     WebCodeGeneratorUtils.generateWebEnumCode(en, gen);
                 }
@@ -50,6 +52,24 @@ public class WebRemotingCodeGenerator implements CodeGenerator<WebRemotingCodeGe
                     WebCodeGeneratorUtils.generateWebEntityCode(ett, gen);
                 }
 
+                for(var remoting: metaRegistry.getRemotings().values()){
+                    for(var group: remoting.getGroups().values()){
+                        for(var serverCall: group.getServerCalls().values()){
+                            gen.printLine("// eslint-disable-next-line max-len");
+                            gen.wrapWithBlock("export const %s = async (request: %s, preloaderHandler: PreloaderHandler| boolean = true, operationId: string|null = null) => "
+                                            .formatted(JavaCodeGeneratorUtils.toCamelCased("%s_%s".formatted(group.getId(), serverCall.getId())),
+                                                    JavaCodeGeneratorUtils.getSimpleName(serverCall.getRequestClassName()))
+                                    , ()->{
+                                gen.printLine("// noinspection UnnecessaryLocalVariableJS");
+                                gen.printLine("const result = await serverCall<%s, %s>('%s', '%s', '%s', request, preloaderHandler, operationId);"
+                                        .formatted(JavaCodeGeneratorUtils.getSimpleName(serverCall.getRequestClassName()),
+                                                JavaCodeGeneratorUtils.getSimpleName(serverCall.getResponseClassName()), remoting.getId(), group.getId(), serverCall.getId()));
+                                gen.printLine("return result;");
+                            });
+                            gen.print(";\n");
+                        }
+                    }
+                }
                 var file = JavaCodeGeneratorUtils.saveIfDiffers(gen.toString(), it.getRemotingFacade(), destDir);
                 generatedFiles.add(file);
             });
