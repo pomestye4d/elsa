@@ -286,6 +286,33 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 			}
 		}
 		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.XmlNodeDT");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("name");
+				propertyDescription.setType(StandardValueType.STRING);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var propertyDescription = new StandardPropertyDescription("value");
+				propertyDescription.setType(StandardValueType.STRING);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var collectionDescription = new StandardCollectionDescription("children");
+				collectionDescription.setElementType(StandardValueType.ENTITY);
+				collectionDescription.setElementClassName("com.vga.platform.elsa.common.rest.core.XmlNodeDT");
+				entityDescription.getCollections().put(collectionDescription.getId(), collectionDescription);
+			}
+			{
+				var mapDescription = new StandardMapDescription("attributes");
+				mapDescription.setKeyType(StandardValueType.STRING);
+				mapDescription.setValueType(StandardValueType.STRING);
+				entityDescription.getMaps().put(mapDescription.getId(), mapDescription);
+			}
+		}
+		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.remoting.core.GetL10nBundleRequest");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{
@@ -403,6 +430,33 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 			}
 		}
 		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.GetViewDescriptionRequest");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("viewId");
+				propertyDescription.setType(StandardValueType.STRING);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.rest.core.GetViewDescriptionResponse");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("view");
+				propertyDescription.setType(StandardValueType.ENTITY);
+				propertyDescription.setClassName("com.vga.platform.elsa.common.rest.core.XmlNodeDT");
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var mapDescription = new StandardMapDescription("localizations");
+				mapDescription.setKeyType(StandardValueType.STRING);
+				mapDescription.setValueType(StandardValueType.STRING);
+				entityDescription.getMaps().put(mapDescription.getId(), mapDescription);
+			}
+		}
+		{
 			var remotingDescription = new RemotingDescription("core");
 			registry.getRemotings().put(remotingDescription.getId(), remotingDescription);
 			{
@@ -439,6 +493,13 @@ public class ElsaCommonCoreRemotingMetaRegistryConfigurator implements RemotingM
 					serverCallDescription.setRequestClassName("com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionRequest");
 					serverCallDescription.setResponseClassName("com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionResponse");
 					groupDescription.getServerCalls().put("get-entity-description", serverCallDescription);
+				}
+				{
+					var serverCallDescription = new RemotingServerCallDescription("meta");
+					serverCallDescription.setValidatable(false);
+					serverCallDescription.setRequestClassName("com.vga.platform.elsa.common.rest.core.GetViewDescriptionRequest");
+					serverCallDescription.setResponseClassName("com.vga.platform.elsa.common.rest.core.GetViewDescriptionResponse");
+					groupDescription.getServerCalls().put("get-view-description", serverCallDescription);
 				}
 			}
 		}

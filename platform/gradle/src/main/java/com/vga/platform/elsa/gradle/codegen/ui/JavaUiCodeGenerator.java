@@ -39,6 +39,9 @@ public class JavaUiCodeGenerator implements CodeGenerator<JavaUiCodeGenRecord> {
             var reg  = new UiMetaRegistry();
             parser.updateMetaRegistry(reg, it.getSources(), context);
             BuildExceptionUtils.wrapException(() -> BuildExceptionUtils.wrapException(() -> JavaUiEntitiesGenerator.generate(reg, destDir,  generatedFiles)));
+            if(it.getConfigurator() != null){
+                BuildExceptionUtils.wrapException(() -> BuildExceptionUtils.wrapException(() -> JavaUiConfiguratorGenerator.generate(reg, it.getConfigurator(), destDir,  generatedFiles)));
+            }
         });
     }
 }

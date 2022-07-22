@@ -97,19 +97,21 @@ public class ElsaJavaCodeGenExtension {
         codegenRecords.add(record);
     }
 
-    public void uiTemplate( String destDir, String xsdFileName, String targetNameSpace, List<String> sourcesFileNames){
+    public void uiTemplate( String destDir, String xsdFileName, String configurator, String targetNameSpace, List<String> sourcesFileNames){
         var record = new JavaUiTemplateCodeGenRecord();
         record.setDestinationDir(new File(projectDir, destDir));
         record.setTargetNameSpace(targetNameSpace);
+        record.setConfigurator(configurator);
         sourcesFileNames.forEach(it -> record.getSources().add(new File(projectDir, it)));
         record.setXsdFileName(xsdFileName);
         record.setDestinationDir(new File(projectDir, destDir));
         codegenRecords.add(record);
     }
 
-    public void ui( String destDir, List<String> sourcesFileNames){
+    public void ui( String destDir, String configurator, List<String> sourcesFileNames){
         var record = new JavaUiCodeGenRecord();
         record.setDestinationDir(new File(projectDir, destDir));
+        record.setConfigurator(configurator);
         sourcesFileNames.forEach(it -> record.getSources().add(new File(projectDir, it)));
         record.setDestinationDir(new File(projectDir, destDir));
         codegenRecords.add(record);

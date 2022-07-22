@@ -62,4 +62,9 @@ public class ElsaServerCoreRemotingConfiguration {
     GetL10nBundleHandler l10nBundleHandler(){
         return new GetL10nBundleHandler();
     }
+
+    @Bean
+    GetViewDescriptionHandler viewDescriptionHandler(){
+        return new GetViewDescriptionHandler();
+    }
 }

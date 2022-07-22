@@ -57,6 +57,12 @@
         <collection id="collections" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityCollectionDescription"/>
         <collection id="maps" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityMapDescription"/>
     </entity>
+    <entity id="com.vga.platform.elsa.common.rest.core.XmlNodeDT">
+        <property id="name" type="STRING" non-nullable="true"/>
+        <property id="value" type="STRING"/>
+        <map id="attributes" key-type="STRING" value-type="STRING"/>
+        <collection id="children" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.rest.core.XmlNodeDT"/>
+    </entity>
     <group id="l10n">
         <server-call id="get-bundle">
             <request id="com.vga.platform.elsa.common.remoting.core.GetL10nBundleRequest">
@@ -97,6 +103,15 @@
             </request>
             <response id="com.vga.platform.elsa.common.rest.core.GetRemotingEntityDescriptionResponse">
                 <property id="description" type="ENTITY" non-nullable="true" class-name="com.vga.platform.elsa.common.rest.core.RemotingEntityDescription"/>
+            </response>
+        </server-call>
+        <server-call id="get-view-description">
+            <request id="com.vga.platform.elsa.common.rest.core.GetViewDescriptionRequest">
+                <property id="viewId" type="STRING" non-nullable="true"/>
+            </request>
+            <response id="com.vga.platform.elsa.common.rest.core.GetViewDescriptionResponse">
+                <map id="localizations" key-type="STRING" value-type="STRING"/>
+                <property id="view" type="ENTITY" class-name="com.vga.platform.elsa.common.rest.core.XmlNodeDT" non-nullable="true"/>
             </response>
         </server-call>
     </group>

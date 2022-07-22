@@ -36,10 +36,12 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension> {
             arrayListOf("code-gen/demo-elsa-remoting.xml")
         )
         uiTemplate(
-            "src/main/java-gen", "elsa-demo-ui.xsd", "http://vga.com/elsa/demo-ui",
+            "src/main/java-gen", "elsa-demo-ui.xsd",
+            "com.vga.platform.elsa.demo.DemoTemplateUiMetaRegistryConfigurator",
+            "http://vga.com/elsa/demo-ui",
             arrayListOf("code-gen/demo-elsa-ui-template.xml")
         )
-        ui("src/main/java-gen", arrayListOf("code-gen/demo-elsa-ui.xml"))
+        ui("src/main/java-gen", "com.vga.platform.elsa.demo.DemoUiMetaRegistryConfigurator", arrayListOf("code-gen/demo-elsa-ui.xml"))
     }
 }
 

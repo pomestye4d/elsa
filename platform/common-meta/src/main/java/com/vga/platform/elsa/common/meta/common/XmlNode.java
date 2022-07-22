@@ -70,6 +70,14 @@ public class XmlNode
         this.value = value;
     }
 
+    public XmlNode cloneNode(){
+        var result = new XmlNode();
+        result.setName(name);
+        result.setValue(value);
+        result.getAttributes().putAll(attributes);
+        children.forEach((child) -> result.getChildren().add(child.cloneNode()));
+        return result;
+    }
     @Override
     public String toString() {
         return "XmlNode{" +

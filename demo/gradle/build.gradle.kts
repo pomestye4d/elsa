@@ -7,6 +7,9 @@ java{
     withSourcesJar()
 }
 
+repositories{
+    mavenCentral()
+}
 dependencies{
     implementation(project(":platform:common-meta"))
     implementation(project(":platform:gradle"))

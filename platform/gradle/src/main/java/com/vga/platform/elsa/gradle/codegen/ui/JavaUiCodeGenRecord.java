@@ -26,8 +26,18 @@ import com.vga.platform.elsa.gradle.codegen.common.GeneratorType;
 
 public class JavaUiCodeGenRecord extends BaseCodeGenRecord {
 
+    private String configurator;
+
     @Override
     public GeneratorType getGeneratorType() {
         return GeneratorType.JAVA_UI;
+    }
+
+    public String getConfigurator() {
+        return configurator;
+    }
+
+    public void setConfigurator(String configurator) {
+        this.configurator = configurator;
     }
 }

@@ -22,17 +22,57 @@
  * This is generated code, don't modify it manually
  *****************************************************************/
 
-package com.vga.platform.elsa.server.core;
+package com.vga.platform.elsa.common.rest.core;
 
-public final class CoreRemotingConstants{
+import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
+import java.util.*;
 
-	public static final String CORE_L10N_GET_BUNDLE = "core:l10n:get-bundle";
+public class GetViewDescriptionResponse extends BaseIntrospectableObject{
 
-	public static final String CORE_META_GET_SERVER_CALL_DESCRIPTION = "core:meta:get-server-call-description";
+	private XmlNodeDT view;
 
-	public static final String CORE_META_GET_SUBSCRIPTION_DESCRIPTION = "core:meta:get-subscription-description";
+	private final Map<String,String> localizations = new HashMap<>();
 
-	public static final String CORE_META_GET_ENTITY_DESCRIPTION = "core:meta:get-entity-description";
+	public XmlNodeDT getView(){
+		return view;
+	}
 
-	public static final String CORE_META_GET_VIEW_DESCRIPTION = "core:meta:get-view-description";
+	public void setView(XmlNodeDT value){
+		this.view = value;
+	}
+
+	public Map<String,String> getLocalizations(){
+		return localizations;
+	}
+
+	@Override
+	public Object getValue(String propertyName){
+
+		if("view".equals(propertyName)){
+			return view;
+		}
+
+		return super.getValue(propertyName);
+	}
+
+	@Override
+	public void setValue(String propertyName, Object value){
+
+		if("view".equals(propertyName)){
+			this.view = (XmlNodeDT) value;
+			return;
+		}
+
+		super.setValue(propertyName, value);
+	}
+
+	@Override
+	public Map<?,?> getMap(String mapName){
+
+		if("localizations".equals(mapName)){
+			return localizations;
+		}
+
+		return super.getMap(mapName);
+	}
 }

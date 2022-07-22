@@ -30,6 +30,8 @@ public class JavaUiTemplateCodeGenRecord extends BaseCodeGenRecord {
 
     private String targetNameSpace;
 
+    private String configurator;
+
     @Override
     public GeneratorType getGeneratorType() {
         return GeneratorType.JAVA_UI_TEMPLATE;
@@ -49,5 +51,13 @@ public class JavaUiTemplateCodeGenRecord extends BaseCodeGenRecord {
 
     public void setTargetNameSpace(String targetNameSpace) {
         this.targetNameSpace = targetNameSpace;
+    }
+
+    public String getConfigurator() {
+        return configurator;
+    }
+
+    public void setConfigurator(String configurator) {
+        this.configurator = configurator;
     }
 }

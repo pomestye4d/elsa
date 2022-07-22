@@ -62,6 +62,11 @@ public class UiMetaRegistryParser {
         }
         var callback = new ViewTemplateParserHandlerCallback() {
             @Override
+            public UiMetaRegistry getMetaRegistry() {
+                return registry;
+            }
+
+            @Override
             public void addEntity(EntityDescription ed) {
                 registry.getEntities().put(ed.getId(), ed);
             }

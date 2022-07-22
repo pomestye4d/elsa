@@ -49,6 +49,9 @@ public class JavaUiTemplateCodeGenerator implements CodeGenerator<JavaUiTemplate
             parser.updateMetaRegistry(ftr, it.getSources());
             BuildExceptionUtils.wrapException(() -> JavaUiTemplateXsdGenerator.generate(metaRegistry, destDir, it.getXsdFileName(), it.getTargetNameSpace(), generatedFiles));
             BuildExceptionUtils.wrapException(() -> JavaUiTemplateEntitiesGenerator.generate(metaRegistry, destDir,  generatedFiles));
+            if(it.getConfigurator() != null){
+                BuildExceptionUtils.wrapException(() -> JavaUiTemplateConfiguratorGenerator.generate(metaRegistry, it.getConfigurator(), destDir,  generatedFiles));
+            }
         }));
     }
 }

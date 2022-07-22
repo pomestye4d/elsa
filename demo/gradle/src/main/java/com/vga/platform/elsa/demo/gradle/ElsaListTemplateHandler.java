@@ -56,7 +56,8 @@ public class ElsaListTemplateHandler implements ViewTemplateParserHandler {
     }
 
     @Override
-    public void addEntities(XmlNode node, Map<String, Map<Locale, String>> localizations, ViewTemplateParserHandlerCallback callback) {
+    public void addEntities(XmlNode originalNode, Map<String, Map<Locale, String>> localizations, ViewTemplateParserHandlerCallback callback) {
+        var node = originalNode.cloneNode();
         String id = node.getAttribute("id");
         var modelEtt = new EntityDescription("%sVM".formatted(id));
         var configEtt = new EntityDescription("%sVC".formatted(id));
@@ -65,22 +66,30 @@ public class ElsaListTemplateHandler implements ViewTemplateParserHandler {
         callback.addEntity(configEtt);
         callback.addEntity(validationEtt);
         var propertyName = "content";
-        var widgetElm = node.getFirstChild(propertyName).getChildren().get(0);
-        if (widgetElm != null) {
-            var vmProp = new StandardPropertyDescription(propertyName);
-            modelEtt.getProperties().put(vmProp.getId(), vmProp);
-            var vcProp = new StandardPropertyDescription(propertyName);
-            configEtt.getProperties().put(vcProp.getId(), vcProp);
-            var vvProp = new StandardPropertyDescription(propertyName);
-            validationEtt.getProperties().put(vvProp.getId(), vvProp);
-            var handler = callback.getHandler(widgetElm.getName());
-            vmProp.setClassName(handler.getModelClassName(widgetElm));
-            vmProp.setType(StandardValueType.ENTITY);
-            vcProp.setClassName(handler.getConfigurationClassName(widgetElm));
-            vcProp.setType(StandardValueType.ENTITY);
-            vvProp.setClassName(handler.getValidationClassName(widgetElm));
-            vvProp.setType(StandardValueType.ENTITY);
+        var contentElm = node.getFirstChild(propertyName);
+        XmlNode widgetElm;
+        if(contentElm.getAttribute("container-ref") != null){
+            widgetElm =callback.getMetaRegistry().getViews().get(contentElm.getAttribute("container-ref")).getView();
+        } else {
+           widgetElm = contentElm.getChildren().get(0);
+        }
+        var vmProp = new StandardPropertyDescription(propertyName);
+        modelEtt.getProperties().put(vmProp.getId(), vmProp);
+        var vcProp = new StandardPropertyDescription(propertyName);
+        configEtt.getProperties().put(vcProp.getId(), vcProp);
+        var vvProp = new StandardPropertyDescription(propertyName);
+        validationEtt.getProperties().put(vvProp.getId(), vvProp);
+        var handler = callback.getHandler(widgetElm.getName());
+        vmProp.setClassName(handler.getModelClassName(widgetElm));
+        vmProp.setType(StandardValueType.ENTITY);
+        vcProp.setClassName(handler.getConfigurationClassName(widgetElm));
+        vcProp.setType(StandardValueType.ENTITY);
+        vvProp.setClassName(handler.getValidationClassName(widgetElm));
+        vvProp.setType(StandardValueType.ENTITY);
+        if(contentElm.getAttribute("container-ref") == null) {
             handler.addEntities(widgetElm, localizations, callback);
+            contentElm.getAttributes().put("container-ref", handler.getId(widgetElm));
+            contentElm.getChildren().clear();
         }
         callback.addViewDescription(id, node, Collections.emptyMap());
     }
@@ -88,14 +97,21 @@ public class ElsaListTemplateHandler implements ViewTemplateParserHandler {
     @Override
     public List<UiViewMemberDescription> getViewMembers(XmlNode node, Map<String, ViewTemplateParserHandler> handlers, UiTemplateMetaRegistry fullTemplateRegistry, UiMetaRegistry registry) {
         List<UiViewMemberDescription> result = new ArrayList<>();
-        var propertyName = "content";
-        var widgetElm = node.getFirstChild(propertyName).getChildren().get(0);
+        var widgetElm = getContentElm(node, registry);
         var handler = handlers.get(widgetElm.getName());
         var item = new UiViewMemberDescription();
-        item.setId(propertyName);
+        item.setId("content");
         item.setWidgetClass(JavaCodeGeneratorUtils.getSimpleName(handler.getId(widgetElm)));
         result.add(item);
         return result;
+    }
+
+    private XmlNode getContentElm(XmlNode node, UiMetaRegistry registry) {
+        var contentNode = node.getFirstChild("content");
+        if(contentNode.getAttribute("container-ref") != null){
+            return registry.getViews().get(contentNode.getAttribute("container-ref")).getView();
+        }
+        return contentNode.getChildren().get(0);
     }
 
     @Override
@@ -113,7 +129,11 @@ public class ElsaListTemplateHandler implements ViewTemplateParserHandler {
     public void updateImports(Set<String> additionalEntities, XmlNode node, UiTemplateMetaRegistry ftr, Map<String, ViewTemplateParserHandler> handlers) {
         additionalEntities.add("ListTemplate");
         var propertyName = "content";
-        var widgetElm = node.getFirstChild(propertyName).getChildren().get(0);
+        var children = node.getFirstChild(propertyName).getChildren();
+        if(children.isEmpty()){
+            return;
+        }
+        var widgetElm = children.get(0);
         var handler = handlers.get(widgetElm.getName());
         handler.updateImports(additionalEntities, widgetElm, ftr, handlers);
     }

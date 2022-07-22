@@ -17,22 +17,45 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- */
+ *
+ *****************************************************************
+ * This is generated code, don't modify it manually
+ *****************************************************************/
 
-package com.vga.platform.elsa.gradle.parser.ui;
+package com.vga.platform.elsa.common.rest.core;
 
-import com.vga.platform.elsa.common.meta.common.EntityDescription;
-import com.vga.platform.elsa.common.meta.common.XmlNode;
-import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
-import com.vga.platform.elsa.common.meta.ui.UiTemplateMetaRegistry;
+import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
 
-import java.util.Locale;
-import java.util.Map;
+public class GetViewDescriptionRequest extends BaseIntrospectableObject{
 
-public interface ViewTemplateParserHandlerCallback {
-    UiMetaRegistry getMetaRegistry();
-    void addEntity(EntityDescription ed);
-    void addViewDescription(String id, XmlNode view, Map<String, Map<Locale,String>> localizations);
-    ViewTemplateParserHandler getHandler(String tagName);
-    UiTemplateMetaRegistry getFullRegistry();
+	private String viewId;
+
+	public String getViewId(){
+		return viewId;
+	}
+
+	public void setViewId(String value){
+		this.viewId = value;
+	}
+
+	@Override
+	public Object getValue(String propertyName){
+
+		if("viewId".equals(propertyName)){
+			return viewId;
+		}
+
+		return super.getValue(propertyName);
+	}
+
+	@Override
+	public void setValue(String propertyName, Object value){
+
+		if("viewId".equals(propertyName)){
+			this.viewId = (String) value;
+			return;
+		}
+
+		super.setValue(propertyName, value);
+	}
 }
