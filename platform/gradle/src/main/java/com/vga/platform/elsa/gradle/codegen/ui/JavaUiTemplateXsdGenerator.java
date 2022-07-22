@@ -49,7 +49,7 @@ public class JavaUiTemplateXsdGenerator {
         document.getDocumentElement().setAttribute("targetNamespace", targetNamespace);
         document.getDocumentElement().setAttribute("xmlns:tns", targetNamespace);
         document.getDocumentElement().setAttribute("elementFormDefault", "qualified");
-        document.getDocumentElement().setAttribute("xmlns:common", "http://gridnine.com/elsa/meta-common");
+        document.getDocumentElement().setAttribute("xmlns:common", "http://vga.com/elsa/meta-common");
         {
             var uiElm = addElement("element", document.getDocumentElement(), new attribute("name", "ui"));
             var uiElmCT = addElement("complexType", uiElm);
