@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns:common="http://vga.com/elsa/meta-common" xmlns:tns="http://vga.com/elsa/demo-ui" elementFormDefault="qualified" targetNamespace="http://vga.com/elsa/demo-ui" xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="ui">
+    <complexType>
+      <sequence>
+        <choice maxOccurs="unbounded" minOccurs="0">
+          <element name="enum" type="tns:EnumType"/>
+          <element name="table" type="tns:table"/>
+          <element name="list-with-tools" type="tns:list-with-tools"/>
+        </choice>
+      </sequence>
+    </complexType>
+  </element>
+  <complexType name="EnumType">
+    <complexContent>
+      <extension base="common:MetaElementType">
+        <sequence>
+          <element maxOccurs="unbounded" minOccurs="0" name="enum-item" type="common:EnumItemType"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <simpleType name="TableSelectType">
+    <restriction base="string">
+      <enumeration value="NONE"/>
+      <enumeration value="SINGLE"/>
+      <enumeration value="MULTIPLE"/>
+    </restriction>
+  </simpleType>
+  <complexType name="text-box-widget">
+    <attribute name="notEditable" type="boolean"/>
+  </complexType>
+  <group name="simple-widget">
+    <choice>
+      <element name="text-box-widget" type="tns:text-box-widget"/>
+    </choice>
+  </group>
+  <group name="container">
+    <choice>
+      <element name="table" type="tns:table"/>
+    </choice>
+  </group>
+  <complexType name="table">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="column">
+        <complexType>
+          <sequence>
+            <group minOccurs="0" ref="tns:simple-widget"/>
+          </sequence>
+          <attribute name="caption" type="string"/>
+          <attribute name="id" type="string" use="required"/>
+        </complexType>
+      </element>
+    </sequence>
+    <attribute name="id" type="string" use="required"/>
+    <attribute default="SINGLE" name="selectType" type="tns:TableSelectType"/>
+  </complexType>
+  <complexType name="list-with-tools">
+    <sequence>
+      <element minOccurs="0" name="content">
+        <complexType>
+          <sequence>
+            <group minOccurs="0" ref="tns:container"/>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+    <attribute name="id" type="string" use="required"/>
+  </complexType>
+</schema>

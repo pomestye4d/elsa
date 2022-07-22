@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui xmlns="http://vga.com/elsa/demo-ui">
+    <list-with-tools id="com.vga.platform.elsa.demo.ui.UsersList" >
+        <content>
+            <table id="com.vga.platform.elsa.demo.ui.UsersTable">
+                <column id="userName">
+                    <text-box-widget/>
+                </column>
+            </table>
+        </content>
+    </list-with-tools>
+</ui>

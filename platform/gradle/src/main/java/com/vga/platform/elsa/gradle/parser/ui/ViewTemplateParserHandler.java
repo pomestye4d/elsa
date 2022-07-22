@@ -72,7 +72,7 @@ public interface ViewTemplateParserHandler {
     List<UiViewMemberDescription> getViewMembers(XmlNode node, Map<String, ViewTemplateParserHandler> handlers, UiTemplateMetaRegistry fullTemplateRegistry, UiMetaRegistry registry);
     String getId(XmlNode viewNode);
     String getWidgetClassName(XmlNode node);
-    void updateImports(Set<String> additionalEntities, XmlNode name, UiMetaRegistry ftr, Map<String, ViewTemplateParserHandler> handler);
+    void updateImports(Set<String> additionalEntities, XmlNode name, UiTemplateMetaRegistry ftr, Map<String, ViewTemplateParserHandler> handler);
 
     List<XmlNode> getAllViewNodes(XmlNode view, Map<String, ViewTemplateParserHandler> handlers);
 }

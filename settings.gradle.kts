@@ -6,4 +6,5 @@ include("platform:web-core")
 include("platform:gradle")
 include("demo:server")
 include("demo:site")
+include("demo:gradle")
 rootProject.name ="elsa"

@@ -21,6 +21,7 @@
 
 package com.vga.platform.elsa.gradle.codegen.ui;
 
+import com.vga.platform.elsa.common.meta.common.EntityDescription;
 import com.vga.platform.elsa.common.meta.common.XmlNode;
 import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
 import com.vga.platform.elsa.common.meta.ui.UiTemplateMetaRegistry;
@@ -74,7 +75,7 @@ public class WebUiCodeGenerator implements CodeGenerator<WebUiCodeGenRecord> {
                 updateImportEntities(view, additionalEntities, handlers, ftr, fr);
             }
             var gen = new TypeScriptCodeGenerator();
-            gen.printLine("/* eslint-disable max-classes-per-file,no-unused-vars,max-len,lines-between-class-members  */");
+            gen.printLine("/* eslint-disable max-classes-per-file,no-unused-vars,max-len,lines-between-class-members,no-use-before-define  */");
             WebCodeGeneratorUtils.generateImportCode(metaRegistry.getEntities().values(), additionalEntities, tsa, gen, new File(destDir, it.getTsFileName()));
             for(var en: metaRegistry.getEnums().values()){
                 tsa.put(JavaCodeGeneratorUtils.getSimpleName(en.getId()), new File(destDir, it.getTsFileName()));
@@ -92,12 +93,19 @@ public class WebUiCodeGenerator implements CodeGenerator<WebUiCodeGenRecord> {
         }));
     }
 
+    private boolean depends(EntityDescription a, EntityDescription b) {
+        if(a.getProperties().values().stream().anyMatch((it) -> b.getId().equals(it.getClassName()))){
+            return true;
+        }
+        return a.getCollections().values().stream().anyMatch((it) -> b.getId().equals(it.getElementClassName()));
+    }
+
     private void updateImportEntities(UiViewDescription view, Set<String> additionalEntities, Map<String, ViewTemplateParserHandler> handlers, UiTemplateMetaRegistry uiTemplateMetaRegistry, UiMetaRegistry ftr) {
         var handler = handlers.get(view.getView().getName());
         if(handler == null){
             return;
         }
-        handler.updateImports(additionalEntities, view.getView(), ftr, handlers);
+        handler.updateImports(additionalEntities, view.getView(), uiTemplateMetaRegistry, handlers);
     }
 
     private void generateViewCode(UiViewDescription view, TypeScriptCodeGenerator gen, Map<String, ViewTemplateParserHandler> handlers, UiTemplateMetaRegistry fullTemplateRegistry, UiMetaRegistry fr, Map<String, File> tsa, File file ) throws Exception {
@@ -106,19 +114,14 @@ public class WebUiCodeGenerator implements CodeGenerator<WebUiCodeGenRecord> {
         if(handler == null){
             return;
         }
-        var viewNodes = handler.getAllViewNodes(view.getView(), handlers);
-        for(XmlNode viewNode2: viewNodes){
-            var handler2 = handlers.get(viewNode2.getName());
-            tsa.put(JavaCodeGeneratorUtils.getSimpleName(handler2.getId(viewNode2)), file);
-            gen.wrapWithBlock("export class %s extends %s ".formatted(JavaCodeGeneratorUtils.getSimpleName(handler2.getId(viewNode2)), handler2.getWidgetClassName(viewNode2)), () ->{
-                var members = handler2.getViewMembers(viewNode2, handlers, fullTemplateRegistry, fr);
-                for(var member: members){
-                    gen.printLine("// @ts-ignore");
-                    gen.printLine("%s: %s;".formatted(member.getId(), member.getWidgetClass()));
-                }
-            });
-            gen.blankLine();
-        }
-
+        tsa.put(JavaCodeGeneratorUtils.getSimpleName(handler.getId(viewNode)), file);
+        gen.wrapWithBlock("export class %s extends %s ".formatted(JavaCodeGeneratorUtils.getSimpleName(handler.getId(viewNode)), handler.getWidgetClassName(viewNode)), () ->{
+            var members = handler.getViewMembers(viewNode, handlers, fullTemplateRegistry, fr);
+            for(var member: members){
+                gen.printLine("// @ts-ignore");
+                gen.printLine("%s: %s;".formatted(member.getId(), member.getWidgetClass()));
+            }
+        });
+        gen.blankLine();
     }
 }

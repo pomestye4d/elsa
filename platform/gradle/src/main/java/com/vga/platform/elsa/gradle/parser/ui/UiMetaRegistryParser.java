@@ -41,10 +41,10 @@ import java.util.Map;
 public class UiMetaRegistryParser {
 
     public void updateMetaRegistry(UiMetaRegistry registry, List<File> sources, Map<Object,Object> context) {
-        var fullTemplateRegistry = (UiTemplateMetaRegistry) context.get("full-template-ui-meta-registry");
+        var fullTemplateRegistry = (UiTemplateMetaRegistry) context.get("full-ui-template-meta-registry");
         if(fullTemplateRegistry == null){
             fullTemplateRegistry = new UiTemplateMetaRegistry();
-            context.put("full-template-ui-meta-registry", fullTemplateRegistry);
+            context.put("full-ui-template-meta-registry", fullTemplateRegistry);
         }
         var ftr = fullTemplateRegistry;
         var fullRegistry = (UiMetaRegistry) context.get("full-ui-meta-registry");

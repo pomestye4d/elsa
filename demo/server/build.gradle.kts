@@ -7,12 +7,15 @@ buildscript {
     dependencies {
         classpath(
             files(
-                File(projectDir.parentFile.parentFile, "gradle/elsa-gradle.jar")
+                File(projectDir.parentFile.parentFile, "gradle/elsa-gradle.jar"),
+                File(projectDir.parentFile, "gradle/dist/elsa-gradle-demo.jar")
             )
         )
     }
 }
 apply<com.vga.platform.elsa.gradle.plugin.ElsaJavaPlugin>()
+
+apply<com.vga.platform.elsa.demo.gradle.ElsaDemoJavaPlugin>()
 
 repositories {
     mavenCentral()
@@ -32,6 +35,11 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension> {
             "com.vga.platform.elsa.demo.server.DemoElsaRemotingConstants", false,
             arrayListOf("code-gen/demo-elsa-remoting.xml")
         )
+        uiTemplate(
+            "src/main/java-gen", "elsa-demo-ui.xsd", "http://vga.com/elsa/demo-ui",
+            arrayListOf("code-gen/demo-elsa-ui-template.xml")
+        )
+        ui("src/main/java-gen", arrayListOf("code-gen/demo-elsa-ui.xml"))
     }
 }
 

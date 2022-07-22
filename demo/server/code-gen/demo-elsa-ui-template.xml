@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui-template xmlns="http://vga.com/elsa/meta-ui-template">
+    <enum id="com.vga.platform.elsa.demo.server.ui.template.TableSelectType">
+        <enum-item id="NONE"/>
+        <enum-item id="SINGLE"/>
+        <enum-item id="MULTIPLE"/>
+    </enum>
+    <widget id="text-box-widget" ts-class-name="TextBoxWidget">
+        <properties>
+            <attribute type="BOOLEAN" name="notEditable"/>
+        </properties>
+        <model type="STRING"/>
+        <configuration type="ENTITY" class-name="com.vga.platform.elsa.demo.server.ui.template.TextBoxWidgetConfiguration">
+            <property type="BOOLEAN" id="notEditable"/>
+        </configuration>
+        <validation type="STRING"/>
+    </widget>
+    <group id="simple-widget">
+        <element-ref ref="text-box-widget"/>
+    </group>
+    <view-template id="table" ts-class-name="TableTemplate">
+        <properties>
+            <attribute name="selectType" type="ENUM" class-name="com.vga.platform.elsa.demo.server.ui.template.TableSelectType" default="SINGLE"/>
+        </properties>
+        <content>
+            <collection element-tag-name="column" element-type="ENTITY">
+                <attribute name="caption" type="STRING" non-nullable="false"/>
+                <attribute name="id" type="STRING" non-nullable="true"/>
+                <group-ref ref="simple-widget"/>
+            </collection>
+        </content>
+    </view-template>
+    <group id="container">
+        <element-ref ref="table"/>
+    </group>
+    <view-template id="list-with-tools" ts-class-name="ListWithToolsTemplate">
+        <properties/>
+        <content>
+            <property tag-name="content" type="ENTITY">
+                <group-ref ref="container"/>
+            </property>
+        </content>
+    </view-template>
+</ui-template>
