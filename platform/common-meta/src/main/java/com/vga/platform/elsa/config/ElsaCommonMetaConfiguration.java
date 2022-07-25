@@ -25,6 +25,7 @@ import com.vga.platform.elsa.common.meta.custom.CustomMetaRegistry;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
 import com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistry;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
+import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,4 +51,8 @@ public class ElsaCommonMetaConfiguration {
         return new RemotingMetaRegistry();
     }
 
+    @Bean
+    public UiMetaRegistry uiMetaRegistry(){
+        return new UiMetaRegistry();
+    }
 }
