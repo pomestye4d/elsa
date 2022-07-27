@@ -8,10 +8,10 @@ import {
 } from './demo-ui-template';
 import {
   TableTemplate,
-} from '../src/table-template';
+} from '../features/table-template';
 import {
   ListTemplate,
-} from '../src/list-template';
+} from '../features/list-template';
 
 export type UsersListVM={
   content?: UsersTableVM,

@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './index.ts',
+  entry: './index.tsx',
   target: 'web',
   devtool: 'source-map',
   output: {
@@ -12,14 +12,21 @@ module.exports = {
     filename: '[name]-module.js',
   },
   resolve: {
-    extensions: ['.ts', '.js'], // resolve all the modules other than index.ts
+    extensions: ['.ts', '.js', '.tsx'], // resolve all the modules other than index.tsx
   },
   module: {
     rules: [
       {
         loader: 'ts-loader',
-        test: /\.ts?$/,
+        test: /\.(ts|tsx)?$/,
         options: { allowTsInNodeModules: true },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
     ],
   },
@@ -35,9 +42,6 @@ module.exports = {
       directory: path.join(__dirname, 'build'),
     },
     proxy: {
-      '/login': 'http://localhost:8086',
-      '/logout': 'http://localhost:8086',
-      '/auth': 'http://localhost:8086',
       '/remoting': 'http://localhost:8086',
     },
     compress: false,

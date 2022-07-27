@@ -2,6 +2,8 @@
  * This is generated code, don't modify it manually
  **************************************************************** */
 
+/* eslint-disable camelcase */
+
 import { BaseL10nBundle, EntityReference } from 'elsa-web-core';
 
 class DemoL10nMessageBundle extends BaseL10nBundle {

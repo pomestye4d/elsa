@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export,max-classes-per-file
+// eslint-disable-next-line import/prefer-default-export,max-classes-per-file,no-unused-vars
 export class RegistryItemType<T> {
   id: string;
 

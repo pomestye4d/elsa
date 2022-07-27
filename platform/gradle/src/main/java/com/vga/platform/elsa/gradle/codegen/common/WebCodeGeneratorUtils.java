@@ -109,7 +109,7 @@ public class WebCodeGeneratorUtils {
                 } else {
                     relPath = file.getParentFile().toPath().relativize(sf.toPath()).toString();
                 }
-                relPath = relPath.substring(0, relPath.length()-3);
+                relPath = relPath.substring(0, relPath.lastIndexOf('.'));
                 imports.computeIfAbsent(relPath, (it) -> new LinkedHashSet<>()).add(JavaCodeGeneratorUtils.getSimpleName(clsName));
             }
         }

@@ -61,6 +61,8 @@ public class WebL10nCodeGenerator implements CodeGenerator<WebL10nCodeGenRecord>
                 }
             }
         }
+        gen.printLine("/* eslint-disable camelcase */");
+        gen.blankLine();
         gen.printLine("import { BaseL10nBundle%s } from 'elsa-web-core';".formatted(commonImports.isEmpty()? "": ", " + BuildTextUtils.joinToString(commonImports,", ")));
         gen.blankLine();
         gen.wrapWithBlock("class %s extends BaseL10nBundle ".formatted(tsClassName), () ->{

@@ -46,6 +46,13 @@ export class BaseL10nBundle {
     this.initialized = true;
   }
 
+  private toString(param:any) {
+    if (typeof param === 'object' && typeof param.id === 'number') {
+      return param.caption;
+    }
+    return param.toString();
+  }
+
   getMessage(id:string, ...parameters: any|null[]) {
     const message = this.localizations.get(id) || id;
     if (parameters.length === 0) {
@@ -53,7 +60,7 @@ export class BaseL10nBundle {
     }
     let result = message;
     for (let n = 0; n < parameters.length; n += 1) {
-      result = result.replace(`{${n}}`, parameters[n] || '???');
+      result = result.replace(`{${n}}`, this.toString(parameters[n]) || '???');
     }
     return result;
   }
