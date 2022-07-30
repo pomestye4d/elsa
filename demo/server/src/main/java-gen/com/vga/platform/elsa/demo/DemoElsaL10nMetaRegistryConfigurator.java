@@ -54,6 +54,31 @@ public class DemoElsaL10nMetaRegistryConfigurator implements L10nMetaRegistryCon
 				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Да");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
+			{
+				var messageDescription = new L10nMessageDescription("No");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Отмена");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("Create");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Создать ");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("Edit");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Редактировать");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("Delete");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Удалить");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("You_should_select_item");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Необходимо выделить элемент");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
 		}
 	}
 }

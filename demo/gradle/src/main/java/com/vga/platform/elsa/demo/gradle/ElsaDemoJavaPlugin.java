@@ -32,15 +32,18 @@ public class ElsaDemoJavaPlugin implements Plugin<Project> {
         var ext = target.getExtensions().findByType( ElsaJavaExtension.class);
         var tableHanlder = new ElsaTableTemplateHandler();
         var listHandler = new ElsaListTemplateHandler();
+        var simpleEditorHandler = new ElsaSimpleEditorTemplateHandler();
         if(ext != null){
             ext.setProjectDir(target.getProjectDir());
             ext.getTemplatesHandlers().put(tableHanlder.getTagName(), tableHanlder);
             ext.getTemplatesHandlers().put(listHandler.getTagName(), listHandler);
+            ext.getTemplatesHandlers().put(simpleEditorHandler.getTagName(), simpleEditorHandler);
             return;
         }
         var ext2 = target.getExtensions().getByType(ElsaWebExtension.class);
         ext2.setProjectDir(target.getProjectDir());
         ext2.getTemplatesHandlers().put(tableHanlder.getTagName(), tableHanlder);
         ext2.getTemplatesHandlers().put(listHandler.getTagName(), listHandler);
+        ext2.getTemplatesHandlers().put(simpleEditorHandler.getTagName(), simpleEditorHandler);
     }
 }

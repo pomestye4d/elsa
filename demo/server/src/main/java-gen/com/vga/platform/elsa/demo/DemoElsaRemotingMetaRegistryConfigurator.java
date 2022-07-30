@@ -36,6 +36,7 @@ import com.vga.platform.elsa.common.meta.remoting.RemotingGroupDescription;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistryConfigurator;
 import com.vga.platform.elsa.common.meta.remoting.RemotingServerCallDescription;
+import com.vga.platform.elsa.common.meta.remoting.RemotingSubscriptionDescription;
 
 public class DemoElsaRemotingMetaRegistryConfigurator implements RemotingMetaRegistryConfigurator{
 
@@ -61,6 +62,90 @@ public class DemoElsaRemotingMetaRegistryConfigurator implements RemotingMetaReg
 				propertyDescription.setType(StandardValueType.STRING);
 				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
 			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteUser");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("userName");
+				propertyDescription.setType(StandardValueType.STRING);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var propertyDescription = new StandardPropertyDescription("userId");
+				propertyDescription.setType(StandardValueType.LONG);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersRequest");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersResponse");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var collectionDescription = new StandardCollectionDescription("users");
+				collectionDescription.setElementType(StandardValueType.ENTITY);
+				collectionDescription.setElementClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteUser");
+				entityDescription.getCollections().put(collectionDescription.getId(), collectionDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserRequest");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("userId");
+				propertyDescription.setType(StandardValueType.LONG);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var propertyDescription = new StandardPropertyDescription("data");
+				propertyDescription.setType(StandardValueType.ENTITY);
+				propertyDescription.setClassName("com.vga.platform.elsa.demo.ui.UserEditorVM");
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserResponse");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("success");
+				propertyDescription.setType(StandardValueType.BOOLEAN);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
+				var propertyDescription = new StandardPropertyDescription("validation");
+				propertyDescription.setType(StandardValueType.ENTITY);
+				propertyDescription.setClassName("com.vga.platform.elsa.demo.ui.UserEditorVV");
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserRequest");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("userId");
+				propertyDescription.setType(StandardValueType.LONG);
+				propertyDescription.setNonNullable(true);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserResponse");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionParameters");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionEvent");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
 		}
 		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallRequest");
@@ -135,6 +220,37 @@ public class DemoElsaRemotingMetaRegistryConfigurator implements RemotingMetaReg
 		{
 			var remotingDescription = new RemotingDescription("demo");
 			registry.getRemotings().put(remotingDescription.getId(), remotingDescription);
+			{
+				var groupDescription = new RemotingGroupDescription("site");
+				remotingDescription.getGroups().put(groupDescription.getId(), groupDescription);
+				{
+					var serverCallDescription = new RemotingServerCallDescription("site");
+					serverCallDescription.setValidatable(false);
+					serverCallDescription.setRequestClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersRequest");
+					serverCallDescription.setResponseClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersResponse");
+					groupDescription.getServerCalls().put("get-users", serverCallDescription);
+				}
+				{
+					var serverCallDescription = new RemotingServerCallDescription("site");
+					serverCallDescription.setValidatable(false);
+					serverCallDescription.setRequestClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserRequest");
+					serverCallDescription.setResponseClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserResponse");
+					groupDescription.getServerCalls().put("update-user", serverCallDescription);
+				}
+				{
+					var serverCallDescription = new RemotingServerCallDescription("site");
+					serverCallDescription.setValidatable(false);
+					serverCallDescription.setRequestClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserRequest");
+					serverCallDescription.setResponseClassName("com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserResponse");
+					groupDescription.getServerCalls().put("delete-user", serverCallDescription);
+				}
+				{
+					var subscriptionDescription = new RemotingSubscriptionDescription("subscribe-users-modification");
+					subscriptionDescription.setParameterClassName("com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionParameters");
+					subscriptionDescription.setEventClassName("com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionEvent");
+					groupDescription.getSubscriptions().put("subscribe-users-modification", subscriptionDescription);
+				}
+			}
 			{
 				var groupDescription = new RemotingGroupDescription("test");
 				remotingDescription.getGroups().put(groupDescription.getId(), groupDescription);

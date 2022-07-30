@@ -3,6 +3,7 @@
  **************************************************************** */
 
 /* eslint-disable max-classes-per-file,no-unused-vars,max-len,lines-between-class-members,no-use-before-define  */
+import { ViewReference } from 'elsa-web-core';
 import {
   TextBoxWidgetConfiguration,
 } from './demo-ui-template';
@@ -12,6 +13,9 @@ import {
 import {
   ListTemplate,
 } from '../features/list-template';
+import {
+  SimpleEditorTemplate,
+} from '../features/simple-editor-template';
 
 export type UsersListVM={
   content?: UsersTableVM,
@@ -38,14 +42,25 @@ export type UsersTableVV={
 };
 
 export type UsersTableRowVM={
+  userId?: number,
   userName?: string,
 };
 
 export type UsersTableRowVC={
-  userName?: TextBoxWidgetConfiguration,
 };
 
 export type UsersTableRowVV={
+};
+
+export type UserEditorVM={
+  userName?: string,
+};
+
+export type UserEditorVC={
+  userName?: TextBoxWidgetConfiguration,
+};
+
+export type UserEditorVV={
   userName?: string,
 };
 
@@ -56,3 +71,12 @@ export class UsersList extends ListTemplate<UsersListVM, UsersListVC, UsersListV
   // @ts-ignore
   content: UsersTable;
 }
+
+export class UserEditor extends SimpleEditorTemplate<UserEditorVM, UserEditorVC, UserEditorVV> {
+}
+
+export const Constants = {
+  UsersTable: new ViewReference<UsersTable>('com.vga.platform.elsa.demo.ui.UsersTable'),
+  UsersList: new ViewReference<UsersList>('com.vga.platform.elsa.demo.ui.UsersList'),
+  UserEditor: new ViewReference<UserEditor>('com.vga.platform.elsa.demo.ui.UserEditor'),
+};

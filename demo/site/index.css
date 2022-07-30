@@ -1,0 +1,83 @@
+#root{
+    position: absolute;
+    width: 400px;
+    height: 100%;
+    left: 50%;
+    margin-left: -200px;
+}
+@media only screen and (max-width: 400px) {
+    root{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: none;
+        left: 0;
+        margin-left: 0;
+    }
+}
+
+.content-layout{
+    height: 100%;
+    background-color: white;
+}
+.content-layout-header{
+    padding: 5px;
+    height: 50px;
+    line-height: 40px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+}
+.content-layout-spin .ant-spin-container{
+    height: 100%;
+}
+.content-layout-content{
+    height: 100%;
+    overflow-y: auto;
+}
+.content-layout-header-button{
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.content-layout-header-glue{
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.content-layout-header-fixed{
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#main-layout {
+    width: 100%;
+    height: 100%;
+}
+
+#main-content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#main-content > div {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#main-layout-sider ul {
+    background-color: rgb(250, 250, 250);
+}
+
+#main-layout-header {
+    background: #182444;
+    height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    color: whitesmoke;
+    border-right: 1px solid #f0f0f0;
+    text-align: center;
+    background-image: url("public/logo.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    line-height: 60px;
+}

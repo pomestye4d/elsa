@@ -98,9 +98,11 @@ public class ElsaCodeGenTask extends DefaultTask {
             });
         }
         var gens = new ArrayList<>(generators.entrySet());
-        //noinspection SwitchStatementWithTooFewBranches
         gens.sort(Comparator.comparing(it -> switch (it.getKey()){
             case JAVA_UI -> 1;
+            case JAVA_REMOTING -> 2;
+            case WEB_UI -> 3;
+            case WEB_REMOTING -> 4;
             default -> 0;
         }));
         gens.forEach(entry -> {

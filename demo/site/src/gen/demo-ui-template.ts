@@ -7,6 +7,10 @@ export type TableSelectType=
 | 'SINGLE'
 | 'MULTIPLE';
 
+export type TableColumnDataType=
+'TEXT'
+| 'LONG';
+
 export type TextBoxWidgetConfiguration={
   notEditable?: boolean,
 };

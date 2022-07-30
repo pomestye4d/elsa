@@ -28,7 +28,17 @@ import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
 
 public class UsersTableRowVM extends BaseIntrospectableObject{
 
+	private Long userId;
+
 	private String userName;
+
+	public Long getUserId(){
+		return userId;
+	}
+
+	public void setUserId(Long value){
+		this.userId = value;
+	}
 
 	public String getUserName(){
 		return userName;
@@ -41,6 +51,10 @@ public class UsersTableRowVM extends BaseIntrospectableObject{
 	@Override
 	public Object getValue(String propertyName){
 
+		if("userId".equals(propertyName)){
+			return userId;
+		}
+
 		if("userName".equals(propertyName)){
 			return userName;
 		}
@@ -50,6 +64,11 @@ public class UsersTableRowVM extends BaseIntrospectableObject{
 
 	@Override
 	public void setValue(String propertyName, Object value){
+
+		if("userId".equals(propertyName)){
+			this.userId = (Long) value;
+			return;
+		}
 
 		if("userName".equals(propertyName)){
 			this.userName = (String) value;

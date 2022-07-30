@@ -7,6 +7,40 @@
     <entity id="com.vga.platform.elsa.demo.model.remoting.DemoTestEntity">
         <property id="stringProperty" type="STRING"/>
     </entity>
+    <entity id="com.vga.platform.elsa.demo.model.remoting.DemoSiteUser">
+        <property id="userName" type="STRING" non-nullable="true"/>
+        <property id="userId" type="LONG"/>
+    </entity>
+    <group id="site">
+        <server-call id="get-users">
+            <request id="com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersRequest">
+            </request>
+            <response id="com.vga.platform.elsa.demo.model.remoting.DemoSiteGetUsersResponse">
+                <collection id="users" element-type="ENTITY" element-class-name="com.vga.platform.elsa.demo.model.remoting.DemoSiteUser" />
+            </response>
+        </server-call>
+        <server-call id="update-user">
+            <request id="com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserRequest">
+                <property id="userId" type="LONG" non-nullable="true"/>
+                <property id="data" type="ENTITY" class-name="com.vga.platform.elsa.demo.ui.UserEditorVM" non-nullable="true"/>
+            </request>
+            <response id="com.vga.platform.elsa.demo.model.remoting.DemoSiteUpdateUserResponse">
+                <property id="success" type="BOOLEAN" non-nullable="true"/>
+                <property id="validation" type="ENTITY" class-name="com.vga.platform.elsa.demo.ui.UserEditorVV"/>
+            </response>
+        </server-call>
+        <server-call id="delete-user">
+            <request id="com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserRequest">
+                <property id="userId" type="LONG" non-nullable="true"/>
+            </request>
+            <response id="com.vga.platform.elsa.demo.model.remoting.DemoSiteDeleteUserResponse">
+            </response>
+        </server-call>
+        <subscription id="subscribe-users-modification">
+            <parameter id="com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionParameters"/>
+            <event id="com.vga.platform.elsa.demo.model.remoting.UserModificationSubscriptionEvent"/>
+        </subscription>
+    </group>
    <group id="test">
        <server-call id="server-call">
            <request id="com.vga.platform.elsa.demo.model.remoting.DemoTestServerCallRequest">

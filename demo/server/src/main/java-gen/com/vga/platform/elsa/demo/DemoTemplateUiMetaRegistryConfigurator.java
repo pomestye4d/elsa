@@ -53,6 +53,18 @@ public class DemoTemplateUiMetaRegistryConfigurator implements UiMetaRegistryCon
 			}
 		}
 		{
+			var enumDescription = new EnumDescription("com.vga.platform.elsa.demo.server.ui.template.TableColumnDataType");
+			registry.getEnums().put(enumDescription.getId(), enumDescription);
+			{
+				var enumItemDescription = new EnumItemDescription("TEXT");
+				enumDescription.getItems().put(enumItemDescription.getId(), enumItemDescription);
+			}
+			{
+				var enumItemDescription = new EnumItemDescription("LONG");
+				enumDescription.getItems().put(enumItemDescription.getId(), enumItemDescription);
+			}
+		}
+		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.server.ui.template.TextBoxWidgetConfiguration");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{

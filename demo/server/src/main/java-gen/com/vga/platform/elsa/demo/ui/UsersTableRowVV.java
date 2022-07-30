@@ -27,35 +27,4 @@ package com.vga.platform.elsa.demo.ui;
 import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
 
 public class UsersTableRowVV extends BaseIntrospectableObject{
-
-	private String userName;
-
-	public String getUserName(){
-		return userName;
-	}
-
-	public void setUserName(String value){
-		this.userName = value;
-	}
-
-	@Override
-	public Object getValue(String propertyName){
-
-		if("userName".equals(propertyName)){
-			return userName;
-		}
-
-		return super.getValue(propertyName);
-	}
-
-	@Override
-	public void setValue(String propertyName, Object value){
-
-		if("userName".equals(propertyName)){
-			this.userName = (String) value;
-			return;
-		}
-
-		super.setValue(propertyName, value);
-	}
 }

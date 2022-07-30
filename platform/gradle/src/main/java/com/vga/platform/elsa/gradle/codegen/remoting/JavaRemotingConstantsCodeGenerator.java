@@ -46,6 +46,7 @@ public class JavaRemotingConstantsCodeGenerator {
                 gen.printLine("public static final String %s = \"%s\";".formatted(getFieldName(remoting.getId(), group.getId(), sc),
                         getFieldValue(remoting.getId(), group.getId(), sc)));
             });
+
         }));
         var file = JavaCodeGeneratorUtils.saveIfDiffers(gen.toString(), constantsClassName + ".java", destDir);
         generatedFiles.add(file);

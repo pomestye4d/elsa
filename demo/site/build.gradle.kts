@@ -14,7 +14,8 @@ apply<com.vga.platform.elsa.demo.gradle.ElsaDemoJavaPlugin>()
 configure<com.vga.platform.elsa.gradle.plugin.ElsaWebExtension>{
     codegen {
         declareImport("src/features/list-template.tsx", "ListTemplate")
-        declareImport("src/features/table-template.ts", "TableTemplate")
+        declareImport("src/features/table-template.tsx", "TableTemplate")
+        declareImport("src/features/simple-editor-template.tsx", "SimpleEditorTemplate")
         remoting("src/gen", "demo-test-remoting.ts",
             arrayListOf("../server/code-gen/demo-elsa-remoting.xml") )
         l10n("src/gen", "demo-test-l10n.ts", "DemoL10nMessageBundle",

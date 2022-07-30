@@ -26,5 +26,13 @@ package com.vga.platform.elsa.demo.server;
 
 public final class DemoElsaRemotingConstants{
 
+	public static final String DEMO_SITE_GET_USERS = "demo:site:get-users";
+
+	public static final String DEMO_SITE_UPDATE_USER = "demo:site:update-user";
+
+	public static final String DEMO_SITE_DELETE_USER = "demo:site:delete-user";
+
+	public static final String DEMO_SITE_SUBSCRIBE_USERS_MODIFICATION = "demo:site:subscribe-users-modification";
+
 	public static final String DEMO_TEST_SERVER_CALL = "demo:test:server-call";
 }

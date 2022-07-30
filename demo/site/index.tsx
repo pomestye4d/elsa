@@ -1,28 +1,29 @@
-// eslint-disable-next-line no-use-before-define
+// eslint-disable-next-line no-use-before-define,no-unused-vars
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { StepBackwardOutlined } from '@ant-design/icons';
-import { Button, notification } from 'antd';
 import 'antd/dist/antd.css';
+import './index.css';
+import './src/features/activator';
 
+import { Layout } from 'antd';
+import { Header } from 'antd/es/layout/layout';
 import { demoL10nMessageBundle } from './src/gen/demo-test-l10n';
+import { uiFactory } from './src/features/ui-factory';
+import { Constants } from './src/gen/demo-ui';
 
 async function start() {
   await demoL10nMessageBundle.initialize();
   const root = ReactDOM.createRoot(
         document.getElementById('root') as HTMLElement,
   );
+  const main = await (uiFactory.createElement(Constants.UsersList));
   root.render(
-    <>
-      <div>Hello world</div>
-      <StepBackwardOutlined />
-      <Button onClick={() => {
-        notification.info({ message: demoL10nMessageBundle.Are_you_sure_to_delete({ id: 1, className: 'test', caption: 'Entity' }) });
-      }}
-      >
-        Show alert
-      </Button>
-    </>,
+    <Layout id="main-layout">
+      <Header id="main-layout-header">
+        Elsa demo app
+      </Header>
+      {main.createReactElement()}
+    </Layout>,
   );
 }
 

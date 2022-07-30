@@ -86,25 +86,22 @@ public class ElsaTableTemplateHandler implements ViewTemplateParserHandler {
         callback.addEntity(validationRowEtt);
         for (XmlNode columnElm : node.getChildren("column")) {
             var columnId = columnElm.getAttribute("id");
-            var caption = columnElm.getAttribute("caption");
-            if(caption == null){
-                caption = columnId;
+            if(localizations.containsKey(columnId)){
+                l10ns.put(columnId, localizations.get(columnId));
             }
-            if(localizations.containsKey(caption)){
-                l10ns.put(columnId, localizations.get(caption));
-            }
-            var widgetElm = columnElm.getChildren().get(0);
             var vmProp = new StandardPropertyDescription(columnId);
+            vmProp.setType(getType(columnElm.getAttribute("dataType")));
             modelRowEtt.getProperties().put(vmProp.getId(), vmProp);
-            var vcProp = new StandardPropertyDescription(columnId);
-            configRowEtt.getProperties().put(vcProp.getId(), vcProp);
-            var vvProp = new StandardPropertyDescription(columnId);
-            validationRowEtt.getProperties().put(vvProp.getId(), vvProp);
-            ViewTemplateParserHandler.updateModelWidgetProperty(widgetElm, vmProp, callback);
-            ViewTemplateParserHandler.updateConfigurationWidgetProperty(widgetElm, vcProp, callback);
-            ViewTemplateParserHandler.updateValidationWidgetProperty(widgetElm, vvProp, callback);
         }
         callback.addViewDescription(id, node, l10ns);
+    }
+
+    private StandardValueType getType(String dataType) {
+        return switch (dataType){
+            case "TEXT" -> StandardValueType.STRING;
+            case "LONG" -> StandardValueType.LONG;
+            default -> throw new IllegalArgumentException("unsupported data type %s".formatted(dataType));
+        };
     }
 
     @Override
@@ -126,13 +123,6 @@ public class ElsaTableTemplateHandler implements ViewTemplateParserHandler {
     @Override
     public void updateImports(Set<String> additionalEntities, XmlNode node, UiTemplateMetaRegistry ftr, Map<String, ViewTemplateParserHandler> handlers) {
         additionalEntities.add("TableTemplate");
-        for (XmlNode columnElm : node.getChildren("column")) {
-            var widgetElm = columnElm.getChildren().get(0);
-            if(widgetElm != null){
-                var widget = ftr.getWidgets().get(widgetElm.getName());
-                additionalEntities.add(widget.getTsClassName());
-            }
-        }
     }
 
     @Override

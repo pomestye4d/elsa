@@ -28,9 +28,9 @@ class Registry {
     return this.reg.get(itemType.id)?.get(id) as unknown as T|null;
   }
 
-  allOf<T>(itemType: RegistryItemType<T>) {
+  allOf<T>(itemType: RegistryItemType<T>): T[] {
     const result = this.reg.get(itemType.id)?.values();
-    return result ? Array.of(result) : [];
+    return result ? ((Array.from(result) as any) as [T]) : [];
   }
 }
 

@@ -5,6 +5,10 @@
         <enum-item id="SINGLE"/>
         <enum-item id="MULTIPLE"/>
     </enum>
+    <enum id="com.vga.platform.elsa.demo.server.ui.template.TableColumnDataType">
+        <enum-item id="TEXT"/>
+        <enum-item id="LONG"/>
+    </enum>
     <widget id="text-box-widget" ts-class-name="TextBoxWidget">
         <properties>
             <attribute type="BOOLEAN" name="notEditable"/>
@@ -26,7 +30,8 @@
             <collection element-tag-name="column" element-type="ENTITY">
                 <attribute name="caption" type="STRING" non-nullable="false"/>
                 <attribute name="id" type="STRING" non-nullable="true"/>
-                <group-ref ref="simple-widget"/>
+                <attribute name="dataType" type="ENUM" non-nullable="true" class-name="com.vga.platform.elsa.demo.server.ui.template.TableColumnDataType"/>
+                <attribute name="hidden" type="BOOLEAN"/>
             </collection>
         </content>
     </view-template>
@@ -39,6 +44,15 @@
             <property tag-name="content" type="ENTITY">
                 <group-ref ref="container"/>
             </property>
+        </content>
+    </view-template>
+    <view-template id="simple-editor" ts-class-name="SimpleEditorTemplate">
+        <properties/>
+        <content>
+            <collection element-tag-name="row" element-type="ENTITY" element-class-name="com.vga.platform.elsa.demo.server.ui.template.SimpleEditorTemplateRow">
+                <attribute name="id" type="STRING" non-nullable="true"/>
+                <group-ref ref="simple-widget"/>
+            </collection>
         </content>
     </view-template>
 </ui-template>

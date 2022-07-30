@@ -116,7 +116,7 @@ export async function subscribe<SP, SE>(
       await confirmSubscriptionEvent(remotingConfiguration.clientId, remotingId, subId, result);
     },
   );
-  return subId;
+  return subId as string;
 }
 
 export async function unsubscribe(

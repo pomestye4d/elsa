@@ -103,6 +103,11 @@ public class DemoUiMetaRegistryConfigurator implements UiMetaRegistryConfigurato
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UsersTableRowVM");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{
+				var propertyDescription = new StandardPropertyDescription("userId");
+				propertyDescription.setType(StandardValueType.LONG);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+			{
 				var propertyDescription = new StandardPropertyDescription("userName");
 				propertyDescription.setType(StandardValueType.STRING);
 				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
@@ -110,6 +115,23 @@ public class DemoUiMetaRegistryConfigurator implements UiMetaRegistryConfigurato
 		}
 		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UsersTableRowVC");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UsersTableRowVV");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UserEditorVM");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			{
+				var propertyDescription = new StandardPropertyDescription("userName");
+				propertyDescription.setType(StandardValueType.STRING);
+				entityDescription.getProperties().put(propertyDescription.getId(), propertyDescription);
+			}
+		}
+		{
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UserEditorVC");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{
 				var propertyDescription = new StandardPropertyDescription("userName");
@@ -119,7 +141,7 @@ public class DemoUiMetaRegistryConfigurator implements UiMetaRegistryConfigurato
 			}
 		}
 		{
-			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UsersTableRowVV");
+			var entityDescription = new EntityDescription("com.vga.platform.elsa.demo.ui.UserEditorVV");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			{
 				var propertyDescription = new StandardPropertyDescription("userName");
@@ -136,14 +158,19 @@ public class DemoUiMetaRegistryConfigurator implements UiMetaRegistryConfigurato
 			{
 				var xmlNode1 = new XmlNode();
 				xmlNode1.setName("column");
-				xmlNode1.getAttributes().put("id", "userName");
-				{
-					var xmlNode2 = new XmlNode();
-					xmlNode2.setName("text-box-widget");
-					xmlNode1.getChildren().add(xmlNode2);
-				}
+				xmlNode1.getAttributes().put("dataType", "LONG");
+				xmlNode1.getAttributes().put("hidden", "true");
+				xmlNode1.getAttributes().put("id", "userId");
 				xmlNode0.getChildren().add(xmlNode1);
 			}
+			{
+				var xmlNode1 = new XmlNode();
+				xmlNode1.setName("column");
+				xmlNode1.getAttributes().put("dataType", "TEXT");
+				xmlNode1.getAttributes().put("id", "userName");
+				xmlNode0.getChildren().add(xmlNode1);
+			}
+			viewDescription.setView(xmlNode0);
 			{
 				var l10n = new LinkedHashMap<Locale, String>();
 				l10n.put(LocaleUtils.getLocale("ru",""), "Имя");
@@ -161,6 +188,31 @@ public class DemoUiMetaRegistryConfigurator implements UiMetaRegistryConfigurato
 				xmlNode1.setName("content");
 				xmlNode1.getAttributes().put("container-ref", "com.vga.platform.elsa.demo.ui.UsersTable");
 				xmlNode0.getChildren().add(xmlNode1);
+			}
+			viewDescription.setView(xmlNode0);
+		}
+		{
+			var viewDescription = new UiViewDescription("com.vga.platform.elsa.demo.ui.UserEditor");
+			registry.getViews().put("com.vga.platform.elsa.demo.ui.UserEditor", viewDescription);
+			var xmlNode0 = new XmlNode();
+			xmlNode0.setName("simple-editor");
+			xmlNode0.getAttributes().put("id", "com.vga.platform.elsa.demo.ui.UserEditor");
+			{
+				var xmlNode1 = new XmlNode();
+				xmlNode1.setName("row");
+				xmlNode1.getAttributes().put("id", "userName");
+				{
+					var xmlNode2 = new XmlNode();
+					xmlNode2.setName("text-box-widget");
+					xmlNode1.getChildren().add(xmlNode2);
+				}
+				xmlNode0.getChildren().add(xmlNode1);
+			}
+			viewDescription.setView(xmlNode0);
+			{
+				var l10n = new LinkedHashMap<Locale, String>();
+				l10n.put(LocaleUtils.getLocale("ru",""), "Имя");
+				viewDescription.getLocalizations().put("userName", l10n);
 			}
 		}
 	}

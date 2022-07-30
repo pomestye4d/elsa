@@ -105,7 +105,7 @@ public abstract class BaseRemotingController {
             param = unmarshaller.unmarshal(Class.forName(subscriptionDescription.getParameterClassName()), is, serializationParameters);
         }
         var uuid = TextUtils.generateUUID();
-        var sd = new SubscriptionData(param);
+        var sd = new SubscriptionData(param, groupId, subscriptionId);
         channel.subscriptions.put(uuid, sd);
         return uuid;
     }
@@ -157,17 +157,18 @@ public abstract class BaseRemotingController {
         channel.subscriptions.remove(subscriptionId);
     }
 
-    public void sendSubscriptionEvent(String groupId, String subscriptionId, Object event) {
+    public void sendSubscriptionEvent(String subscriptionId, Object event) {
         ExceptionUtils.wrapException(() -> {
             String content = null;
-            var handler = bf.getBean(RemotingHandlersRegistry.class).getSubscriptionHandler("%s:%s:%s".formatted(remotingId, groupId, subscriptionId));
+            var handler = bf.getBean(RemotingHandlersRegistry.class).getSubscriptionHandler(subscriptionId);
             for (ChannelData channelData : channels.values()) {
                 for (Map.Entry<String, SubscriptionData> entry : channelData.subscriptions.entrySet()) {
                     String subId = entry.getKey();
+                    var data = entry.getValue();
                     if (handler.isApplicable(event, entry.getValue().parameter)) {
                         if (content == null) {
                             var remoting = registry.getRemotings().get(remotingId);
-                            var subscriptionDescription = remoting.getGroups().get(groupId).getSubscriptions().get(subscriptionId);
+                            var subscriptionDescription = remoting.getGroups().get(data.groupId).getSubscriptions().get(data.subscriptionId);
                             var baos = new ByteArrayOutputStream();
                             marshaller.marshal(event, baos, false, serializationParameters);
                             content = baos.toString(StandardCharsets.UTF_8);
@@ -297,9 +298,11 @@ public abstract class BaseRemotingController {
     static class SubscriptionData {
         final Object parameter;
         volatile LocalDateTime lastMessageSent;
+        final String groupId;
+        final String subscriptionId;
 
-        SubscriptionData(Object parameter) {
-            this.parameter = parameter;
+        SubscriptionData(Object parameter, String group, String id) {
+            this.parameter = parameter;this.groupId = group; this.subscriptionId = id;
         }
     }
 

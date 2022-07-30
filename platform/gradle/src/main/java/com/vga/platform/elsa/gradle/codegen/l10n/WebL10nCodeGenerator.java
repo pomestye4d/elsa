@@ -93,6 +93,7 @@ public class WebL10nCodeGenerator implements CodeGenerator<WebL10nCodeGenRecord>
         gen.blankLine();
         gen.printLine("// eslint-disable-next-line import/prefer-default-export");
         gen.printLine("export const %s = new %s();".formatted(tsClassName.substring(0,1).toLowerCase(Locale.ROOT)+ tsClassName.substring(1), tsClassName));
+        gen.blankLine();
         var file = JavaCodeGeneratorUtils.saveIfDiffers(gen.toString(), fileName, destDir);
         generatedFiles.add(file);
     }

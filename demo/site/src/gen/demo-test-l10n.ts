@@ -9,6 +9,16 @@ import { BaseL10nBundle, EntityReference } from 'elsa-web-core';
 class DemoL10nMessageBundle extends BaseL10nBundle {
   Yes = '???';
 
+  No = '???';
+
+  Create = '???';
+
+  Edit = '???';
+
+  Delete = '???';
+
+  You_should_select_item = '???';
+
   constructor() {
     super('demo-site');
   }

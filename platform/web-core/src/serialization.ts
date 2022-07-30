@@ -118,7 +118,7 @@ async function restoreFromSerializable(
   }
   if (type === 'ENTITY') {
     // eslint-disable-next-line no-use-before-define
-    await restoreObject(value, value.className || className, ph, operationId);
+    await restoreObject(value.className || className, value, ph, operationId);
     return value;
   }
   return value;

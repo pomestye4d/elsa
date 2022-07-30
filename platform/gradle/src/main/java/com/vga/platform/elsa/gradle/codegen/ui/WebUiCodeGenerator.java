@@ -22,7 +22,6 @@
 package com.vga.platform.elsa.gradle.codegen.ui;
 
 import com.vga.platform.elsa.common.meta.common.EntityDescription;
-import com.vga.platform.elsa.common.meta.common.XmlNode;
 import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
 import com.vga.platform.elsa.common.meta.ui.UiTemplateMetaRegistry;
 import com.vga.platform.elsa.common.meta.ui.UiViewDescription;
@@ -35,6 +34,7 @@ import com.vga.platform.elsa.gradle.parser.ui.UiTemplateMetaRegistryParser;
 import com.vga.platform.elsa.gradle.parser.ui.ViewTemplateParserHandler;
 import com.vga.platform.elsa.gradle.plugin.ElsaWebExtension;
 import com.vga.platform.elsa.gradle.utils.BuildExceptionUtils;
+import com.vga.platform.elsa.gradle.utils.BuildTextUtils;
 import org.gradle.api.Project;
 
 import java.io.File;
@@ -76,6 +76,9 @@ public class WebUiCodeGenerator implements CodeGenerator<WebUiCodeGenRecord> {
             }
             var gen = new TypeScriptCodeGenerator();
             gen.printLine("/* eslint-disable max-classes-per-file,no-unused-vars,max-len,lines-between-class-members,no-use-before-define  */");
+            if(!metaRegistry.getViews().isEmpty()){
+                gen.printLine("import { ViewReference } from 'elsa-web-core';");
+            }
             WebCodeGeneratorUtils.generateImportCode(metaRegistry.getEntities().values(), additionalEntities, tsa, gen, new File(destDir, it.getTsFileName()));
             for(var en: metaRegistry.getEnums().values()){
                 tsa.put(JavaCodeGeneratorUtils.getSimpleName(en.getId()), new File(destDir, it.getTsFileName()));
@@ -88,9 +91,22 @@ public class WebUiCodeGenerator implements CodeGenerator<WebUiCodeGenRecord> {
             for(var view: metaRegistry.getViews().values()){
                 generateViewCode(view, gen, handlers, ftr, fr, tsa, new File(destDir, it.getTsFileName()));
             }
+            if(!metaRegistry.getViews().isEmpty()){
+                generateConstantsCode(metaRegistry.getViews().values(), gen);
+            }
             var file = JavaCodeGeneratorUtils.saveIfDiffers(gen.toString(), it.getTsFileName(), destDir);
             generatedFiles.add(file);
         }));
+    }
+
+    private void generateConstantsCode(Collection<UiViewDescription> values, TypeScriptCodeGenerator gen) throws Exception {
+        gen.wrapWithBlock("export const Constants = ", ()->{
+            for(UiViewDescription value: values){
+                gen.printLine("%s: new ViewReference<%s>('%s'),".formatted(JavaCodeGeneratorUtils.getSimpleName(value.getId()), JavaCodeGeneratorUtils.getSimpleName(value.getId()), value.getId()));
+            }
+        });
+        gen.print(";");
+        gen.blankLine();
     }
 
     private boolean depends(EntityDescription a, EntityDescription b) {

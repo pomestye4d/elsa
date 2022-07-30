@@ -58,6 +58,7 @@ public class JavaUiConfiguratorGenerator {
                         gen.printLine("var viewDescription = new UiViewDescription(\"%s\");".formatted(view.getId()));
                         gen.printLine("registry.getViews().put(\"%s\", viewDescription);".formatted(view.getId()));
                         processXmlNode(gen, view.getView(), 0);
+                        gen.printLine("viewDescription.setView(xmlNode0);");
                         for(Map.Entry<String, Map<Locale, String>> locEntry :  view.getLocalizations().entrySet()) {
                             gen.addImport("java.util.*");
                             gen.wrapWithBlock("", () -> {
@@ -80,6 +81,7 @@ public class JavaUiConfiguratorGenerator {
     private static void processXmlNode(JavaCodeGenerator gen, XmlNode node, int index) throws Exception {
         gen.addImport("com.vga.platform.elsa.common.meta.common.XmlNode");
         gen.printLine("var xmlNode%s = new XmlNode();".formatted(index));
+
         gen.printLine("xmlNode%s.setName(\"%s\");".formatted(index, node.getName()));
         if(!BuildTextUtils.isBlank(node.getValue())){
             gen.printLine("xmlNode%s.setValue(\"%s\");".formatted(index, node.getValue()));

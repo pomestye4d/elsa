@@ -25,38 +25,6 @@
 package com.vga.platform.elsa.demo.ui;
 
 import com.vga.platform.elsa.common.core.model.common.BaseIntrospectableObject;
-import com.vga.platform.elsa.demo.server.ui.template.TextBoxWidgetConfiguration;
 
 public class UsersTableRowVC extends BaseIntrospectableObject{
-
-	private TextBoxWidgetConfiguration userName;
-
-	public TextBoxWidgetConfiguration getUserName(){
-		return userName;
-	}
-
-	public void setUserName(TextBoxWidgetConfiguration value){
-		this.userName = value;
-	}
-
-	@Override
-	public Object getValue(String propertyName){
-
-		if("userName".equals(propertyName)){
-			return userName;
-		}
-
-		return super.getValue(propertyName);
-	}
-
-	@Override
-	public void setValue(String propertyName, Object value){
-
-		if("userName".equals(propertyName)){
-			this.userName = (TextBoxWidgetConfiguration) value;
-			return;
-		}
-
-		super.setValue(propertyName, value);
-	}
 }

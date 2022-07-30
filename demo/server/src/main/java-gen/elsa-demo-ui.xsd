@@ -7,6 +7,7 @@
           <element name="enum" type="tns:EnumType"/>
           <element name="table" type="tns:table"/>
           <element name="list-with-tools" type="tns:list-with-tools"/>
+          <element name="simple-editor" type="tns:simple-editor"/>
         </choice>
       </sequence>
     </complexType>
@@ -27,6 +28,12 @@
       <enumeration value="MULTIPLE"/>
     </restriction>
   </simpleType>
+  <simpleType name="TableColumnDataType">
+    <restriction base="string">
+      <enumeration value="TEXT"/>
+      <enumeration value="LONG"/>
+    </restriction>
+  </simpleType>
   <complexType name="text-box-widget">
     <attribute name="notEditable" type="boolean"/>
   </complexType>
@@ -44,11 +51,11 @@
     <sequence>
       <element maxOccurs="unbounded" minOccurs="0" name="column">
         <complexType>
-          <sequence>
-            <group minOccurs="0" ref="tns:simple-widget"/>
-          </sequence>
+          <sequence/>
           <attribute name="caption" type="string"/>
           <attribute name="id" type="string" use="required"/>
+          <attribute name="dataType" type="tns:TableColumnDataType" use="required"/>
+          <attribute name="hidden" type="boolean"/>
         </complexType>
       </element>
     </sequence>
@@ -62,6 +69,19 @@
           <sequence>
             <group minOccurs="0" ref="tns:container"/>
           </sequence>
+        </complexType>
+      </element>
+    </sequence>
+    <attribute name="id" type="string" use="required"/>
+  </complexType>
+  <complexType name="simple-editor">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="row">
+        <complexType>
+          <sequence>
+            <group minOccurs="0" ref="tns:simple-widget"/>
+          </sequence>
+          <attribute name="id" type="string" use="required"/>
         </complexType>
       </element>
     </sequence>

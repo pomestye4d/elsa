@@ -41,6 +41,11 @@ public class ElsaDemoActivator implements ElsaActivator {
                 adminProfile.setName("admin");
                 storage.saveDocument(adminProfile);
             }
+            for(int n =0; n < 5; n++){
+                var adminProfile = new DemoUserAccount();
+                adminProfile.setName("user %s".formatted(n));
+                storage.saveDocument(adminProfile);
+            }
         }
     }
 

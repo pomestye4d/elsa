@@ -3,10 +3,14 @@
     <list-with-tools id="com.vga.platform.elsa.demo.ui.UsersList" >
         <content>
             <table id="com.vga.platform.elsa.demo.ui.UsersTable">
-                <column id="userName">
-                    <text-box-widget/>
-                </column>
+                <column id="userId" dataType="LONG" hidden="true"/>
+                <column id="userName" dataType="TEXT"/>
             </table>
         </content>
     </list-with-tools>
+    <simple-editor id="com.vga.platform.elsa.demo.ui.UserEditor">
+        <row id="userName">
+            <text-box-widget/>
+        </row>
+    </simple-editor>
 </ui>
