@@ -16,7 +16,7 @@ async function start() {
   const root = ReactDOM.createRoot(
         document.getElementById('root') as HTMLElement,
   );
-  const main = await (uiFactory.createElement(Constants.UsersList));
+  const main = await (uiFactory.createView(Constants.UsersList));
   root.render(
     <Layout id="main-layout">
       <Header id="main-layout-header">

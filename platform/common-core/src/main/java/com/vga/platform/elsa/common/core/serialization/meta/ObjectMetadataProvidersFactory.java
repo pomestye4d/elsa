@@ -25,6 +25,7 @@ import com.vga.platform.elsa.common.core.model.common.Xeption;
 import com.vga.platform.elsa.common.meta.custom.CustomMetaRegistry;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
+import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -43,6 +44,9 @@ public class ObjectMetadataProvidersFactory {
     @Autowired
     private RemotingMetaRegistry remotingMetaRegistry;
 
+    @Autowired
+    private UiMetaRegistry uiMetaRegistry;
+
     public BaseObjectMetadataProvider<?> getProvider(String className){
         BaseObjectMetadataProvider<?> result = providersCache.get(className);
         if(result != null){
@@ -54,11 +58,11 @@ public class ObjectMetadataProvidersFactory {
     private BaseObjectMetadataProvider<?> createProvider(String className)  {
         var docDescription = domainMetaRegistry.getDocuments().get(className);
         if (docDescription != null) {
-            return new DomainDocumentMetadataProvider(docDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry);
+            return new DomainDocumentMetadataProvider(docDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry, uiMetaRegistry);
         }
         var domainEntityDescription = domainMetaRegistry.getEntities().get(className);
         if (domainEntityDescription != null) {
-            return new EntityMetadataProvider(domainEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry);
+            return new EntityMetadataProvider(domainEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry, uiMetaRegistry);
         }
         var assetDescription = domainMetaRegistry.getAssets().get(className);
         if(assetDescription != null){
@@ -70,11 +74,15 @@ public class ObjectMetadataProvidersFactory {
         }
         var customEntityDescription = customMetaRegistry.getEntities().get(className);
         if (customEntityDescription != null) {
-            return new EntityMetadataProvider(customEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry);
+            return new EntityMetadataProvider(customEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry,uiMetaRegistry);
         }
         var remotingEntityDescription = remotingMetaRegistry.getEntities().get(className);
         if (remotingEntityDescription != null) {
-            return new EntityMetadataProvider(remotingEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry);
+            return new EntityMetadataProvider(remotingEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry,uiMetaRegistry);
+        }
+        var uiEntityDescription = uiMetaRegistry.getEntities().get(className);
+        if (uiEntityDescription != null) {
+            return new EntityMetadataProvider(uiEntityDescription, domainMetaRegistry,  customMetaRegistry, remotingMetaRegistry,uiMetaRegistry);
         }
         throw Xeption.forDeveloper("no description found for entity %s".formatted(className));
     }

@@ -161,6 +161,9 @@ public class JsonUnmarshaller {
                 }
             }
         }
+        if(result == null){
+            result = reflectionFactory.newInstance(realClassName);
+        }
         return result;
     }
 

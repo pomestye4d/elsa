@@ -26,10 +26,7 @@ import com.vga.platform.elsa.demo.*;
 import com.vga.platform.elsa.demo.activator.ElsaDemoActivator;
 import com.vga.platform.elsa.demo.server.DemoElsaRestController;
 import com.vga.platform.elsa.demo.test.DemoTestServerCallRequestHandler;
-import com.vga.platform.elsa.demo.userAccount.DemoSiteDeleteUserHandler;
-import com.vga.platform.elsa.demo.userAccount.DemoSiteGetUsersHandler;
-import com.vga.platform.elsa.demo.userAccount.DemoSiteUpdateUserHandler;
-import com.vga.platform.elsa.demo.userAccount.DemoUserAccountProjectionHandler;
+import com.vga.platform.elsa.demo.userAccount.*;
 import com.vga.platform.elsa.server.core.common.HsqldbDataSourceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -97,5 +94,20 @@ public class ElsaDemoServerConfiguration {
     @Bean
     DemoSiteUpdateUserHandler demoSiteUpdateUserHandler(){
         return new DemoSiteUpdateUserHandler();
+    }
+
+    @Bean
+    DemoSiteUsersSubscriptionHandler demoSiteUsersSubscriptionHandler(){
+        return new DemoSiteUsersSubscriptionHandler();
+    }
+
+    @Bean
+    DemoElsaServerL10nMetaRegistryConfigurator demoElsaServerL10nMetaRegistryConfigurator(){
+        return new DemoElsaServerL10nMetaRegistryConfigurator();
+    }
+
+    @Bean
+    DemoElsaServerL10nFactory demoElsaServerL10nFactory(){
+        return new DemoElsaServerL10nFactory();
     }
 }

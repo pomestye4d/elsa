@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { ViewDescription } from 'elsa-web-core';
 import { Table } from 'antd';
 import {
-  BaseReactElementWrapperFactory, getNextCallbackId,
+  BaseViewFactory, getNextCallbackId,
   reactComponentsCallbacks, ReactElementWrapper, ReactProxyView, viewInterceptorsRegistry,
 } from './ui-common';
 
@@ -15,6 +15,10 @@ export class TableTemplate<VM, VC, VV> implements ReactElementWrapper {
     private items: any[] = []
 
     private readonly callbackId = getNextCallbackId();
+
+    private selectedRows: any[] = [];
+
+    private selectedRowKeys:React.Key[] = [];
 
     // eslint-disable-next-line no-unused-vars
     async initialize(description: ViewDescription) {
@@ -27,18 +31,17 @@ export class TableTemplate<VM, VC, VV> implements ReactElementWrapper {
         };
       });
 
-      // rowSelection object indicates the need for row selection
-      const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-      };
       const callbacks = {
         render: () => (
           <Table
             rowSelection={{
               type: 'radio',
-              ...rowSelection,
+              onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+                // eslint-disable-next-line max-len
+                (reactComponentsCallbacks.get(this.callbackId) as any).setSelectedRows(selectedRowKeys, selectedRows);
+              },
+              // @ts-ignore
+              selectedRowKeys: this.tableRef.current?.state?.selectedRowKeys || [],
             }}
             columns={columns}
             dataSource={this.items.map((item, n) => ({
@@ -48,6 +51,13 @@ export class TableTemplate<VM, VC, VV> implements ReactElementWrapper {
             pagination={false}
           />
         ),
+        setSelectedRows: (keys:React.Key[], rows:any[]) => {
+          this.selectedRows = rows;
+          this.selectedRowKeys = keys;
+          this.tableRef.current?.setState({
+            selectedRowKeys: this.selectedRowKeys,
+          });
+        },
       };
       reactComponentsCallbacks.set(this.callbackId, callbacks);
       viewInterceptorsRegistry.getForViewId(description.view.attributes.get('id')!).forEach((it) => {
@@ -62,6 +72,17 @@ export class TableTemplate<VM, VC, VV> implements ReactElementWrapper {
       }
     }
 
+    clearRowSelection() {
+      this.selectedRowKeys = [];
+      this.tableRef.current?.setState({
+        selectedRowKeys: this.selectedRowKeys,
+      });
+    }
+
+    getSelectedRows() {
+      return this.selectedRows;
+    }
+
     createReactElement(): ReactNode {
       return React.createElement(ReactProxyView as any, {
         ref: this.tableRef,
@@ -70,7 +91,7 @@ export class TableTemplate<VM, VC, VV> implements ReactElementWrapper {
     }
 }
 
-export class TableTemplateFactory extends BaseReactElementWrapperFactory {
+export class TableTemplateFactory extends BaseViewFactory {
   // eslint-disable-next-line no-unused-vars
   async createWrapper(description: ViewDescription): Promise<ReactElementWrapper> {
     const wrapper = new TableTemplate();

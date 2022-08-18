@@ -25,6 +25,7 @@ import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.core.remoting.RemotingServerCallContext;
 import com.vga.platform.elsa.core.remoting.RemotingServerCallHandler;
 import com.vga.platform.elsa.core.storage.Storage;
+import com.vga.platform.elsa.demo.DemoElsaServerL10nFactory;
 import com.vga.platform.elsa.demo.model.domain.DemoUserAccount;
 import com.vga.platform.elsa.demo.model.remoting.*;
 import com.vga.platform.elsa.demo.server.DemoElsaRemotingConstants;
@@ -43,13 +44,15 @@ public class DemoSiteUpdateUserHandler implements RemotingServerCallHandler<Demo
     @Autowired
     DemoElsaRestController restController;
 
+    @Autowired
+    DemoElsaServerL10nFactory l10nFactory;
 
     @Override
     public DemoSiteUpdateUserResponse service(DemoSiteUpdateUserRequest request, RemotingServerCallContext context){
         var result = new DemoSiteUpdateUserResponse();
         if(TextUtils.isBlank(request.getData().getUserName())){
             var val = new UserEditorVV();
-            val.setUserName("please fill the name");
+            val.setUserName(l10nFactory.Field_is_empty());
             result.setSuccess(false);
             result.setValidation(val);
             return result;

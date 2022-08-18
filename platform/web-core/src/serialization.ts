@@ -130,13 +130,17 @@ async function modifyObject(
   ph:PreloaderHandler|null,
   operationId:string|null,
 ) {
-  if (!entityDescriptions.has(object.className)) {
+  const cname = className || object.className;
+  if (!cname) {
+    throw new Error('no classname supplied');
+  }
+  if (!entityDescriptions.has(cname)) {
     const entityDescription = (await performServerCall(remotingConfiguration.clientId, 'core', 'meta', 'get-entity-description', {
       entityId: className,
     }, ph, operationId)).description as RemotingEntityDescription;
-    entityDescriptions.set(object.className, entityDescription);
+    entityDescriptions.set(cname, entityDescription);
   }
-  const entityDescription = entityDescriptions.get(object.className)!!;
+  const entityDescription = entityDescriptions.get(cname)!!;
   // eslint-disable-next-line no-restricted-syntax
   for (const prop of entityDescription.properties) {
     const obj = object as any;
@@ -144,6 +148,8 @@ async function modifyObject(
     if (value != null) {
       // eslint-disable-next-line max-len,no-await-in-loop
       obj[prop.id] = await convertToSerializable(prop.type, prop.className || null, value, ph, operationId);
+    } else {
+      delete obj[prop.id];
     }
   }
   // eslint-disable-next-line no-restricted-syntax
@@ -169,10 +175,16 @@ async function modifyObject(
       const mk = await convertToSerializable(map.keyType, map.keyClassName || null, key, ph, operationId);
       // eslint-disable-next-line no-await-in-loop,max-len
       const mv = await convertToSerializable(map.valueType, map.valueClassName || null, value, ph, operationId);
-      correctedValues.push({
-        key: mk,
-        value: mv,
-      });
+      if (mv) {
+        correctedValues.push({
+          key: mk,
+          value: mv,
+        });
+      } else {
+        correctedValues.push({
+          key: mk,
+        });
+      }
     }
     obj[map.id] = correctedValues;
   }

@@ -4,10 +4,14 @@
         <parameter id="object" type="ENTITY_REFERENCE"/>
     </message>
     <message id="Yes" />
+    <message id="Confirm" />
+    <message id="User_deleted" />
+    <message id="User_created" />
+    <message id="User_updated" />
     <message id="No" />
     <message id="Create"/>
     <message id="Edit"/>
     <message id="Delete"/>
     <message id="You_should_select_item"/>
-
+    <message id="New_User" />
 </messages-bundle>

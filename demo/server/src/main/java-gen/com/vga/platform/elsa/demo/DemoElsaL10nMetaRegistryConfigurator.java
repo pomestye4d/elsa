@@ -55,13 +55,33 @@ public class DemoElsaL10nMetaRegistryConfigurator implements L10nMetaRegistryCon
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 			{
+				var messageDescription = new L10nMessageDescription("Confirm");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Подтверждение");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("User_deleted");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Пользователь удален");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("User_created");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Пользователь создан");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("User_updated");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Пользователь бновлен");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
 				var messageDescription = new L10nMessageDescription("No");
 				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Отмена");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 			{
 				var messageDescription = new L10nMessageDescription("Create");
-				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Создать ");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Создать");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 			{
@@ -77,6 +97,11 @@ public class DemoElsaL10nMetaRegistryConfigurator implements L10nMetaRegistryCon
 			{
 				var messageDescription = new L10nMessageDescription("You_should_select_item");
 				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Необходимо выделить элемент");
+				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
+			}
+			{
+				var messageDescription = new L10nMessageDescription("New_User");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Новый пользователь");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 		}

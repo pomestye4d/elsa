@@ -45,11 +45,8 @@ type RemotingConfiguration = {
   clientId: string,
 }
 
-let elsaClientId = window.localStorage.getItem('elsa-client-id');
-if (!elsaClientId) {
-  elsaClientId = generateUUID();
-  window.localStorage.setItem('elsa-client-id', elsaClientId);
-}
+const elsaClientId = generateUUID();
+
 export const remotingConfiguration: RemotingConfiguration = { clientId: elsaClientId };
 
 const channels = new Map<string, ChannelData>();

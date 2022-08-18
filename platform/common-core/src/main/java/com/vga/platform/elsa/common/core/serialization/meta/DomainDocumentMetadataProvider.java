@@ -28,10 +28,11 @@ import com.vga.platform.elsa.common.meta.custom.CustomMetaRegistry;
 import com.vga.platform.elsa.common.meta.domain.DocumentDescription;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
 import com.vga.platform.elsa.common.meta.remoting.RemotingMetaRegistry;
+import com.vga.platform.elsa.common.meta.ui.UiMetaRegistry;
 
 public class DomainDocumentMetadataProvider extends EntityMetadataProvider{
-    DomainDocumentMetadataProvider(DocumentDescription documentDescription, DomainMetaRegistry dr, CustomMetaRegistry cr, RemotingMetaRegistry rr) {
-        super(documentDescription, dr,  cr, rr,
+    DomainDocumentMetadataProvider(DocumentDescription documentDescription, DomainMetaRegistry dr, CustomMetaRegistry cr, RemotingMetaRegistry rr, UiMetaRegistry ui) {
+        super(documentDescription, dr,  cr, rr, ui,
                 new SerializablePropertyDescription(BaseIdentity.Fields.id, SerializablePropertyType.LONG, null, false),
                 new SerializablePropertyDescription(BaseDocument.Fields.versionInfo, SerializablePropertyType.ENTITY, VersionInfo.class.getName(), false)
                 );

@@ -5,7 +5,7 @@ import { registry, RegistryItem, ViewDescription } from 'elsa-web-core';
 import { Button, Layout } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import {
-  BaseReactElementWrapperFactory,
+  BaseViewFactory,
   ReactElementWrapper,
   ToolHandler,
   toolHandlersRegistryItemType, viewInterceptorsRegistry,
@@ -24,7 +24,7 @@ export class ListTemplate<VM, VC, VV> implements ReactElementWrapper {
     lst.forEach((it) => { it.initialize(); this.handlers.push(it); });
     this.handlers.sort((a, b) => a.getPriority() - b.getPriority());
     const containerRef = description.view.children[0].attributes.get('container-ref')!;
-    this.contentElement = await uiFactory.createElementForId(containerRef, null, null);
+    this.contentElement = await uiFactory.createViewForId(containerRef, null, null);
     (this as any)[description.view.children[0].name] = this.contentElement;
     viewInterceptorsRegistry.getForViewId(description.view.attributes.get('id')!).forEach((it) => {
       it.afterInitialize(this);
@@ -38,6 +38,7 @@ export class ListTemplate<VM, VC, VV> implements ReactElementWrapper {
           {this.handlers.map((h) => (
             <Button
               key={`tool-handler-${(h as unknown as RegistryItem<any>).getId()}`}
+              className="tool-handler"
               onClick={() => {
                 h.onClick(this);
               }}
@@ -57,7 +58,7 @@ export class ListTemplate<VM, VC, VV> implements ReactElementWrapper {
   }
 }
 
-export class ListTemplateFactory extends BaseReactElementWrapperFactory {
+export class ListTemplateFactory extends BaseViewFactory {
   // eslint-disable-next-line no-unused-vars
   async createWrapper(description: ViewDescription): Promise<ReactElementWrapper> {
     const wrapper = new ListTemplate();

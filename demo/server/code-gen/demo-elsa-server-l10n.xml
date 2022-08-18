@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages-bundle xmlns="http://vga.com/elsa/meta-l10n" id ="demo-elsa-server" >
+    <message id="Field_is_empty"/>
+</messages-bundle>

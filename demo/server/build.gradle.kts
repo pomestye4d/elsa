@@ -29,6 +29,9 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension> {
         )
         l10n("src/main/java-gen", "com.vga.platform.elsa.demo.DemoElsaL10nMetaRegistryConfigurator",  null,
             arrayListOf("code-gen/demo-elsa-site-l10n.xml"))
+        l10n("src/main/java-gen", "com.vga.platform.elsa.demo.DemoElsaServerL10nMetaRegistryConfigurator",
+            "com.vga.platform.elsa.demo.DemoElsaServerL10nFactory",
+            arrayListOf("code-gen/demo-elsa-server-l10n.xml"))
         remoting(
             "src/main/java-gen", "com.vga.platform.elsa.demo.DemoElsaRemotingMetaRegistryConfigurator",
             "com.vga.platform.elsa.demo.server.DemoElsaRestController",

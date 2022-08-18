@@ -49,3 +49,21 @@ export class ViewReference<T> {
     this.id = id;
   }
 }
+
+export interface Editor<VM, VC, VV>{
+    // eslint-disable-next-line no-unused-vars
+    setData: (vm:VM, vc?:VC|null) => void,
+    getData: () => VM
+    // eslint-disable-next-line no-unused-vars
+    showValidation: (vv:VV) => void
+}
+
+export interface Widget<VM, VC, VV>{
+    // eslint-disable-next-line no-unused-vars
+    setData: (vm:VM) => void,
+    // eslint-disable-next-line no-unused-vars
+    configure: (vc:VC) => void
+    getData: () => VM | null
+    // eslint-disable-next-line no-unused-vars
+    showValidation: (vv:VV| null) => void
+}
