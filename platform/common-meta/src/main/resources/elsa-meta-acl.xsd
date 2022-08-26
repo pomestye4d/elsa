@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://vga.com/elsa/meta-acl"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://vga.com/elsa/meta-acl"
+        xmlns:common="http://vga.com/elsa/meta-common">
+    <element name="acl">
+        <complexType>
+            <sequence>
+                <choice maxOccurs="unbounded" minOccurs="0">
+                    <element name="action" type="common:MetaElementType"/>
+                    <element name="action-variant">
+                        <complexType>
+                            <complexContent>
+                                <extension base="common:MetaElementType">
+                                    <sequence minOccurs="0" maxOccurs="1">
+                                        <element name="parameter">
+                                            <complexType>
+                                                <complexContent>
+                                                    <extension base="common:MetaElementType">
+                                                        <sequence>
+                                                            <choice maxOccurs="unbounded" minOccurs="0">
+                                                                <element name="property" type="common:PropertyType"/>
+                                                                <element name="collection"
+                                                                         type="common:CollectionType"/>
+                                                                <element name="map" type="common:MapType"/>
+                                                            </choice>
+                                                        </sequence>
+                                                        <attribute name="abstract" type="boolean"
+                                                                   default="false"/>
+                                                        <attribute name="extends" type="string"/>
+                                                    </extension>
+                                                </complexContent>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                    <attribute name="action" type="string" use="required"/>
+                                    <attribute name="parameter-ref" type="string"/>
+                                </extension>
+                            </complexContent>
+                        </complexType>
+                    </element>
+                    <element name="action-constraint">
+                        <complexType>
+                            <complexContent>
+                                <extension base="common:MetaElementType">
+                                    <sequence>
+                                        <element name="restriction">
+                                            <complexType>
+                                                <attribute name="action" use="required" type="string"/>
+                                                <attribute name="variant" use="required" type="string"/>
+                                            </complexType>
+                                        </element>
+                                        <element name="result" maxOccurs="unbounded">
+                                            <complexType>
+                                                <attribute name="action" use="required" type="string"/>
+                                                <attribute name="variant" use="required" type="string"/>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                </extension>
+                            </complexContent>
+                        </complexType>
+                    </element>
+                    <element name="resource" minOccurs="0" maxOccurs="unbounded" >
+                        <complexType>
+                            <complexContent>
+                                <extension base="tns:ResourceNode">
+                                    <attribute name="parent" type="string"/>
+                                </extension>
+                            </complexContent>
+                        </complexType>
+                    </element>
+                </choice>
+            </sequence>
+        </complexType>
+    </element>
+    <complexType name="ResourceNode">
+        <complexContent>
+            <extension base="common:MetaElementType">
+                <sequence>
+                    <element name="property" minOccurs="0" maxOccurs="unbounded">
+                        <complexType>
+                            <complexContent>
+                                <extension base="common:MetaElementType">
+                                    <attribute name="type" type="common:ValueType" use="required"/>
+                                    <attribute name="class-name" type="string"/>
+                                    <attribute name="caption" type="string" use="required"/>
+                                </extension>
+                            </complexContent>
+                        </complexType>
+                    </element>
+                    <element name="action" minOccurs="0" maxOccurs="unbounded">
+                        <complexType>
+                            <attribute name="action" type="string" use="required"/>
+                            <attribute name="variant" type="string" use="required"/>
+                        </complexType>
+                    </element>
+                    <element name="children" minOccurs="0">
+                        <complexType>
+                            <sequence>
+                                <element name="resource" maxOccurs="unbounded" type="tns:ResourceNode"/>
+                            </sequence>
+                        </complexType>
+                    </element>
+                </sequence>
+                <attribute name="caption" type="string" use="required"/>
+            </extension>
+        </complexContent>
+    </complexType>
+</schema>

@@ -33,6 +33,7 @@ import com.vga.platform.elsa.common.core.serialization.Cloner;
 import com.vga.platform.elsa.common.core.serialization.JsonMarshaller;
 import com.vga.platform.elsa.common.core.serialization.JsonUnmarshaller;
 import com.vga.platform.elsa.common.core.serialization.meta.ObjectMetadataProvidersFactory;
+import com.vga.platform.elsa.common.domain.core.ElsaCommonCoreDomainMetaRegistryConfigurator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -97,5 +98,10 @@ public class ElsaCommonCoreConfiguration {
     @Bean
     public ElsaCommonCoreRemotingMetaRegistryConfigurator elsaCommonCoreRemotingMetaRegistryConfigurator(){
         return new ElsaCommonCoreRemotingMetaRegistryConfigurator();
+    }
+
+    @Bean
+    public ElsaCommonCoreDomainMetaRegistryConfigurator elsaCommonCoreDomainMetaRegistryConfigurator(){
+        return new ElsaCommonCoreDomainMetaRegistryConfigurator();
     }
 }

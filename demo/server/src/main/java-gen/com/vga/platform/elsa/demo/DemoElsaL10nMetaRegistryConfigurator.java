@@ -71,7 +71,7 @@ public class DemoElsaL10nMetaRegistryConfigurator implements L10nMetaRegistryCon
 			}
 			{
 				var messageDescription = new L10nMessageDescription("User_updated");
-				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Пользователь бновлен");
+				messageDescription.getDisplayNames().put(LocaleUtils.getLocale("ru",""), "Пользователь обновлен");
 				bundleDescription.getMessages().put(messageDescription.getId(), messageDescription);
 			}
 			{

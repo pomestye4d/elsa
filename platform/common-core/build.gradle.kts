@@ -13,6 +13,8 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension>{
     codegen {
         domain("src/testFixtures/java-gen",
             "com.vga.platform.elsa.common.core.test.ElsaCommonCoreTestDomainMetaRegistryConfigurator", arrayListOf("src/testFixtures/codegen/elsa-core-test-domain.xml"))
+        domain("src/main/java-gen",
+            "com.vga.platform.elsa.common.domain.core.ElsaCommonCoreDomainMetaRegistryConfigurator", arrayListOf("src/main/codegen/elsa-core-domain.xml"))
         custom(
             "src/main/java-gen",
             "com.vga.platform.elsa.config.ElsaCommonCoreCustomMetaRegistryConfigurator", arrayListOf("src/main/codegen/elsa-core-custom.xml"))

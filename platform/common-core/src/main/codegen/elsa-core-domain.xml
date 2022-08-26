@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain xmlns="http://vga.com/elsa/meta-domain">
+    <enum id="com.vga.platform.elsa.common.domain.core.AclCondition">
+        <enum-item id="EQUALS"/>
+        <enum-item id="NOT_EQUALS"/>
+    </enum>
+    <entity id="com.vga.platform.elsa.common.domain.core.AclRestriction">
+        <property id="property" type="STRING" non-nullable="true"/>
+        <property id="condition" type="ENUM" class-name="com.vga.platform.elsa.common.domain.core.AclCondition" non-nullable="true"/>
+        <property id="value" type="ENTITY" class-name="java.lang.Object"/>
+    </entity>
+    <entity id="com.vga.platform.elsa.common.domain.core.AclAction">
+        <property id="action" type="STRING" non-nullable="true"/>
+        <property id="variant" type="STRING" non-nullable="true"/>
+        <property id="parameter" type="ENTITY" class-name="java.lang.Object"/>
+    </entity>
+    <entity id="com.vga.platform.elsa.common.domain.core.AclRule">
+        <collection id="restrictions" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.domain.core.AclRestriction"/>
+        <collection id="actions" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.domain.core.AclAction"/>
+    </entity>
+    <entity id="com.vga.platform.elsa.common.domain.core.AclRulesContainer">
+        <property id="resource" type="STRING" non-nullable="true"/>
+        <collection id="rules" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.domain.core.AclRule"/>
+        <collection id="children" element-type="ENTITY" element-class-name="com.vga.platform.elsa.common.domain.core.AclRulesContainer"/>
+    </entity>
+</domain>

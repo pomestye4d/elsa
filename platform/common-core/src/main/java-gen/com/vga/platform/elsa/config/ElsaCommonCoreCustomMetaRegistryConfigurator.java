@@ -36,6 +36,11 @@ public class ElsaCommonCoreCustomMetaRegistryConfigurator implements CustomMetaR
 	@Override
 	public void updateMetaRegistry(CustomMetaRegistry registry){
 		{
+			var entityDescription = new EntityDescription("java.lang.Object");
+			registry.getEntities().put(entityDescription.getId(), entityDescription);
+			entityDescription.setAbstract(true);
+		}
+		{
 			var entityDescription = new EntityDescription("com.vga.platform.elsa.common.core.model.common.BaseIdentity");
 			registry.getEntities().put(entityDescription.getId(), entityDescription);
 			entityDescription.setAbstract(true);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <custom xmlns="http://vga.com/elsa/meta-custom" >
+    <entity id="java.lang.Object" abstract="true"/>
     <entity id="com.vga.platform.elsa.common.core.model.common.BaseIdentity" abstract="true">
         <property id="id" type="LONG"/>
     </entity>

@@ -133,7 +133,7 @@ public class ElsaCodeGenTask extends DefaultTask {
             }
             if (fileOrDir.isFile()) {
                 if (!generatedFiles.contains(fileOrDir)) {
-                    assert fileOrDir.delete();
+                    fileOrDir.delete();
                 } else {
                     result.set(true);
                 }
@@ -144,7 +144,7 @@ public class ElsaCodeGenTask extends DefaultTask {
                 result.set(true);
                 return;
             }
-            assert fileOrDir.delete();
+            fileOrDir.delete();
         });
         return result.get();
     }
