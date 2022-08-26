@@ -21,11 +21,13 @@
 
 package com.vga.platform.elsa.core.acl;
 
+import com.vga.platform.elsa.common.domain.core.AclRulesContainer;
+
 import java.util.List;
 
 public class AclRulesHelper {
 
-    public void applyRules(List<String> path, AclProxy proxy, List<AclRulesBatch> rules){
+    public void applyRules(AclProxy proxy, List<AclRulesContainer> groupRules, AclRulesContainer personalRules){
         //TODO implement
     }
 

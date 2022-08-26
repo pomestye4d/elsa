@@ -35,6 +35,7 @@
                                     </sequence>
                                     <attribute name="action" type="string" use="required"/>
                                     <attribute name="parameter-ref" type="string"/>
+                                    <attribute name="restrictionIndex" type="int" use="required"/>
                                 </extension>
                             </complexContent>
                         </complexType>

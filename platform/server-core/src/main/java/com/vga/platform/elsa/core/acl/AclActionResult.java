@@ -21,9 +21,12 @@
 
 package com.vga.platform.elsa.core.acl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AclActionResult {
     private String actionVariantId;
-    private Object parameter;
+    private final List<Object> parameters = new ArrayList<>();
 
     public String getActionVariantId() {
         return actionVariantId;
@@ -33,11 +36,7 @@ public class AclActionResult {
         this.actionVariantId = actionVariantId;
     }
 
-    public Object getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(Object parameter) {
-        this.parameter = parameter;
+    public List<Object> getParameters() {
+        return parameters;
     }
 }

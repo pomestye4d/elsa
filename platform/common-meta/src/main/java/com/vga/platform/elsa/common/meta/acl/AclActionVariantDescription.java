@@ -27,6 +27,16 @@ public class AclActionVariantDescription extends BaseModelElementDescription {
     private String parameter;
     private String action;
 
+    private int restrictionIndex;
+
+    public int getRestrictionIndex() {
+        return restrictionIndex;
+    }
+
+    public void setRestrictionIndex(int restrictionIndex) {
+        this.restrictionIndex = restrictionIndex;
+    }
+
     public String getAction() {
         return action;
     }
