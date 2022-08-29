@@ -1,10 +1,11 @@
 // eslint-disable-next-line max-len
 // eslint-disable-next-line no-unused-vars,import/prefer-default-export,no-use-before-define,max-classes-per-file
 import React, { ReactElement } from 'react';
-import { Editor, PreloaderHandler, ViewDescription } from 'elsa-web-core';
+import {
+  Editor, PreloaderHandler, ViewDescription, Widget,
+} from 'elsa-web-core';
 import { BaseViewFactory, ReactElementWrapper, viewInterceptorsRegistry } from './ui-common';
 import { uiFactory } from './ui-factory';
-import { Widget } from '../../../../platform/web-core/src/ui';
 
 type SimpleEditorFieldContainer = {
   caption: string,

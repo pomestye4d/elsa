@@ -1,7 +1,7 @@
 // eslint-disable-next-line max-len
 // eslint-disable-next-line no-unused-vars,import/prefer-default-export,no-use-before-define,max-classes-per-file
 import React, { ReactNode } from 'react';
-import { XmlNode } from 'elsa-web-core';
+import { XmlNode, Widget } from 'elsa-web-core';
 import { Input, Tooltip } from 'antd';
 import {
   BaseWidgetFactory,
@@ -10,7 +10,6 @@ import {
   ReactElementWrapper,
   ReactProxyView,
 } from './ui-common';
-import { Widget } from '../../../../platform/web-core/src/ui';
 import { TextBoxWidgetConfiguration } from '../gen/demo-ui-template';
 
 // eslint-disable-next-line no-unused-vars,max-len
