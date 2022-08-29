@@ -8,3 +8,4 @@ export {
   getViewDescription, XmlNode, ViewDescription, ViewReference, Editor,
 } from './src/ui';
 export { RegistryItem, RegistryItemType, registry } from './src/registry';
+export { Widget } from './src/ui';

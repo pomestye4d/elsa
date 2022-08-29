@@ -3,10 +3,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
   entry: './index.tsx',
   target: 'web',
-  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name]-module.js',
@@ -37,14 +35,4 @@ module.exports = {
       ],
     }),
   ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'build'),
-    },
-    proxy: {
-      '/remoting': 'http://localhost:8086',
-    },
-    compress: false,
-    port: 3000,
-  },
 };
