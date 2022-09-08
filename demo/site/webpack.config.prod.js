@@ -8,6 +8,13 @@ const commonConfig = require('./webpack.config.common');
 module.exports = merge.merge(commonConfig, {
   mode: 'production',
   devtool: 'source-map',
+  entry: {
+    'elsa-web-core': 'elsa-web-core',
+    'elsa-demo': {
+      import: './index.tsx',
+      dependOn: 'elsa-web-core',
+    },
+  },
   module: {
     rules: [
       {
@@ -19,12 +26,19 @@ module.exports = merge.merge(commonConfig, {
       },
     ],
   },
+  output: {
+    filename: '[name].[contenthash].bundle.js',
+  },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css',
     }),
   ],
   optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
     minimize: true,
     minimizer: [
       new TerserPlugin({

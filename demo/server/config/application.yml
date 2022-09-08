@@ -7,3 +7,7 @@ elsa:
 logging:
   level:
     root: DEBUG
+spring:
+   web:
+     resources:
+       static-locations: file:../site/build

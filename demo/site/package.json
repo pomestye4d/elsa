@@ -28,7 +28,8 @@
     "webpack-merge": "^5.8.0",
     "mini-css-extract-plugin": "^2.6.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
-    "terser-webpack-plugin": "^5.3.5"
+    "terser-webpack-plugin": "^5.3.5",
+    "html-webpack-plugin":  "^5.5.0"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
