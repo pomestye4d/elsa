@@ -39,8 +39,7 @@ import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcDatabaseMetada
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcFieldType;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcTableDescription;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
+import com.vga.platform.elsa.common.core.utils.Pair;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -86,7 +85,7 @@ public class JdbcDatabase implements Database {
         var description = dbMetadataProvider.getDescriptions().get(JdbcUtils.getTableName(aClass.getName()));
         Objects.requireNonNull(description);
         var columnNames = getColumnNames(description, Collections.emptySet(), Collections.emptySet());
-        var sql = "select %s from %s where %s = ?".formatted(StringUtils.join(columnNames, ", "), description.getName(), BaseIdentity.Fields.id);
+        var sql = "select %s from %s where %s = ?".formatted(TextUtils.join(columnNames, ", "), description.getName(), BaseIdentity.Fields.id);
         var result = template.query(sql, ps -> ps.setLong(1, id), rs -> {
             if (!rs.next()) {
                 return null;
@@ -120,7 +119,7 @@ public class JdbcDatabase implements Database {
                 for (var entry2 : oldValues.entrySet()) {
                     var newValue = newValues.get(entry2.getKey());
                     if (newValue == null ||
-                            JdbcUtils.isNotEquals(entry2.getValue().getKey(), newValue.getKey())) {
+                            JdbcUtils.isNotEquals(entry2.getValue().getLeft(), newValue.getLeft())) {
                         changedProperties.add(entry.getKey());
                         continue entry;
                     }
@@ -133,15 +132,15 @@ public class JdbcDatabase implements Database {
                     columnsValues.putAll(fh.getSqlValues(handler.getValue(it), enumMapper, classMapper, reflectionFactory));
                 }
                 var query = "update %s set %s where id = ?".formatted(description.getName(),
-                        StringUtils.join(columnsValues.keySet().stream().map("%s = ?"::formatted).toList(), ", "));
+                        TextUtils.join(columnsValues.keySet().stream().map("%s = ?"::formatted).toList(), ", "));
                 template.update(query, (ps) -> {
                     int idx = 1;
                     for (Map.Entry<String, Pair<Object, JdbcFieldType>> entry : columnsValues.entrySet()) {
-                        var value = entry.getValue().getKey();
+                        var value = entry.getValue().getLeft();
                         if (value == null) {
-                            ps.setNull(idx, getSqlType(entry.getValue().getValue()));
+                            ps.setNull(idx, getSqlType(entry.getValue().getRight()));
                         } else {
-                            setValue(ps, idx, entry.getValue().getValue(), entry.getValue().getKey());
+                            setValue(ps, idx, entry.getValue().getRight(), entry.getValue().getLeft());
                         }
                         idx++;
                     }
@@ -187,7 +186,7 @@ public class JdbcDatabase implements Database {
         var result = new ArrayList<VersionInfo>();
         {
             var descr = dbMetadataProvider.getDescriptions().get(JdbcUtils.getVersionTableName(cls.getName()));
-            var selectSql = "select %s from %s where %s = ?".formatted(StringUtils.join(fields, ","),
+            var selectSql = "select %s from %s where %s = ?".formatted(TextUtils.join(fields, ","),
                     JdbcUtils.getVersionTableName(cls.getName()), JdbcDatabaseMetadataProvider.OBJECT_ID_COLUMN);
             result.addAll(template.query(selectSql, (ps) -> ps.setLong(1, id), (rs, idx) -> ExceptionUtils.wrapException(() -> {
                 var object = new VersionInfo();
@@ -197,7 +196,7 @@ public class JdbcDatabase implements Database {
         }
         {
             var descr = dbMetadataProvider.getDescriptions().get(JdbcUtils.getTableName(cls.getName()));
-            var selectSql = "select %s from %s where %s = ?".formatted(StringUtils.join(fields, ","),
+            var selectSql = "select %s from %s where %s = ?".formatted(TextUtils.join(fields, ","),
                     JdbcUtils.getTableName(cls.getName()), BaseIdentity.Fields.id);
             result.addAll(template.query(selectSql, (ps) -> ps.setLong(1, id), (rs, idx) -> ExceptionUtils.wrapException(() -> {
                 var object = new VersionInfo();
@@ -222,7 +221,7 @@ public class JdbcDatabase implements Database {
         fields.add(VersionInfo.Fields.modifiedBy.toLowerCase());
         fields.add(DatabaseObjectData.Fields.data.toLowerCase());
         var descr = dbMetadataProvider.getDescriptions().get(JdbcUtils.getVersionTableName(cls.getName()));
-        var selectSql = "select %s from %s where %s = ? and %s = ?".formatted(StringUtils.join(fields, ","),
+        var selectSql = "select %s from %s where %s = ? and %s = ?".formatted(TextUtils.join(fields, ","),
                 JdbcUtils.getVersionTableName(cls.getName()), JdbcDatabaseMetadataProvider.OBJECT_ID_COLUMN,
                 VersionInfo.Fields.versionNumber);
         var res = template.query(selectSql, (ps) -> {
@@ -251,7 +250,7 @@ public class JdbcDatabase implements Database {
         var description = dbMetadataProvider.getDescriptions().get(JdbcUtils.getTableName(cls.getName()));
         Objects.requireNonNull(description);
         var columnNames = getColumnNames(description, Collections.emptySet(), Collections.singleton(DatabaseAssetWrapper.Fields.aggregatedData));
-        var sql = "select %s from %s where %s = ?".formatted(StringUtils.join(columnNames, ", "), description.getName(), BaseIdentity.Fields.id);
+        var sql = "select %s from %s where %s = ?".formatted(TextUtils.join(columnNames, ", "), description.getName(), BaseIdentity.Fields.id);
         var result = template.query(sql, ps -> ps.setLong(1, id), rs -> {
             if (!rs.next()) {
                 return null;
@@ -276,7 +275,7 @@ public class JdbcDatabase implements Database {
         fields.add(VersionInfo.Fields.revision);
         fields.add(DatabaseObjectData.Fields.data);
         var descr = dbMetadataProvider.getDescriptions().get(JdbcUtils.getTableName(cls.getName()));
-        var selectSql = "select %s from %s where %s = ?".formatted(StringUtils.join(fields, ","),
+        var selectSql = "select %s from %s where %s = ?".formatted(TextUtils.join(fields, ","),
                 JdbcUtils.getTableName(cls.getName()), BaseIdentity.Fields.id);
         var res = template.query(selectSql, (ps) -> ps.setLong(1, id), (rs, idx) -> ExceptionUtils.wrapException(() -> {
             var object = new DatabaseObjectData();
@@ -324,7 +323,7 @@ public class JdbcDatabase implements Database {
             return;
         }
         var selectSql = "select %s from %s where document = ?".formatted(
-                StringUtils.join(getColumnNames(descr, Collections.emptySet(), Collections.emptySet()), ", "),
+                TextUtils.join(getColumnNames(descr, Collections.emptySet(), Collections.emptySet()), ", "),
                 descr.getName());
         var existingProjections = template.query(selectSql, (ps) -> ps.setLong(1, id), (rs, idx) -> ExceptionUtils.wrapException(() -> {
             var res = new DatabaseSearchableProjectionWrapper<>(reflectionFactory.newInstance(projectionClass), domainMetaRegistry, null);
@@ -368,7 +367,7 @@ public class JdbcDatabase implements Database {
                 for (var entry2 : oldValues.entrySet()) {
                     var newValue = newValues.get(entry2.getKey());
                     if (newValue == null ||
-                            JdbcUtils.isNotEquals(entry2.getValue().getKey(), newValue.getKey())) {
+                            JdbcUtils.isNotEquals(entry2.getValue().getLeft(), newValue.getLeft())) {
                         changedProperties.add(entry.getKey());
                         continue entry;
                     }
@@ -381,18 +380,18 @@ public class JdbcDatabase implements Database {
                     columnsValues.putAll(fh.getSqlValues(wrapper.getValue(it), enumMapper, classMapper, reflectionFactory));
                 }
                 var query = "update %s set %s where %s = ? and %s".formatted(descr.getName(),
-                        StringUtils.join(columnsValues.keySet().stream().map("%s = ?"::formatted).toList(), ", "),
+                        TextUtils.join(columnsValues.keySet().stream().map("%s = ?"::formatted).toList(), ", "),
                         BaseSearchableProjection.Fields.document, existing.getProjection().getNavigationKey() == null ?
                                 "%s is null".formatted(BaseSearchableProjection.Fields.navigationKey) :
                                 "%s = ?".formatted(BaseSearchableProjection.Fields.navigationKey));
                 template.update(query, (ps) -> {
                     int idx = 1;
                     for (Map.Entry<String, Pair<Object, JdbcFieldType>> entry : columnsValues.entrySet()) {
-                        var value = entry.getValue().getKey();
+                        var value = entry.getValue().getLeft();
                         if (value == null) {
-                            ps.setNull(idx, getSqlType(entry.getValue().getValue()));
+                            ps.setNull(idx, getSqlType(entry.getValue().getRight()));
                         } else {
-                            setValue(ps, idx, entry.getValue().getValue(), entry.getValue().getKey());
+                            setValue(ps, idx, entry.getValue().getRight(), entry.getValue().getLeft());
                         }
                         idx++;
                     }
@@ -521,7 +520,7 @@ public class JdbcDatabase implements Database {
     }
 
     private String prepareProjectionGroupByPart(AggregationQuery query) {
-        return StringUtils.join(query.getGroupBy().stream().map("group by %s"::formatted).toList(), ", ");
+        return TextUtils.join(query.getGroupBy().stream().map("group by %s"::formatted).toList(), ", ");
     }
 
     private String prepareProjectionSelectPart(AggregationQuery query) {
@@ -536,7 +535,7 @@ public class JdbcDatabase implements Database {
                 case PROPERTY -> selectProperties.add(proj.property());
             }
         }
-        return StringUtils.join(selectProperties, ", ");
+        return TextUtils.join(selectProperties, ", ");
     }
 
     private void insert(BaseIntrospectableObject obj, String tableName) throws Exception {
@@ -547,16 +546,16 @@ public class JdbcDatabase implements Database {
             columnsValues.putAll(entry.getValue().getSqlValues(obj.getValue(entry.getKey()), enumMapper, classMapper, reflectionFactory));
         }
         var query = "insert into %s (%s) values (%s)".formatted(description.getName(),
-                StringUtils.join(columnsValues.keySet(), ", "),
-                StringUtils.join(columnsValues.keySet().stream().map(it -> "?").toList(), ", "));
+                TextUtils.join(columnsValues.keySet(), ", "),
+                TextUtils.join(columnsValues.keySet().stream().map(it -> "?").toList(), ", "));
         template.update(query, (ps) -> {
             int idx = 1;
             for (Map.Entry<String, Pair<Object, JdbcFieldType>> entry : columnsValues.entrySet()) {
-                var value = entry.getValue().getKey();
+                var value = entry.getValue().getLeft();
                 if (value == null) {
-                    ps.setNull(idx, getSqlType(entry.getValue().getValue()));
+                    ps.setNull(idx, getSqlType(entry.getValue().getRight()));
                 } else {
-                    setValue(ps, idx, entry.getValue().getValue(), entry.getValue().getKey());
+                    setValue(ps, idx, entry.getValue().getRight(), entry.getValue().getLeft());
                 }
                 idx++;
             }
@@ -588,8 +587,8 @@ public class JdbcDatabase implements Database {
     public void updateCaptions(Class<?> aClass, long id, LinkedHashMap<Locale, String> captions, boolean insert) {
         if (insert) {
             template.update("insert into %s(id, %s) values (?, %s)".formatted(JdbcUtils.getCaptionTableName(aClass.getName()),
-                    StringUtils.join(captions.keySet().stream().map(it -> "%sname".formatted(it.getLanguage())), ", "),
-                    StringUtils.join(captions.keySet().stream().map(it -> "?"), ", ")
+                    TextUtils.join(captions.keySet().stream().map(it -> "%sname".formatted(it.getLanguage())).toList(), ", "),
+                    TextUtils.join(captions.keySet().stream().map(it -> "?").toList(), ", ")
             ), (ps) -> {
                 ps.setLong(1, id);
                 var cpts = captions.values().stream().toList();
@@ -601,7 +600,7 @@ public class JdbcDatabase implements Database {
         }
         template.update("update %s set %s where id = ?".formatted(
                 JdbcUtils.getCaptionTableName(aClass.getName()),
-                StringUtils.join(captions.keySet().stream().map(it -> "%sname = ?".formatted(it.getLanguage())), ", ")
+                TextUtils.join(captions.keySet().stream().map(it -> "%sname = ?".formatted(it.getLanguage())).toList(), ", ")
         ), (ps) -> {
             var cpts = captions.values().stream().toList();
             for (int n = 0; n < captions.size(); n++) {
@@ -682,7 +681,7 @@ public class JdbcDatabase implements Database {
         var joinPart = prepareJoinPart(query.getOrders(), cls);
         var orderPart = prepareOrderPart(query.getOrders(), cls);
         var limitPart = prepareLimitPart(query);
-        var selectSql = "select %s from %s ".formatted(StringUtils.join(getColumnNames(descr, properties, excludedProperties), ", ")
+        var selectSql = "select %s from %s ".formatted(TextUtils.join(getColumnNames(descr, properties, excludedProperties), ", ")
                 , JdbcUtils.getTableName(cls.getName())) +
                 joinPart +
                 wherePart.sql +
@@ -699,7 +698,7 @@ public class JdbcDatabase implements Database {
         return ps -> {
             for (int n = 0; n < wherePart.values().size(); n++) {
                 var item = wherePart.values.get(n);
-                setValue(ps, n + 1, item.getValue(), item.getKey());
+                setValue(ps, n + 1, item.getRight(), item.getLeft());
             }
         };
     }

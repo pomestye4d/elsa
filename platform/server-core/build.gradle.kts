@@ -28,12 +28,10 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension>{
 }
 
 dependencies{
-    implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("org.springframework:spring-web:5.3.21")
+    implementation("org.springframework:spring-webmvc:5.3.21")
     implementation("org.springframework:spring-context:5.3.21")
     implementation("ch.qos.logback:logback-classic:1.2.11")
-    implementation("io.projectreactor:reactor-core:3.4.19")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
     implementation("com.nothome:javaxdelta:2.0.1")
     implementation("org.ehcache:ehcache:3.9.9")

@@ -25,10 +25,10 @@ import com.vga.platform.elsa.common.core.l10n.SupportedLocalesProvider;
 import com.vga.platform.elsa.common.core.model.common.EnumMapper;
 import com.vga.platform.elsa.common.core.model.common.Xeption;
 import com.vga.platform.elsa.common.core.utils.LocaleUtils;
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class JdbcEnumMapperImpl implements EnumMapper {
 
     public JdbcEnumMapperImpl(DomainMetaRegistry metaRegistry, JdbcTemplate template, SupportedLocalesProvider supportedLocalesProvider, JdbcDialect dialect) {
         metaRegistry.getEnums().values().forEach(it ->{
-            var res = template.queryForList("select id, enumconstant, %s from %s".formatted(StringUtils.join(supportedLocalesProvider.getSupportedLocales()
+            var res = template.queryForList("select id, enumconstant, %s from %s".formatted(TextUtils.join(supportedLocalesProvider.getSupportedLocales()
                     .stream().map(loc -> "%sname".formatted(loc.getLanguage())).toList(), ", "), JdbcUtils.getTableName(it.getId())));
             var map = new HashMap<String, Integer>();
             for(var enumItem: it.getItems().values()){
@@ -59,9 +59,9 @@ public class JdbcEnumMapperImpl implements EnumMapper {
                     }
                     template.execute("insert into %s(id, enumconstant, %s) values (%s, '%s', %s)".formatted(
                             JdbcUtils.getTableName(it.getId()),
-                            StringUtils.join(supportedLocalesProvider.getSupportedLocales().stream().map(loc -> "%sName".formatted(loc.getLanguage())).toList(), ", "),
+                            TextUtils.join(supportedLocalesProvider.getSupportedLocales().stream().map(loc -> "%sName".formatted(loc.getLanguage())).toList(), ", "),
                             id,enumItem.getId(),
-                            StringUtils.join(supportedLocalesProvider.getSupportedLocales().stream()
+                            TextUtils.join(supportedLocalesProvider.getSupportedLocales().stream()
                                     .map(loc -> "'%s'".formatted(LocaleUtils.getLocalizedName(enumItem.getDisplayNames(), loc, enumItem.getId()))).toList(), ", ")
                     ));
                     map.put(enumItem.getId(), id);
@@ -70,7 +70,7 @@ public class JdbcEnumMapperImpl implements EnumMapper {
                     if(differs){
                         template.execute("update %s set %s where enumconstant='%s'".formatted(
                                 JdbcUtils.getTableName(it.getId()),
-                                StringUtils.join(supportedLocalesProvider.getSupportedLocales().stream()
+                                TextUtils.join(supportedLocalesProvider.getSupportedLocales().stream()
                                         .map(loc -> "%sName='%s'".formatted(loc.getLanguage(), LocaleUtils.getLocalizedName(enumItem.getDisplayNames(), loc, enumItem.getId()))).toList(), ", "),
                                 enumItem.getId()));
                     }

@@ -21,10 +21,11 @@
 
 package com.vga.platform.elsa.common.core.utils;
 
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public class TextUtils {
@@ -34,7 +35,21 @@ public class TextUtils {
     }
 
     public static boolean isBlank(String str) {
-        return str == null || StringUtils.isBlank(str);
+        return str == null || str.trim().length() == 0;
+    }
+
+    public static String join(Iterable<?> parts){
+        return join(parts, ",");
+    }
+    public static String join(Iterable<?> parts, String separator){
+        var result = new StringBuilder();
+        for (Object part : parts) {
+            if (result.length() > 0) {
+                result.append(separator);
+            }
+            result.append(part);
+        }
+        return result.toString();
     }
 
     public static String getExceptionStackTrace(Throwable t) {

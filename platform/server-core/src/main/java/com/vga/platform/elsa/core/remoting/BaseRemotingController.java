@@ -37,18 +37,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.FluxSink;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.time.Duration;
@@ -136,13 +134,13 @@ public abstract class BaseRemotingController {
                 for (SubscriptionData sv : entry.getValue().subscriptions.values()) {
                     if (sv.lastMessageSent != null && Duration.between(sv.lastMessageSent, now).toMillis() > 10000L) {
                         channels.remove(entry.getKey());
-                        entry.getValue().sink.complete();
+                        entry.getValue().sseEmitter.complete();
                         continue entry;
                     }
                 }
                 if (Duration.between(entry.getValue().lastUpdated, now).toMillis() > TimeUnit.MINUTES.toMillis(10)) {
                     channels.remove(entry.getKey());
-                    entry.getValue().sink.complete();
+                    entry.getValue().sseEmitter.complete();
                 }
             }
         }
@@ -179,7 +177,7 @@ public abstract class BaseRemotingController {
                         message.setData(content);
                         var baos = new ByteArrayOutputStream();
                         marshaller.marshal(message, baos, false, serializationParameters);
-                        channelData.sink.next(ServerSentEvent.<String>builder().data(baos.toString(StandardCharsets.UTF_8)).build());
+                        channelData.sendData(baos.toString(StandardCharsets.UTF_8));
                         entry.getValue().lastMessageSent = LocalDateTime.now();
                     }
                 }
@@ -268,26 +266,24 @@ public abstract class BaseRemotingController {
         return null;
     }
 
-    @GetMapping(value = "createChannel", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> createChannel(@RequestParam String clientId) {
+    @GetMapping(value = "createChannel")
+    public SseEmitter createChannel(@RequestParam String clientId, HttpServletRequest req) throws IOException {
         var data = new ChannelData();
         var existing = channels.putIfAbsent(clientId, data);
         var fdata = existing == null ? data : existing;
         synchronized (fdata.lock) {
-            if (fdata.sink != null) {
-                fdata.sink.complete();
+            if (fdata.sseEmitter != null) {
+                fdata.sseEmitter.complete();
             }
             fdata.subscriptions.clear();
-            return Flux.create((emitter) -> {
-                fdata.lastUpdated = LocalDateTime.now();
-                fdata.sink = emitter;
-                var message = new RemotingMessage();
-                message.setType(RemotingMessageType.PING);
-                message.setData("connection is established");
-                var baos = new ByteArrayOutputStream();
-                marshaller.marshal(message, baos, false, serializationParameters);
-                emitter.next(ServerSentEvent.<String>builder().data(baos.toString(StandardCharsets.UTF_8)).build());
-            });
+            fdata.sseEmitter = new SseEmitter(10*60*1000L);
+            var message = new RemotingMessage();
+            message.setType(RemotingMessageType.PING);
+            message.setData("connection is established");
+            var baos = new ByteArrayOutputStream();
+            marshaller.marshal(message, baos, false, serializationParameters);
+            fdata.sendData(baos.toString(StandardCharsets.UTF_8));
+            return fdata.sseEmitter;
         }
     }
 
@@ -323,8 +319,11 @@ public abstract class BaseRemotingController {
 
     static class ChannelData {
         volatile LocalDateTime lastUpdated = LocalDateTime.now();
-        volatile FluxSink<ServerSentEvent<String>> sink;
+        volatile SseEmitter sseEmitter;
         final Map<String, SubscriptionData> subscriptions = new ConcurrentHashMap<>();
         final Object lock = new Object();
+        void sendData(String data) throws IOException {
+            sseEmitter.send(SseEmitter.event().data(data));
+        }
     }
 }

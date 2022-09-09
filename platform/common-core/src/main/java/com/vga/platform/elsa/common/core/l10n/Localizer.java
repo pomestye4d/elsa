@@ -25,10 +25,10 @@ import com.vga.platform.elsa.common.core.model.common.L10nMessage;
 import com.vga.platform.elsa.common.core.model.domain.CaptionProvider;
 import com.vga.platform.elsa.common.core.model.domain.EntityReference;
 import com.vga.platform.elsa.common.core.utils.LocaleUtils;
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.common.meta.common.EnumDescription;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
 import com.vga.platform.elsa.common.meta.l10n.L10nMetaRegistry;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -81,7 +81,7 @@ public class Localizer {
 
     public String toString(Object value, Locale locale) {
         if(value instanceof Collection<?> c){
-            return StringUtils.join(c.stream().map(it -> toStringInternal(it, locale)).toList(), ",");
+            return TextUtils.join(c.stream().map(it -> toStringInternal(it, locale)).toList(), ",");
         }
         return toStringInternal(value, locale);
     }

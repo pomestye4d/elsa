@@ -21,9 +21,9 @@
 
 package com.vga.platform.elsa.core.storage.database.jdbc.structureUpdater;
 
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.*;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -50,7 +50,7 @@ public final class JdbcStructureUpdater {
         }
         for(var tableData: analysisResult.tablesToCreate()){
             template.execute("create table %s(\n%s\n)".formatted(tableData.tableName(),
-                    StringUtils.join(tableData.columns().entrySet().stream().map(it -> "%s %s".formatted(it.getKey(),
+                    TextUtils.join(tableData.columns().entrySet().stream().map(it -> "%s %s".formatted(it.getKey(),
                             dialect.getSqlType(it.getValue()))).toList(), ",\n")));
             log.debug("table %s was created".formatted(tableData.tableName()));
             createIndexes(tableData.tableName(), tableData.indexes(), template, dialect);

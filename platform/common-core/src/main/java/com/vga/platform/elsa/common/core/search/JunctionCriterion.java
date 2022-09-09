@@ -21,7 +21,7 @@
 
 package com.vga.platform.elsa.common.core.search;
 
-import org.apache.commons.lang3.StringUtils;
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class JunctionCriterion extends SearchCriterion{
 
     @Override
     public String toString() {
-        return StringUtils.join(criterions.stream().map("(%s)"::formatted).toList(), disjunction? " OR ": " AND ");
+        return TextUtils.join(criterions.stream().map("(%s)"::formatted).toList(), disjunction? " OR ": " AND ");
     }
 
 }

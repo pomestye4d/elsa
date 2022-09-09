@@ -24,10 +24,10 @@ package com.vga.platform.elsa.core.storage.database.jdbc.handlers;
 import com.vga.platform.elsa.common.core.model.common.ClassMapper;
 import com.vga.platform.elsa.common.core.model.common.EnumMapper;
 import com.vga.platform.elsa.common.core.reflection.ReflectionFactory;
+import com.vga.platform.elsa.common.core.utils.Pair;
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcFieldType;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcIndexDescription;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.sql.ResultSet;
 import java.util.Map;

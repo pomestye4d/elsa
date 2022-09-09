@@ -21,7 +21,7 @@
 
 package com.vga.platform.elsa.common.core.search;
 
-import org.apache.commons.lang3.StringUtils;
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -60,9 +60,9 @@ public class SearchQuery extends BaseQuery{
 
     @Override
     public String toString() {
-        var buf = new StringBuilder("SELECT %s".formatted(preferredFields.isEmpty()? "*" : StringUtils.join(preferredFields, ", ")));
+        var buf = new StringBuilder("SELECT %s".formatted(preferredFields.isEmpty()? "*" : TextUtils.join(preferredFields, ", ")));
         if(!getCriterions().isEmpty()){
-            buf.append(" WHERE %s".formatted(StringUtils.join(getCriterions(), " AND ")));
+            buf.append(" WHERE %s".formatted(TextUtils.join(getCriterions(), " AND ")));
         }
         if (limit > 0) {
             buf.append(" LIMIT %s OFFSET %s".formatted(limit, offset));

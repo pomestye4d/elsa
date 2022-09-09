@@ -21,8 +21,8 @@
 
 package com.vga.platform.elsa.core.storage;
 
+import com.vga.platform.elsa.common.core.utils.TextUtils;
 import com.vga.platform.elsa.common.meta.domain.DomainMetaRegistry;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -66,7 +66,7 @@ public class AggregatedData {
     }
 
     public String getAggregatedData(){
-        return StringUtils.join(data, " ");
+        return TextUtils.join(data, " ");
     }
 
 }

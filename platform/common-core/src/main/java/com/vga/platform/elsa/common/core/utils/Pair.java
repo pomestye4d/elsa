@@ -19,36 +19,31 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.common.core.search;
+package com.vga.platform.elsa.common.core.utils;
 
-import com.vga.platform.elsa.common.core.utils.TextUtils;
+public class Pair<L, R> {
+    private L left;
+    private R right;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AggregationQuery extends BaseQuery{
-    private final List<Aggregation> aggregations = new ArrayList<>();
-
-    private final List<String> groupBy = new ArrayList<>();
-
-    public List<Aggregation> getAggregations() {
-        return aggregations;
+    public static<L,R> Pair<L,R> of(L left, R right){
+        var result = new Pair<L,R>();
+        result.setLeft(left);
+        result.setRight(right);
+        return result;
+    }
+    public L getLeft() {
+        return left;
     }
 
-    public List<String> getGroupBy() {
-        return groupBy;
+    public void setLeft(L left) {
+        this.left = left;
     }
 
-    @Override
-    public String toString() {
-        var buf = new StringBuilder("SELECT %s".formatted(aggregations.isEmpty()? "???" : TextUtils.join(aggregations, ", ")));
-        if(!getCriterions().isEmpty()){
-            buf.append(" WHERE %s".formatted(TextUtils.join(getCriterions(), " AND ")));
-        }
-        if (groupBy.size() > 0) {
-            buf.append(" GROUP BY %s".formatted(TextUtils.join(groupBy, ", ")));
-        }
-        return buf.toString();
+    public R getRight() {
+        return right;
     }
 
+    public void setRight(R right) {
+        this.right = right;
+    }
 }

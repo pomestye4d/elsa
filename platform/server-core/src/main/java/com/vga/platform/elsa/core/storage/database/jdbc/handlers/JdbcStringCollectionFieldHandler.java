@@ -28,7 +28,7 @@ import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcFieldType;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcIndexDescription;
 import com.vga.platform.elsa.core.storage.database.jdbc.model.JdbcIndexType;
-import org.apache.commons.lang3.tuple.Pair;
+import com.vga.platform.elsa.common.core.utils.Pair;
 
 import java.sql.ResultSet;
 import java.util.Arrays;
