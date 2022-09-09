@@ -19,17 +19,19 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.storage.database.jdbc.adapter;
+package com.vga.platform.elsa.server.atomikos.test;
 
+import com.vga.platform.elsa.core.storage.database.DatabaseFactory;
+import com.vga.platform.elsa.server.atomikos.SimpleAtomikosJdbcDatabaseFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
-import javax.sql.XADataSource;
+@Configuration
+public class ElsaAtomikosTestDatabaseFactoryConfiguration {
 
-import java.util.Map;
+    @Bean
+    public DatabaseFactory databaseFactory(){
+        return new SimpleAtomikosJdbcDatabaseFactory();
+    }
 
-public interface JdbcDataSourceProvider {
-    DataSource createDataSource(Map<String,Object> properties) throws Exception;
-    XADataSource createXADataSource(Map<String,Object> properties) throws Exception;
-    JdbcDialect createDialect(DataSource ds);
-    String getId();
 }

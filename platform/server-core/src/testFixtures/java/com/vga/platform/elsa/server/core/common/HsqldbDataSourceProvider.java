@@ -25,8 +25,10 @@ import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDataSourcePr
 import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hsqldb.jdbc.JDBCDriver;
+import org.hsqldb.jdbc.pool.JDBCXADataSource;
 
 import javax.sql.DataSource;
+import javax.sql.XADataSource;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,7 +36,7 @@ public class HsqldbDataSourceProvider implements JdbcDataSourceProvider {
     private static AtomicInteger idx = new AtomicInteger(0);
 
     @Override
-    public ComboPooledDataSource createDataSource(Map<String,Object> props) throws Exception {
+    public DataSource createDataSource(Map<String, Object> props) throws Exception {
         ComboPooledDataSource ds = new ComboPooledDataSource();
         ds.setDriverClass(JDBCDriver.class.getName());
         ds.setJdbcUrl("jdbc:hsqldb:mem:elsa-%s;shutdown=true".formatted(idx.incrementAndGet()));
@@ -46,6 +48,15 @@ public class HsqldbDataSourceProvider implements JdbcDataSourceProvider {
         ds.setUser("SA");
         ds.setPassword("");
         ds.setAutoCommitOnClose(false);
+        return ds;
+    }
+
+    @Override
+    public XADataSource createXADataSource(Map<String, Object> properties) throws Exception {
+        var ds = new JDBCXADataSource();
+        ds.setURL("jdbc:hsqldb:mem:elsa-%s;shutdown=true".formatted(idx.get()));
+        ds.setUser("SA");
+        ds.setPassword("");
         return ds;
     }
 

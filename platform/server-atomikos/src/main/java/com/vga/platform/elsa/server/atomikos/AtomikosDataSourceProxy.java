@@ -19,17 +19,27 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.storage.database.jdbc.adapter;
+package com.vga.platform.elsa.server.atomikos;
 
+import com.atomikos.jdbc.AtomikosDataSourceBean;
 
-import javax.sql.DataSource;
-import javax.sql.XADataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-import java.util.Map;
+public class AtomikosDataSourceProxy extends AtomikosDataSourceBean {
 
-public interface JdbcDataSourceProvider {
-    DataSource createDataSource(Map<String,Object> properties) throws Exception;
-    XADataSource createXADataSource(Map<String,Object> properties) throws Exception;
-    JdbcDialect createDialect(DataSource ds);
-    String getId();
+    @Override
+    public Connection getConnection() throws SQLException {
+        var conn = super.getConnection();
+        conn.setAutoCommit(false);
+        return conn;
+    }
+
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        var conn = super.getConnection(username, password);
+        conn.setAutoCommit(false);
+        return conn;
+    }
+
 }

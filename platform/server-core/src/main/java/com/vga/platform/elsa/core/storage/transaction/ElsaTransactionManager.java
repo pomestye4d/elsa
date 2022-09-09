@@ -28,6 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import javax.transaction.SystemException;
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
+
 public class ElsaTransactionManager {
 
     private final ThreadLocal<ElsaTransactionContext> contexts = new ThreadLocal<>();
@@ -41,6 +45,11 @@ public class ElsaTransactionManager {
         template = new TransactionTemplate(dstm);
         readOnlyTemplate = new TransactionTemplate(dstm);
         readOnlyTemplate.setReadOnly(true);
+    }
+
+    public Transaction getTransaction() throws SystemException {
+        var tm = ((TransactionManager) template.getTransactionManager());
+        return tm== null? null: tm.getTransaction();
     }
 
     public void withTransaction(RunnableWithExceptionAndArgument<ElsaTransactionContext> func) {

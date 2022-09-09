@@ -27,6 +27,7 @@ import com.vga.platform.elsa.core.storage.database.jdbc.adapter.JdbcDialect;
 import org.postgresql.Driver;
 
 import javax.sql.DataSource;
+import javax.sql.XADataSource;
 import java.util.Map;
 
 public class PostgresqlDataSourceProvider implements JdbcDataSourceProvider {
@@ -44,6 +45,11 @@ public class PostgresqlDataSourceProvider implements JdbcDataSourceProvider {
         ds.setPassword((String) props.get("password"));
         ds.setAutoCommitOnClose(false);
         return ds;
+    }
+
+    @Override
+    public XADataSource createXADataSource(Map<String, Object> properties) {
+        return null;
     }
 
     @Override

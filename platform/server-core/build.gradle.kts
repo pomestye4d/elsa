@@ -29,6 +29,7 @@ configure<com.vga.platform.elsa.gradle.plugin.ElsaJavaExtension>{
 
 dependencies{
     implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("javax.transaction:jta:1.1")
     implementation("org.springframework:spring-webmvc:5.3.21")
     implementation("org.springframework:spring-context:5.3.21")
     implementation("ch.qos.logback:logback-classic:1.2.11")

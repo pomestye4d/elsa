@@ -19,17 +19,15 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.storage.database.jdbc.adapter;
+package com.vga.platform.elsa.server.atomikos.test;
 
+import com.gridnine.elsa.common.core.common.TestBase;
+import com.vga.platform.elsa.config.ElsaServerCoreConfiguration;
+import com.vga.platform.elsa.config.ElsaServerCoreDbConfiguration;
+import com.vga.platform.elsa.server.core.common.ElsaServerCoreTestConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
-import javax.sql.DataSource;
-import javax.sql.XADataSource;
+@ContextConfiguration(classes = {ElsaAtomikosTestDatabaseFactoryConfiguration.class, ElsaServerCoreConfiguration.class, ElsaServerCoreTestConfiguration.class, ElsaServerCoreDbConfiguration.class})
+public abstract class AtomikosTestBase extends TestBase {
 
-import java.util.Map;
-
-public interface JdbcDataSourceProvider {
-    DataSource createDataSource(Map<String,Object> properties) throws Exception;
-    XADataSource createXADataSource(Map<String,Object> properties) throws Exception;
-    JdbcDialect createDialect(DataSource ds);
-    String getId();
 }
