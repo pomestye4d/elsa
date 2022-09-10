@@ -40,16 +40,22 @@ public class ElsaTransactionManager {
 
     private TransactionTemplate template;
 
+    private PlatformTransactionManager platformTransactionManager;
+
     @Autowired
     public void setTransactionManager(PlatformTransactionManager dstm) {
         template = new TransactionTemplate(dstm);
         readOnlyTemplate = new TransactionTemplate(dstm);
         readOnlyTemplate.setReadOnly(true);
+        platformTransactionManager = dstm;
     }
 
-    public Transaction getTransaction() throws SystemException {
-        var tm = ((TransactionManager) template.getTransactionManager());
-        return tm== null? null: tm.getTransaction();
+    public PlatformTransactionManager getPlatformTransactionManager() {
+        return platformTransactionManager;
+    }
+
+    public ElsaTransactionContext getContext() {
+        return contexts.get();
     }
 
     public void withTransaction(RunnableWithExceptionAndArgument<ElsaTransactionContext> func) {

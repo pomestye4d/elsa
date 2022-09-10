@@ -62,8 +62,8 @@ public class AtomikosStorageTest extends AtomikosTestBase {
             doc.setId(idGenerator.nextId());
             doc.setStringProperty("test");
             storage.saveDocument(doc, "version1");
-            Assertions.assertEquals(1, storage.searchDocuments(TestDomainDocumentProjection.class, new SearchQuery()).size());
         });
+        Assertions.assertEquals(1, storage.searchDocuments(TestDomainDocumentProjection.class, new SearchQuery()).size());
     }
 
 }

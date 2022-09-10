@@ -34,6 +34,8 @@ import com.vga.platform.elsa.core.cache.CacheMetadataProvider;
 import com.vga.platform.elsa.core.storage.OperationContext;
 import com.vga.platform.elsa.core.storage.SearchableProjectionHandler;
 import com.vga.platform.elsa.core.storage.StorageInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,7 +53,7 @@ public class InvalidateCacheStorageInterceptor implements StorageInterceptor {
     @Autowired
     private ListableBeanFactory factory;
 
-    private Map<String, List<SearchableProjectionHandler<BaseDocument, BaseSearchableProjection<BaseDocument>>>> projectionHandlers;
+    private volatile Map<String, List<SearchableProjectionHandler<BaseDocument, BaseSearchableProjection<BaseDocument>>>> projectionHandlers;
 
     @Autowired
     private CacheStorageAdvice cacheStorageAdvice;
@@ -69,6 +71,7 @@ public class InvalidateCacheStorageInterceptor implements StorageInterceptor {
 
     @Autowired
     private DomainMetaRegistry domainMetaRegistry;
+
 
     @Override
     public <A extends BaseAsset> void onDelete(A oldAssset, OperationContext<A> operationContext) {
@@ -275,11 +278,17 @@ public class InvalidateCacheStorageInterceptor implements StorageInterceptor {
     @SuppressWarnings("unchecked")
     private void init() {
         if (projectionHandlers == null) {
-            projectionHandlers = new ConcurrentHashMap<>();
-            factory.getBeansOfType(SearchableProjectionHandler.class).values().forEach(h -> {
-                var lst = projectionHandlers.computeIfAbsent(h.getDocumentClass().getName(), k -> new ArrayList<>());
-                lst.add(h);
-            });
+            synchronized (this){
+                if(projectionHandlers == null) {
+                    var handlers =  new ConcurrentHashMap<String, List<SearchableProjectionHandler<BaseDocument, BaseSearchableProjection<BaseDocument>>>>();
+                    factory.getBeansOfType(SearchableProjectionHandler.class).values().forEach(h -> {
+                        var lst = handlers.computeIfAbsent(h.getDocumentClass().getName(), k -> new ArrayList<>());
+                        lst.add(h);
+                    });
+                    projectionHandlers = handlers;
+                }
+            }
+
         }
     }
 }

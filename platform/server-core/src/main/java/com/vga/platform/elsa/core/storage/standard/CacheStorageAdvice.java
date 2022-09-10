@@ -207,19 +207,19 @@ public class CacheStorageAdvice implements StorageAdvice {
     private <D> KeyValueCache<Long, D> getOrCreateResolveCache(Class<D> cls) {
         var cache = resolveCaches.get(cls.getName());
         if (cache == null) {
-            var className = cls.getName();
-            var capacityStr = env.getProperty("cache.resolve.capacity.%s".formatted(className));
-            if (capacityStr == null) {
-                capacityStr = env.getProperty("cache.resolve.capacity.default", "1000");
-            }
-            var capacity = Integer.parseInt(capacityStr);
-            var expirationInSecondsStr = env.getProperty("cache.resolve.expiration.%s".formatted(className));
-            if (expirationInSecondsStr == null) {
-                expirationInSecondsStr = env.getProperty("cache.resolve.expiration.default", "3600");
-            }
-            var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
-            cache = cacheManager.createKeyValueCache(Long.class, EntityReference.class, "resolve_%s".formatted(className), capacity, expirationInSeconds);
-            resolveCaches.put(className, cache);
+            cache = resolveCaches.computeIfAbsent(cls.getName(), (className) ->{
+                var capacityStr = env.getProperty("cache.resolve.capacity.%s".formatted(className));
+                if (capacityStr == null) {
+                    capacityStr = env.getProperty("cache.resolve.capacity.default", "1000");
+                }
+                var capacity = Integer.parseInt(capacityStr);
+                var expirationInSecondsStr = env.getProperty("cache.resolve.expiration.%s".formatted(className));
+                if (expirationInSecondsStr == null) {
+                    expirationInSecondsStr = env.getProperty("cache.resolve.expiration.default", "3600");
+                }
+                var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
+                return cacheManager.createKeyValueCache(Long.class, EntityReference.class, "resolve_%s".formatted(className), capacity, expirationInSeconds);
+            });
         }
         return (KeyValueCache<Long, D>) cache;
     }
@@ -228,24 +228,24 @@ public class CacheStorageAdvice implements StorageAdvice {
         var className = cls.getName();
         var caches = findCaches.get(className);
         if (caches == null) {
-            caches = new ConcurrentHashMap<>();
-            findCaches.put(className, caches);
+            caches = findCaches.computeIfAbsent(className, (cn) -> new ConcurrentHashMap<>());
         }
         var cache = caches.get(fieldName);
         if (cache == null) {
-            var capacityStr = env.getProperty("cache.find.capacity.%s.%s".formatted(className, fieldName));
-            if (capacityStr == null) {
-                capacityStr = env.getProperty("cache.find.capacity.default", "1000");
-            }
-            var capacity = Integer.parseInt(capacityStr);
-            var expirationInSecondsStr = env.getProperty("cache.find.expiration.%s.%s".formatted(className, fieldName));
-            if (expirationInSecondsStr == null) {
-                expirationInSecondsStr = env.getProperty("cache.find.expiration.default", "3600");
-            }
-            var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
-            cache = cacheManager.createKeyValueCache(String.class, EntityReference.class, "find_%s_%s".formatted(className, fieldName),
-                    capacity, expirationInSeconds);
-            caches.put(fieldName, cache);
+            cache = caches.computeIfAbsent(fieldName, (fn) ->{
+                var capacityStr = env.getProperty("cache.find.capacity.%s.%s".formatted(className, fn));
+                if (capacityStr == null) {
+                    capacityStr = env.getProperty("cache.find.capacity.default", "1000");
+                }
+                var capacity = Integer.parseInt(capacityStr);
+                var expirationInSecondsStr = env.getProperty("cache.find.expiration.%s.%s".formatted(className, fn));
+                if (expirationInSecondsStr == null) {
+                    expirationInSecondsStr = env.getProperty("cache.find.expiration.default", "3600");
+                }
+                var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
+                return cacheManager.createKeyValueCache(String.class, EntityReference.class, "find_%s_%s".formatted(className, fn),
+                        capacity, expirationInSeconds);
+            });
         }
         return (KeyValueCache) cache;
     }
@@ -254,24 +254,24 @@ public class CacheStorageAdvice implements StorageAdvice {
         var className = cls.getName();
         var caches = getAllCaches.get(className);
         if (caches == null) {
-            caches = new ConcurrentHashMap<>();
-            getAllCaches.put(className, caches);
+            caches = getAllCaches.computeIfAbsent(className, (clName) -> new ConcurrentHashMap<>());
         }
         var cache = caches.get(fieldName);
         if (cache == null) {
-            var capacityStr = env.getProperty("cache.getAll.capacity.%s.%s".formatted(className, fieldName));
-            if (capacityStr == null) {
-                capacityStr = env.getProperty("cache.getAll.capacity.default", "1000");
-            }
-            var capacity = Integer.parseInt(capacityStr);
-            var expirationInSecondsStr = env.getProperty("cache.getAll.expiration.%s.%s".formatted(className, fieldName));
-            if (expirationInSecondsStr == null) {
-                expirationInSecondsStr = env.getProperty("cache.getAll.expiration.default", "3600");
-            }
-            var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
-            cache = cacheManager.createKeyValueCache(String.class, Set.class, "getAll_%s_%s".formatted(className, fieldName),
-                    capacity, expirationInSeconds);
-            caches.put(fieldName, cache);
+            cache = caches.computeIfAbsent(fieldName, (fn) ->{
+                var capacityStr = env.getProperty("cache.getAll.capacity.%s.%s".formatted(className, fn));
+                if (capacityStr == null) {
+                    capacityStr = env.getProperty("cache.getAll.capacity.default", "1000");
+                }
+                var capacity = Integer.parseInt(capacityStr);
+                var expirationInSecondsStr = env.getProperty("cache.getAll.expiration.%s.%s".formatted(className, fn));
+                if (expirationInSecondsStr == null) {
+                    expirationInSecondsStr = env.getProperty("cache.getAll.expiration.default", "3600");
+                }
+                var expirationInSeconds = Integer.parseInt(expirationInSecondsStr);
+                return cacheManager.createKeyValueCache(String.class, Set.class, "getAll_%s_%s".formatted(className, fn),
+                        capacity, expirationInSeconds);
+            });
         }
         return (KeyValueCache) cache;
     }

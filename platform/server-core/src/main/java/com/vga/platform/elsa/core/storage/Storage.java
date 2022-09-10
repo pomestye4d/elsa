@@ -46,6 +46,8 @@ import com.nothome.delta.GDiffPatcher;
 import com.nothome.delta.GDiffWriter;
 import com.vga.platform.elsa.common.core.lock.LockManager;
 import com.vga.platform.elsa.server.core.CoreL10nMessagesRegistryFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -105,6 +107,7 @@ public class Storage {
     private DomainMetaRegistry domainMetaRegistry;
 
     private Map<String, List<SearchableProjectionHandler<BaseDocument, BaseSearchableProjection<BaseDocument>>>> projectionHandlers;
+
 
     public <D extends BaseDocument> D loadDocument(EntityReference<D> ref, boolean forModification) {
         init();
@@ -765,7 +768,6 @@ public class Storage {
             synchronized (this){
                 if (advices == null) {
                     database = databaseFactory.getPrimaryDatabase();
-                    advices = factory.getBeansOfType(StorageAdvice.class).values().stream().sorted(Comparator.comparing(StorageAdvice::getPriority)).toList();
                     interceptors = factory.getBeansOfType(StorageInterceptor.class).values().stream().sorted(Comparator.comparing(StorageInterceptor::getPriority)).toList();
                     serializationParameters = new SerializationParameters();
                     serializationParameters.setPrettyPrint(false);
@@ -782,6 +784,7 @@ public class Storage {
                         var lst = projectionHandlers.computeIfAbsent(h.getDocumentClass().getName(), k -> new ArrayList<>());
                         lst.add(h);
                     });
+                    advices = factory.getBeansOfType(StorageAdvice.class).values().stream().sorted(Comparator.comparing(StorageAdvice::getPriority)).toList();
                 }
             }
         }

@@ -19,26 +19,17 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.storage.transaction;
+package com.vga.platform.elsa.server.fileStorage;
 
-import com.vga.platform.elsa.common.core.model.common.RunnableWithException;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+@Configuration
+public class ElsaFileStorageFactoryConfiguration {
 
-public class ElsaTransactionContext {
-
-    private Map<String,Object> attributes = new ConcurrentHashMap<>();
-
-    private final List<RunnableWithException> postCommitCallbacks = new ArrayList<>();
-
-    public List<RunnableWithException> getPostCommitCallbacks() {
-        return postCommitCallbacks;
+    @Bean
+    public ElsaFileStorage elsaFileStorage(){
+        return new ElsaFileStorage();
     }
 
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
 }

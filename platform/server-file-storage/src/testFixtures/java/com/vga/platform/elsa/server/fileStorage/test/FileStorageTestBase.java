@@ -19,26 +19,13 @@
  * SOFTWARE.
  */
 
-package com.vga.platform.elsa.core.storage.transaction;
+package com.vga.platform.elsa.server.fileStorage.test;
 
-import com.vga.platform.elsa.common.core.model.common.RunnableWithException;
+import com.vga.platform.elsa.server.atomikos.test.AtomikosTestBase;
+import com.vga.platform.elsa.server.fileStorage.ElsaFileStorageFactoryConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+@ContextConfiguration(classes = {ElsaFileStorageFactoryConfiguration.class})
+public abstract class FileStorageTestBase extends AtomikosTestBase {
 
-public class ElsaTransactionContext {
-
-    private Map<String,Object> attributes = new ConcurrentHashMap<>();
-
-    private final List<RunnableWithException> postCommitCallbacks = new ArrayList<>();
-
-    public List<RunnableWithException> getPostCommitCallbacks() {
-        return postCommitCallbacks;
-    }
-
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
 }
